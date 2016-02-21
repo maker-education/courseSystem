@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 """
-    manage.py
     ~~~~~~~~~
 
     Description of the module goes here...
@@ -8,9 +7,10 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 import os
-from app import create_app, db
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
+from app import create_app, db
+from app.models import *
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)

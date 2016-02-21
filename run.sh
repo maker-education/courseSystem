@@ -1,2 +1,2 @@
 #!/bin/sh
-gunicorn --config gunicorn.conf hello:app
+gunicorn --config gunicorn.conf manage:app
