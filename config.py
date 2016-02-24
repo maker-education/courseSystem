@@ -16,6 +16,10 @@ class Config:
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    ''' Flask security '''
+    SECURITY_PASSWORD_HASH = 'plaintext'
+    SECURITY_URL_PREFIX = 'auth'
     #MAIL_SERVER = 'smtp.googlemail.com'
     #MAIL_PORT = 587
     #MAIL_USE_TLS = True

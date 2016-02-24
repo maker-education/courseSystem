@@ -28,8 +28,8 @@ def create_app(config_name):
     from app.blueprint.blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint, url_prefix='/blog')
 
-    from app.blueprint.auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    #from app.blueprint.auth import auth as auth_blueprint
+    #app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app
 
