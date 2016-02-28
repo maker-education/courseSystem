@@ -10,6 +10,7 @@
 from app import db
 from flask.ext.security import Security, SQLAlchemyUserDatastore,\
             UserMixin, RoleMixin, login_required
+from flask.ext.security import SQLAlchemyUserDatastore
 
 class User(db.Model):
      __tablename__ = "users"
@@ -35,5 +36,4 @@ class Role(db.Model, RoleMixin):
     def __repr__(self):
         return '<Role %r>' % self.name
 
-
-
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)

@@ -7,5 +7,5 @@
 """
 
 
-from app.models.users import User, Role
+from app.models.users import User, Role, user_datastore
 

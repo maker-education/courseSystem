@@ -1,59 +1,123 @@
-{% block doc -%}
 <!DOCTYPE html>
-<html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
     <head>
-        {%- block head %}
-        <title>{% block title %}{% endblock title %}</title>
-        {%- block metas %}
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" >
-        {%- endblock metas %}
-        {%- block styles %}
-        <!--[if lte IE 8]><script src="static/assets/js/ie/html5shiv.js"></head>script><![endif]-->
-        <link rel="stylesheet" href="static/assets/css/main.css" />
-        <!--[if lte IE 8]><link rel="stylesheet" href="static/assets/css/ie8.css" /><![endif]-->
-        <!--[if lte IE 9]><link rel="stylesheet" href="static/assets/css/ie9.css" /><![endif]-->
-        <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico" />
-        {%- endblock styles %}
-        {%- endblock head %}
-    </head>
-    <body class="index">
-        {% block body %}
-        <div id="page-wrapper">
-            <!-- Header -->
-            {% block navigation %}
-            {% endblock navigation %}
+        <title>{% block title%}{% endblock title%}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+        <meta content="科技教育" name="description" />
+        <meta content="0x9a.com" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        {% block global_mandtory_styles %}
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="static/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="static/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        {% endblock global_mandtory_styles %}
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="static/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="static/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        {% block other_style %}
+        {% include 'styles/_theme_layout.html' %}
+        {% endblock other_style %}
+        <link rel="shortcut icon" href="favicon.ico" /> </head>
+    <!-- END HEAD -->
 
-            <!-- Banner -->
-            {% block bodybanner %}
-            {% endblock bodybanner %}
-
-            <!-- Main -->
-            <article id="main">
-                {% block bodymain %}
-                {% endblock bodymain %}
-            </article>
-
-            <!-- CTA -->
-            {% block bodycta %}
-            {% endblock bodycta %}
-
-            <!-- Footer -->
-            {% include 'footer.html' %}
+    {% block body %}
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+        <!-- BEGIN HEADER -->
+        {% block body_header %}
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            {% block header_inner %}
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                {% block logo %}
+                <div class="page-logo">
+                    <a href="index.html">
+                        <img src="static/assets/layouts/layout4/img/logo-light.png" alt="logo" class="logo-default" /> </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                    </div>
+                </div>
+                {% endblock logo %}
+                <!-- END LOGO -->
+                {% block menu_toggler %}
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                {% endblock menu_toggler %}
+                {% block page_actions %}
+                <!-- BEGIN PAGE ACTIONS -->
+                <!-- END PAGE ACTIONS -->
+                {% endblock page_actions %}
+                {% block page_top %}
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top">
+                    <!-- BEGIN HEADER SEARCH BOX -->
+                    <!-- END HEADER SEARCH BOX -->
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                {% endblock page_top %}
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+            {% endblock header_inner %}
         </div>
-
-        {% block bodyscript %}
-        <!-- Scripts -->
-        <script src="static/assets/js/jquery.min.js"></script> 
-        <script src="static/assets/js/jquery.dropotron.min.js"></script> 
-        <script src="static/assets/js/jquery.scrolly.min.js"></script> 
-        <script src="static/assets/js/jquery.scrollgress.min.js"></script> 
-        <script src="static/assets/js/skel.min.js"></script> 
-        <script src="static/assets/js/util.js"></script> 
-        <!--[if lte IE 8]><script src="static/assets/js/ie/respond.min.js"></script><![endif]--> 
-        <script src="static/assets/js/main.js"></script>
-        {%- endblock bodyscript %}
-        {%- endblock body %}
+        {% endblock body_header %}
+        <!-- END HEADER -->
+        <!-- BEGIN HEADER & CONTENT DIVIDER -->
+        {% block header_divider %}
+        <div class="clearfix"></div>
+        {% endblock header_divider %}
+        <!-- END HEADER & CONTENT DIVIDER -->
+        <!-- BEGIN CONTAINER -->
+        {% block container %}
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            {% block sidebar %}
+            <div class="page-sidebar-wrapper">
+            <!-- END SIDEBAR -->
+            </div>
+            {% endblock sidebar %}
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            {% block content %}
+            <div class="page-content-wrapper">
+            </div>
+            {% endblock content %}
+            <!-- END CONTENT -->
+            <!-- BEGIN QUICK SIDEBAR -->
+            {% block quicksiderbar %}
+            {% endblock quicksiderbar %}
+            <!-- END QUICK SIDEBAR -->
+        </div>
+        {% endblock container %}
+        <!-- END CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        {% block footer %}
+        <div class="page-footer">
+            <div class="page-footer-inner"> 2014 &copy; 0x9a.com
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+        {% endblock footer %}
+        <!-- END FOOTER -->
+        {% include '_script.html' %}
     </body>
+    {% endblock body %}
 </html>
-{% endblock doc -%}

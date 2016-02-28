@@ -19,7 +19,9 @@ class Config:
 
     ''' Flask security '''
     SECURITY_PASSWORD_HASH = 'plaintext'
-    SECURITY_URL_PREFIX = 'auth'
+    SECURITY_LOGIN_USER_TEMPLATE = 'login.html'
+    SECURITY_USER_IDENTITY_ATTRIBUTES = 'name'
+    #SECURITY_URL_PREFIX = '/auth'
     #MAIL_SERVER = 'smtp.googlemail.com'
     #MAIL_PORT = 587
     #MAIL_USE_TLS = True

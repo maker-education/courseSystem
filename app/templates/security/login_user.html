@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% import '_navigation.html' as nav%}
+{% block title %}{{ t }}{% endblock title %}
+{% block navigation %}
+{{ nav.nav(navigation, t) }}
+{% endblock navigation %}
+{% block bodymain %}
+<header class="special container">
+    <span class="icon fa-user"></span>
+    <h2>登录更精彩</h2>
+</header>
+<section class="wrapper style4 special container 75%">
+    <!-- Content -->
+    <div class="content">
+        <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+            {{ login_user_form.hidden_tag() }}
+            {{ render_field(login_user_form.next) }}
+            {{ render_field(login_user_form.submit) }}
+        </form>
+    </div>
+</section>
+{% endblock bodymain %}
+
+
