@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from app import db
+from g import db
 from flask.ext.security import Security, SQLAlchemyUserDatastore,\
             UserMixin, RoleMixin, login_required
 from flask.ext.security import SQLAlchemyUserDatastore
@@ -36,4 +36,3 @@ class Role(db.Model, RoleMixin):
     def __repr__(self):
         return '<Role %r>' % self.name
 
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)

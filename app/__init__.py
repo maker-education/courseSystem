@@ -7,21 +7,20 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Flask
-from flask.ext.bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
 from config import config
-
-bootstrap = Bootstrap()
-db = SQLAlchemy()
+from app.models import db, user_datastore
+from app.forms import MyLoginForm
 
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    bootstrap.init_app(app)
     db.init_app(app)
+    # Setup Flask-Security
+    security = Security(app, user_datastore, login_form=MyLoginForm)
 
     from app.blueprint.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
