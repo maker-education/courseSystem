@@ -2,6 +2,7 @@
 from flask_security.forms import LoginForm, NextFormMixin
 from wtforms import StringField, PasswordField, validators, \
            SubmitField, HiddenField, BooleanField, ValidationError, Field
+from app.models import user_datastore
 
 class MyLoginForm(LoginForm, NextFormMixin):
     name = StringField(u'用户名', render_kw={"placeholder": u"填写用户名"})
@@ -19,31 +20,31 @@ class MyLoginForm(LoginForm, NextFormMixin):
         if not super(LoginForm, self).validate():
             return False
 
-        if self.name.data.strip() == '':
-            self.name.errors.append('EMAIL_NOT_PROVIDED')
+        if self.name.data.strip() == '' or (not self.name.data.isalnum()):
+            self.submit.errors.append(u'无用户名或格式错误')
             return False
 
         if self.password.data.strip() == '':
-            self.password.errors.append('PASSWORD_NOT_PROVIDED')
+            self.submit.errors.append('请填写密码')
             return False
 
         self.user = user_datastore.get_user(self.name.data)
 
         if self.user is None:
-            self.name.errors.append('USER_DOES_NOT_EXIST')
+            self.submit.errors.append(u'用户名或密码错误')
             return False
         if not self.user.password:
-            self.password.errors.append('PASSWORD_NOT_SET')
+            self.submit.errors.append(u'用户名或密码错误')
             return False
         #if not verify_and_update_password(self.password.data, self.user):
         if not self.password.data == self.user:
-            self.password.errors.append('INVALID_PASSWORD')
+            self.submit.errors.append(u'用户名或密码错误')
             return False
 #       if requires_confirmation(self.user):
 #            self.email.errors.append('CONFIRMATION_REQUIRED')
 #            return False
         if not self.user.is_active:
-            self.name.errors.append('DISABLED_ACCOUNT')
+            self.submit.errors.append(u'用户名被禁用')
             return False
         return True
 

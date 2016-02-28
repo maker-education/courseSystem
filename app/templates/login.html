@@ -37,7 +37,19 @@
                 <div class="input-icon">
                     <i class="fa fa-lock"></i>
                     {{ login_user_form.password(class="form-control placeholder-no-fix", autocomplete="off")|safe }}
+                </div>
             </div>
+
+            {% if login_user_form.submit.errors %}
+            <div class="form-group">
+                <div class="input-icon">
+                    {% for error in login_user_form.submit.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
             <div class="form-actions">
                 {{ login_user_form.remember.label(class='checkbox') }}
                 {{ login_user_form.remember(class="checkbox", value="1")|safe }}
@@ -50,14 +62,11 @@
         <!-- END FORGOT PASSWORD FORM -->
         <!-- BEGIN REGISTRATION FORM -->
         <!-- END REGISTRATION FORM -->
+        <!-- BEGIN FOOTER -->
+        {% include 'footer.html' %}
+        <!-- END FOOTER -->
     </div>
     <!-- END LOGIN -->
-    <!-- BEGIN FOOTER -->
-    <div class="page-footer">
-        <div class="page-footer-inner"> 2014 &copy; 0x9a.com
-        </div>
-    </div>
-    <!-- END FOOTER -->
     {% include 'script.html' %}
 </body>
 {% endblock body %}
