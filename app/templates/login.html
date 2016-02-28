@@ -17,35 +17,38 @@
     <!-- BEGIN LOGIN -->
     <div class="content">
         <!-- BEGIN LOGIN FORM -->
-        <form class="login-form" action="index.html" method="post">
+        <form class="login-form" action="{{ url_for_security('login') }}" method="post" name="login_form">
             <h3 class="form-title">登录</h3>
+            {{ login_user_form.hidden_tag() }}
             <div class="alert alert-danger display-hide">
                 <button class="close" data-close="alert"></button>
                 <span> Enter any username and password. </span>
             </div>
             <div class="form-group">
                 <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                <label class="control-label visible-ie8 visible-ie9">Username</label>
+                {{ login_user_form.name.label(class='control-label visible-ie8 visible-ie9') }}
                 <div class="input-icon">
                     <i class="fa fa-user"></i>
-                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" /> </div>
+                    {{ login_user_form.name(class="form-control placeholder-no-fix", autocomplete="off")|safe }}
+                </div>
             </div>
             <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                {{ login_user_form.password.label(class='control-label visible-ie8 visible-ie9') }}
                 <div class="input-icon">
                     <i class="fa fa-lock"></i>
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" /> </div>
+                    {{ login_user_form.password(class="form-control placeholder-no-fix", autocomplete="off")|safe }}
             </div>
             <div class="form-actions">
-                <label class="checkbox">
-                    <input type="checkbox" name="remember" value="1" /> Remember me </label>
-                <button type="submit" class="btn green pull-right"> Login </button>
+                {{ login_user_form.remember.label(class='checkbox') }}
+                {{ login_user_form.remember(class="checkbox", value="1")|safe }}
+                {{ login_user_form.submit(class="btn green pull-right")|safe }}
             </div>
+            {{ login_user_form.next |safe  }}
         </form>
         <!-- END LOGIN FORM -->
         <!-- BEGIN FORGOT PASSWORD FORM -->
         <!-- END FORGOT PASSWORD FORM -->
-        <!-- BEGIN REGISTRATION FORM -->            
+        <!-- BEGIN REGISTRATION FORM -->
         <!-- END REGISTRATION FORM -->
     </div>
     <!-- END LOGIN -->
