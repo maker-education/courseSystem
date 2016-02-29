@@ -21,7 +21,7 @@ class MyLoginForm(LoginForm, NextFormMixin):
             return False
 
         if self.name.data.strip() == '' or (not self.name.data.isalnum()):
-            self.submit.errors.append(u'无用户名或格式错误')
+            self.submit.errors.append(u'用户名格式错误')
             return False
 
         if self.password.data.strip() == '':
