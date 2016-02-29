@@ -37,14 +37,18 @@ class MyLoginForm(LoginForm, NextFormMixin):
             self.submit.errors.append(u'用户名或密码错误')
             return False
         #if not verify_and_update_password(self.password.data, self.user):
-        if not self.password.data == self.user:
+
+        if not self.password.data == self.user.password:
             self.submit.errors.append(u'用户名或密码错误')
             return False
+
 #       if requires_confirmation(self.user):
 #            self.email.errors.append('CONFIRMATION_REQUIRED')
 #            return False
-        if not self.user.is_active:
-            self.submit.errors.append(u'用户名被禁用')
+
+        if not self.user.is_active():
+            self.submit.errors.append(u'用户被禁用')
             return False
+
         return True
 

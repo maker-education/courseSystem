@@ -995,4 +995,9 @@ $.validator.addMethod("ziprange", function(value, element) {
 	return this.optional(element) || /^90[2-5]\d\{2\}-\d{4}$/.test(value);
 }, "Your ZIP-code must be in the range 902xx-xxxx to 905xx-xxxx");
 
+// 字符验证
+$.validator.addMethod("stringCheck", function(value, element) {
+    return this.optional(element) || /^[\u0391-\uFFE5\w-]+$/.test(value);
+}, "只能包括中文字、英文字母、数字和划线");
+
 }));

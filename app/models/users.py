@@ -12,26 +12,37 @@ from flask.ext.security import Security, SQLAlchemyUserDatastore,\
             UserMixin, RoleMixin, login_required
 from flask.ext.security import SQLAlchemyUserDatastore
 
-class User(db.Model):
-     __tablename__ = "users"
+# 用户-角色 关系
+roles_users = db.Table('roles_users',
+        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+
+class User(db.Model, UserMixin):
+     __tablename__ = "user"
 
      id = db.Column(db.Integer, primary_key=True)
      name = db.Column(db.String(64), unique=True, index=True)
-     passwd = db.Column(db.String(255))
+     password = db.Column(db.String(255))
      active = db.Column(db.Boolean())
-     roles_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+     roles = db.relationship('Role', secondary=roles_users,
+             backref=db.backref('users', lazy='dynamic'))
 
      def __repr__(self):
          return '<User %r>' % self.name
 
+     def is_active(self):
+         if self.active:
+             return True
+         else:
+             return False
+
 
 class Role(db.Model, RoleMixin):
-    __tablename__ = "roles"
+    __tablename__ = "role"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, index=True)
     description = db.Column(db.String(255))
-    users = db.relationship('User', backref='role')
 
     def __repr__(self):
         return '<Role %r>' % self.name

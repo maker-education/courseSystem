@@ -9,7 +9,7 @@
         <meta charset="utf-8" />
         <title>{% block title%}{% endblock title%}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
         <meta content="科技教育" name="description" />
         <meta content="0x9a.com" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -113,6 +113,11 @@
         {% endblock footer %}
         <!-- END FOOTER -->
         {% include '_script.html' %}
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <script src="static/assets/layouts/layout4/scripts/layout.min.js" type="text/javascript"></script>
+        <script src="static/assets/layouts/layout4/scripts/demo.min.js" type="text/javascript"></script>
+        <script src="static/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        <!-- END THEME LAYOUT SCRIPTS -->
     </body>
     {% endblock body %}
 </html>

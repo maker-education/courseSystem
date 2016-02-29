@@ -7,8 +7,9 @@ var Login = function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
-                    required: true
+                name: {
+                    required: true,
+                    stringCheck:true,
                 },
                 password: {
                     required: true
@@ -19,11 +20,11 @@ var Login = function() {
             },
 
             messages: {
-                username: {
-                    required: "Username is required."
+                name: {
+                    required: "请填写用户名."
                 },
                 password: {
-                    required: "Password is required."
+                    required: "请填写密码."
                 }
             },
 
@@ -46,7 +47,20 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
-                form.submit(); // form validation success, call ajax form submit
+                $.ajax({
+                    dataType: "json",
+                    type : 'post',
+                    contentType: 'application/json;charset=utf-8',
+                    data : JSON.stringify($('.'+form.className).serializeJSON()),
+                    success: function(data) {
+                        if (data.meta.code == 200) {
+                            location.reload();
+                        } else {
+                            $('.alert-danger span', $('.login-form')).html(data.response.errors.submit.toString());
+                            $('.alert-danger', $('.login-form')).show();
+                        }
+                    }
+                });
             }
         });
 
@@ -60,6 +74,7 @@ var Login = function() {
         });
     }
 
+    /*
     var handleForgetPassword = function() {
         $('.forget-form').validate({
             errorElement: 'span', //default input error message container
@@ -85,7 +100,7 @@ var Login = function() {
 
             highlight: function(element) { // hightlight error inputs
                 $(element)
-                    .closest('.form-group').addClass('has-error'); // set error class to the control group
+                .closest('.form-group').addClass('has-error'); // set error class to the control group
             },
 
             success: function(label) {
@@ -124,32 +139,31 @@ var Login = function() {
     }
 
     var handleRegister = function() {
-
         function format(state) {
             if (!state.id) { return state.text; }
             var $state = $(
-             '<span><img src="../assets/global/img/flags/' + state.element.value.toLowerCase() + '.png" class="img-flag" /> ' + state.text + '</span>'
+                '<span><img src="../assets/global/img/flags/' + state.element.value.toLowerCase() + '.png" class="img-flag" /> ' + state.text + '</span>'
             );
-            
+
             return $state;
         }
 
         if (jQuery().select2 && $('#country_list').size() > 0) {
             $("#country_list").select2({
-	            placeholder: '<i class="fa fa-map-marker"></i>&nbsp;Select a Country',
-	            templateResult: format,
+                placeholder: '<i class="fa fa-map-marker"></i>&nbsp;Select a Country',
+                templateResult: format,
                 templateSelection: format,
                 width: 'auto', 
-	            escapeMarkup: function(m) {
-	                return m;
-	            }
-	        });
+                escapeMarkup: function(m) {
+                    return m;
+                }
+            });
 
 
-	        $('#country_list').change(function() {
-	            $('.register-form').validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
-	        });
-    	}
+            $('#country_list').change(function() {
+                $('.register-form').validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
+            });
+        }
 
         $('.register-form').validate({
             errorElement: 'span', //default input error message container
@@ -202,7 +216,7 @@ var Login = function() {
 
             highlight: function(element) { // hightlight error inputs
                 $(element)
-                    .closest('.form-group').addClass('has-error'); // set error class to the control group
+                .closest('.form-group').addClass('has-error'); // set error class to the control group
             },
 
             success: function(label) {
@@ -243,16 +257,14 @@ var Login = function() {
             jQuery('.login-form').show();
             jQuery('.register-form').hide();
         });
-    }
+    } */
 
     return {
         //main function to initiate the module
         init: function() {
-
             handleLogin();
-            handleForgetPassword();
-            handleRegister();
-
+            //handleForgetPassword();
+            //handleRegister();
         }
 
     };

@@ -42,10 +42,14 @@ def init():
     db.drop_all()
     db.create_all()
     role = Role(name = 'test')
-    tu = User(name='test', passwd = 'ttt', role = role)
+    tu = User(name='test', password = 'ttt', active = True)
+    tu2 = User(name='t', password = 'ttt', active = False)
+    tu.roles.append(role)
+    tu2.roles.append(role)
     db.session.add(role)
     db.session.commit()
     db.session.add(tu)
+    db.session.add(tu2)
     db.session.commit()
 
 if __name__ == '__main__':
