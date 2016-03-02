@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
 
      id = db.Column(db.Integer, primary_key=True)
      name = db.Column(db.String(64), unique=True, index=True)
+     nick = db.Column(db.String(64))
      password = db.Column(db.String(255))
      active = db.Column(db.Boolean())
      roles = db.relationship('Role', secondary=roles_users,

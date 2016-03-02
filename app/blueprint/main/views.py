@@ -14,5 +14,4 @@ from flask.ext.security import login_required
 @main.route('/', methods=['GET'])
 @login_required
 def main():
-    return 'hello world'
     return  render_template('index.html')

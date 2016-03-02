@@ -1,5 +1,6 @@
 var AppTimeline = function () {
 
+    /*
     var mapPolygone = function () {
         var map = new GMaps({
             div: '#gmap_polygons',
@@ -29,11 +30,10 @@ var AppTimeline = function () {
         init: function () {
             mapPolygone();
         }
-
-    };
+    };*/
 
 }();
 
 jQuery(document).ready(function() {
-    AppTimeline.init();
+    //AppTimeline.init();
 });

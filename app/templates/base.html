@@ -7,7 +7,7 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title>{% block title%}{% endblock title%}</title>
+        <title>{% block title%}0X9A{% endblock title%}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
         <meta content="科技教育" name="description" />
@@ -33,7 +33,7 @@
     <!-- END HEAD -->
 
     {% block body %}
-    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <body {%- block body_class %}class="page-header-fixed page-sidebar-closed-hide-logo page-content-white"{%- endblock body_class %}>
         <!-- BEGIN HEADER -->
         {% block body_header %}
         <div class="page-header navbar navbar-fixed-top">
@@ -89,7 +89,6 @@
             <!-- BEGIN SIDEBAR -->
             {% block sidebar %}
             <div class="page-sidebar-wrapper">
-            <!-- END SIDEBAR -->
             </div>
             {% endblock sidebar %}
             <!-- END SIDEBAR -->
@@ -107,16 +106,17 @@
         {% endblock container %}
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
-
         {% block footer %}
-        {% include 'footer.html' %}
+        {% include '_footer.html' %}
         {% endblock footer %}
         <!-- END FOOTER -->
         {% include '_script.html' %}
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        {% block other_script %}
         <script src="static/assets/layouts/layout4/scripts/layout.min.js" type="text/javascript"></script>
         <script src="static/assets/layouts/layout4/scripts/demo.min.js" type="text/javascript"></script>
         <script src="static/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        {% endblock other_script %}
         <!-- END THEME LAYOUT SCRIPTS -->
     </body>
     {% endblock body %}

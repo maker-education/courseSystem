@@ -9,14 +9,13 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
-from config import config
 from app.models import db, user_datastore
 from app.forms import MyLoginForm
 
-def create_app(config_name):
+def create_app(appconfig):
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    app.config.from_object(appconfig)
+    appconfig.init_app(app)
 
     db.init_app(app)
     # Setup Flask-Security

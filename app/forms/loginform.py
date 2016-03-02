@@ -4,6 +4,7 @@ from wtforms import StringField, PasswordField, validators, \
            SubmitField, HiddenField, BooleanField, ValidationError, Field
 from app.models import user_datastore
 
+# remember 或需处理
 class MyLoginForm(LoginForm, NextFormMixin):
     name = StringField(u'用户名', render_kw={"placeholder": u"填写用户名"})
     password = PasswordField(u'密码', render_kw={"placeholder": u"填写用户名"})
