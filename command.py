@@ -29,9 +29,11 @@ class Command:
         db.session.commit()
 
         ''' 读取等级文件 添加到数据库 '''
+        i = 1
         for line in open('resource/level.txt'):
             items = line.split()
-            level = Level(level=unicode(items[0], 'utf8'), name=unicode(items[1], 'utf8'))
+            level = Level(id=i, level=unicode(items[0], 'utf8'), name=unicode(items[1], 'utf8'))
+            i = i + 1
             db.session.add(level)
         db.session.commit()
 

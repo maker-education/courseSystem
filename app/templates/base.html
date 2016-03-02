@@ -23,7 +23,7 @@
         {% endblock global_mandtory_styles %}
         <!-- END GLOBAL MANDATORY STYLES -->
         <!-- BEGIN THEME GLOBAL STYLES -->
-        <link href="static/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="static/assets/global/css/components.css" rel="stylesheet" id="style_components" type="text/css" />
         <link href="static/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME GLOBAL STYLES -->
         {% block other_style %}
@@ -43,7 +43,7 @@
                 <!-- BEGIN LOGO -->
                 {% block logo %}
                 <div class="page-logo">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="static/assets/layouts/layout4/img/logo-light.png" alt="logo" class="logo-default" /> </a>
                     <div class="menu-toggler sidebar-toggler">
                         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -107,15 +107,31 @@
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         {% block footer %}
-        {% include '_footer.html' %}
+        {% include 'structure/_footer.html' %}
         {% endblock footer %}
         <!-- END FOOTER -->
-        {% include '_script.html' %}
+        <!--[if lt IE 9]>
+        <script src="static/assets/global/plugins/respond.min.js"></script>
+        <script src="static/assets/global/plugins/excanvas.min.js"></script>
+        <![endif]-->
+        <!-- BEGIN CORE PLUGINS -->
+        <script src="static/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script src="static/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="static/assets/global/scripts/app.min.js" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         {% block other_script %}
-        <script src="static/assets/layouts/layout4/scripts/layout.min.js" type="text/javascript"></script>
-        <script src="static/assets/layouts/layout4/scripts/demo.min.js" type="text/javascript"></script>
-        <script src="static/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        <script src="static/assets/layouts/layout4/scripts/layout.js" type="text/javascript"></script>
+        <script src="static/assets/layouts/layout4/scripts/demo.js" type="text/javascript"></script>
+        <script src="static/assets/layouts/global/scripts/quick-sidebar.js" type="text/javascript"></script>
         {% endblock other_script %}
         <!-- END THEME LAYOUT SCRIPTS -->
     </body>

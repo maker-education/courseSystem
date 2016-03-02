@@ -8189,7 +8189,7 @@ Portlets
 /* Basic portlet */
 .portlet {
   margin-top: 0px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   padding: 0px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -8520,7 +8520,7 @@ Portlets
     .portlet.light.portlet-fit > .portlet-title {
       padding: 15px 20px 10px 20px; }
     .portlet.light.portlet-fit > .portlet-body {
-      padding: 10px 20px 20px 20px; }
+      padding: 15px 20px 5px 20px; }
   .portlet.light.portlet-fit.portlet-form > .portlet-body {
     padding: 0; }
   .portlet.light.portlet-fit.portlet-form > .portlet-body {
@@ -14808,7 +14808,7 @@ Timeline
     background: #f5f6fa;
     top: 0px;
     bottom: 0px;
-    margin-left: 38px; }
+    margin-left: 20px; }
   .timeline .timeline-item {
     margin: 0;
     padding: 0; }
@@ -14816,10 +14816,10 @@ Timeline
     float: left;
     position: relative;
     padding-right: 30px;
-    height: 80px;
-    width: 80px; }
+    height: 46px;
+    width: 46px; }
   .timeline .timeline-badge-userpic {
-    width: 80px;
+    width: 46px;
     border: 4px #f5f6fa solid;
     -webkit-border-radius: 50% !important;
     -moz-border-radius: 50% !important;
@@ -14830,21 +14830,21 @@ Timeline
     border-radius: 50% !important;
     vertical-align: middle !important; }
   .timeline .timeline-icon {
-    width: 80px;
-    height: 80px;
+    width: 46px;
+    height: 46px;
     background-color: #f5f6fa;
     -webkit-border-radius: 50% !important;
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;
-    padding-top: 30px;
-    padding-left: 22px; }
+    padding-top: 15px;
+    padding-left: 10px; }
   .timeline .timeline-icon i {
-    font-size: 34px; }
+    font-size: 28px; }
   .timeline .timeline-body {
     position: relative;
-    padding: 20px;
-    margin-top: 20px;
-    margin-left: 110px;
+    padding: 15px;
+    margin-top: 15px;
+    margin-left: 60px;
     background-color: #f5f6fa;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -15303,8 +15303,8 @@ Tasks Widget
   font-weight: 700; }
 
 .mt-element-step .step-line .mt-step-col {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   text-align: center; }
 
 .mt-element-step .step-line .mt-step-number {
@@ -15312,7 +15312,7 @@ Tasks Widget
   border-radius: 50% !important;
   display: inline-block;
   margin: auto;
-  padding: 3px 14px;
+  padding: 6px 16px;
   margin-bottom: 5px;
   border: 3px solid;
   border-color: #e5e5e5;
@@ -15328,7 +15328,7 @@ Tasks Widget
     width: 50%;
     position: absolute;
     background-color: #e5e5e5;
-    top: 53px;
+    top: 43px;
     left: 50%;
     z-index: 4; }
   .mt-element-step .step-line .mt-step-title:before {
@@ -15337,7 +15337,7 @@ Tasks Widget
     width: 50%;
     position: absolute;
     background-color: #e5e5e5;
-    top: 53px;
+    top: 43px;
     right: 50%;
     z-index: 4; }
 
