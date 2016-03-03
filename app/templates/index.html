@@ -1,7 +1,4 @@
 {% extends 'base.html' %}
-{% block body_class %}
-class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo"
-{%endblock body_class %}
 
 {% block page_top %}
 <div class="page-top">
@@ -28,7 +25,7 @@ class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo"
 
 {% block other_script %}
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="static/assets/pages/scripts/timeline.js" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/pages/scripts/timeline.js') }}" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 {{ super() }}
 {% endblock other_script %}

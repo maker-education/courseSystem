@@ -7,10 +7,9 @@
                     <span class="caption-helper">加油哦...</span>
                 </div>
                 <div class="actions">
-                    <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a href='h.html' class="btn btn-transparent dark btn-outline btn-circle btn-sm active">
-                            <input type="radio" name="options" class="toggle" id="option1">
-                                我要发布
+                    <div class="btn-group btn-group-devided">
+                        <a href='blog/post' class="btn btn-transparent dark btn-outline btn-circle btn-sm active">
+                        我要发布
                         </a>
                     </div>
                 </div>
@@ -20,7 +19,7 @@
                     <!-- TIMELINE ITEM -->
                     <div class="timeline-item">
                         <div class="timeline-badge">
-                        <img class="timeline-badge-userpic" src="static/assets/pages/media/users/avatar80_2.jpg"> </div>
+                            <img class="timeline-badge-userpic" src="{{ url_for('static', filename='assets/pages/media/users/avatar80_2.jpg') }}"> </div>
                         <div class="timeline-body">
                             <div class="timeline-body-arrow"> </div>
                             <div class="timeline-body-head">
@@ -61,7 +60,7 @@
                     <!-- TIMELINE ITEM -->
                     <div class="timeline-item">
                         <div class="timeline-badge">
-                        <img class="timeline-badge-userpic" src="static/assets/pages/media/users/avatar80_5.jpg"> </div>
+                            <img class="timeline-badge-userpic" src="{{ url_for('static', filename='assets/pages/media/users/avatar80_5.jpg') }}"> </div>
                         <div class="timeline-body">
                             <div class="timeline-body-arrow"> </div>
                             <div class="timeline-body-head">
@@ -74,7 +73,8 @@
                             <div class="timeline-body-content">
                                 <span class="font-grey-cascade">
                                     <p>
-                                        <img class="timeline-body-img pull-right" src="static/assets/pages/media/blog/6.jpg" alt=""> Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach kombu courgette lettuce. Celery coriander bitterleaf epazote radicchio shallot winter purslane collard
+                                        <img class="timeline-body-img pull-right" src="{{ url_for('static', filename='assets/pages/media/blog/6.jpg') }}" alt="">
+                                        Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach kombu courgette lettuce. Celery coriander bitterleaf epazote radicchio shallot winter purslane collard
                                     greens spring onion squash lentil. Artichoke salad bamboo shoot black-eyed pea brussels sprout garlic kohlrabi. coriander bitterleaf epazote radicchio shallot winter purslane collard. </p>
                                     <p>
                                         Coriander bitterleaf epazote radicchio shallot winter purslane collard. Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach kombu courgette lettuce. Celery coriander

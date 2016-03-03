@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block other_style %}
+{{ super() }}
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<link href="{{ url_for('static', filename='assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ url_for('static', filename='assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ url_for('static', filename='assets/global/plugins/bootstrap-summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+<!-- END PAGE LEVEL PLUGINS -->
+{% endblock other_style %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <!-- BEGIN CONTENT BODY -->
+    <div class="page-content">
+    {% include 'structure/_defedit.html' %}
+    </div>
+    <!-- END CONTENT BODY -->
+</div>
+{% endblock content %}
+
+{% block other_script %}
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-markdown/lib/markdown.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-summernote/summernote.min.js') }}" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+{{ super() }}
+{% endblock other_script %}
+
+
