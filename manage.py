@@ -13,7 +13,6 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from app import create_app
 from config import config as configs
 from command import Command
-from app.forms import MyLoginForm
 from app.models import *
 
 reload(sys)

@@ -9,8 +9,7 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
-from app.models import db, user_datastore
-from app.forms import MyLoginForm
+from app.models import db, user_datastore, MyLoginForm
 
 def create_app(appconfig):
     app = Flask(__name__)
@@ -26,9 +25,6 @@ def create_app(appconfig):
 
     from app.blueprint.blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint, url_prefix='/blog')
-
-    #from app.blueprint.auth import auth as auth_blueprint
-    #app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app
 

@@ -8,6 +8,7 @@
 """
 
 from . import blog
+from flask import request
 from flask.ext.security import login_required
 from flask import render_template
 
@@ -19,5 +20,9 @@ def user(userid):
 @login_required
 @blog.route('/post', methods=['GET', 'POST'])
 def post():
+    if request.method == 'GET':
+        return  render_template('blog_post.html')
+
     return  render_template('blog_post.html')
+
 
