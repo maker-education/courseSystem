@@ -13,15 +13,22 @@
                  <form class="form-horizontal form-bordered">
                      <div class="form-body">
                          <div class="form-group last">
-                             <label class="control-label col-md-1">记录是练级，是思考，是分享，是回馈</label>
-                             <div class="col-md-10">
+                             <div class="col-md-4">
+                                 <div class="fileinput fileinput-new" data-provides="fileinput">
+                                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 400px; height: 220px;">
+                                         <img src="http://www.placehold.it/400x220/EFEFEF/AAAAAA&amp;text=添加图片" alt="">
+                                     </div>
+                                     <div><span class="btn red btn-outline btn-file hidden"><input type="file" name="..."></span></div>
+                                 </div>
+                             </div>
+                             <div class="col-md-8">
                                  <div name="summernote" id="summernote_1"> </div>
                              </div>
                          </div>
                      </div>
                      <div class="form-actions">
                          <div class="row">
-                             <div class="col-md-offset-2 col-md-10">
+                             <div class="col-md-offset-4 col-md-8">
                                  <button type="submit" class="btn green">
                                      <i class="fa fa-check"></i>提交</button>
                                  <button type="button" class="btn default">取消</button>
