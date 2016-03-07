@@ -32,7 +32,7 @@ var ComponentsEditors = function () {
 
         });
         //API:
-        //var sHTML = $('#summernote_1').code(); // get code
+        //var sHTML = $('#summernote_1').summernote('code'); // get code
         //$('#summernote_1').destroy(); // destroy
     }
 
@@ -45,10 +45,6 @@ var ComponentsEditors = function () {
     };
 
 }();
-
-function ajaxsubmit() {
-    var a = 1;
-}
 
 jQuery(document).ready(function() {    
    ComponentsEditors.init(); 

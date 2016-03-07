@@ -10,12 +10,14 @@
                  </div>
              </div>
              <div class="portlet-body form">
-                 <form class="form-horizontal form-bordered">
+                 <div class="form-horizontal form-bordered" method="post">
                      <div class="form-body">
                          <div class="form-group last">
                              <div class="col-md-4">
                                  <div class="fileinput fileinput-new" data-provides="fileinput">
-                                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 400px; height: 220px;">
+                                     <div class="fileinput-preview thumbnail"
+                                         data-trigger="fileinput" style="width: 400px; height:
+                                         220px;" id= "imgdiv">
                                          <img src="http://www.placehold.it/400x220/EFEFEF/AAAAAA&amp;text=添加图片" alt="">
                                      </div>
                                      <div><span class="btn red btn-outline btn-file hidden"><input type="file" name="..."></span></div>
@@ -29,13 +31,13 @@
                      <div class="form-actions">
                          <div class="row">
                              <div class="col-md-offset-4 col-md-8">
-                                 <button type="submit" class="btn green">
+                                 <button type="submit" class="btn green" onclick="ajax_post()">
                                      <i class="fa fa-check"></i>提交</button>
                                  <button type="button" class="btn default">取消</button>
                              </div>
                          </div>
                      </div>
-                 </form>
+                 </div>
              </div>
          </div>
      </div>
