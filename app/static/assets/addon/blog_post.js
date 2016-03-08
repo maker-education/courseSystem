@@ -17,13 +17,16 @@ function ajax_post() {
         d = { 'post':post };
     }
 
+    $("#btn_submit").attr("disabled", true);
     $.ajax({
         dataType: "json",
         type : 'post',
         contentType: 'application/json;charset=utf-8',
         data : JSON.stringify(d),
         success: function(data) {
-            var a = 1
+            if (data.success) {
+                window.location.href = '/'
+            }
         }
     });
 

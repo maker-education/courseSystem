@@ -26,9 +26,10 @@ class User(db.Model, UserMixin):
      nick = db.Column(db.String(64))
      password = db.Column(db.String(255))
      active = db.Column(db.Boolean())
-     create_time = db.Column(db.DateTime, default=datetime.now())
+     create_time = db.Column(db.DateTime, default=datetime.now)
      roles = db.relationship('Role', secondary=roles_users,
              backref=db.backref('users', lazy='dynamic'))
+     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
      def __repr__(self):
          return '<User %r>' % self.name

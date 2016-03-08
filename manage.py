@@ -41,7 +41,7 @@ def test():
 def init():
     Command.init(db)
 
-
 if __name__ == '__main__':
     manager.run()
+
 

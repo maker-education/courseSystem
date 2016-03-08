@@ -10,8 +10,10 @@
 from . import main
 from flask import render_template
 from flask.ext.security import login_required
+from app.models import Post
 
 @main.route('/', methods=['GET'])
 @login_required
 def main():
-    return  render_template('index.html')
+    posts = Post.query.order_by(Post.create_time.desc()).all()
+    return  render_template('index.html', posts=posts)

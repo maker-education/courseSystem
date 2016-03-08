@@ -28,19 +28,21 @@ def post():
         return  render_template('blog_post.html')
 
     if request.json:
+        success = False
+        file_name = None
         if request.json.get('img'):
-            success = False
             img = urllib.unquote(request.json.get('img'))
             (img_data, img_type) = parse(img)
             if img:
                 file_name = savefile(current_user.name, img_type, img_data)
-            if file_name:
-                content = urllib.unquote(request.json.get('post'))
-                post = Post(user_id = current_user.id, img_src=file_name,\
-                        content = content)
-                db.session.add(post)
-                db.session.commit()
-                success = True
+
+        p = request.json.get('post').encode('utf8')
+        content = urllib.unquote(p)
+        post = Post(user_id = current_user.id, img_src=file_name,\
+                content = unicode(content, 'utf8'))
+        db.session.add(post)
+        db.session.commit()
+        success = True
 
         return jsonify(success = success)
 

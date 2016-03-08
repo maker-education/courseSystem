@@ -11,7 +11,6 @@ from app.models import *
 
 class Command:
 
-
     @staticmethod
     def init(db):
         """Run the init database."""
