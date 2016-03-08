@@ -38,7 +38,7 @@ def post():
 
         p = request.json.get('post').encode('utf8')
         content = urllib.unquote(p)
-        post = Post(user_id = current_user.id, img_src=file_name,\
+        post = Post(author = current_user._get_current_object(), img_src=file_name,\
                 content = unicode(content, 'utf8'))
         db.session.add(post)
         db.session.commit()
