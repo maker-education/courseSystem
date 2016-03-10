@@ -2,7 +2,7 @@
 from flask_security.forms import LoginForm, NextFormMixin
 from wtforms import StringField, PasswordField, validators, \
            SubmitField, HiddenField, BooleanField, ValidationError, Field
-from app.models import user_datastore
+from ._base import user_datastore
 
 # remember 或需处理
 class MyLoginForm(LoginForm, NextFormMixin):

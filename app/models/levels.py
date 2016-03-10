@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from g import db
+from ._base import db
 
 class Level(db.Model):
      __tablename__ = "level"

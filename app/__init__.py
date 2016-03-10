@@ -23,6 +23,8 @@ def create_app(appconfig):
     appconfig.init_app(app)
 
     db.init_app(app)
+    db.app = app
+
     # Setup Flask-Security
     security = Security(app, user_datastore, login_form=MyLoginForm)
 

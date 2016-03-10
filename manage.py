@@ -25,9 +25,7 @@ app = create_app(appconfig)
 manager = Manager(app)
 migrate = Migrate(app, db)
 
-db.create_all()
 apimanager = APIManager(app, flask_sqlalchemy_db=db)
-
 apimanager.create_api(User, methods=['GET', 'POST', 'DELETE'])
 
 

@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from g import db
+from ._base import db
 from flask.ext.security import Security, SQLAlchemyUserDatastore,\
             UserMixin, RoleMixin, login_required
 from flask.ext.security import SQLAlchemyUserDatastore

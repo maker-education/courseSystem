@@ -8,7 +8,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from g import db
+from ._base import db
 from . import User
 from datetime import datetime
 
