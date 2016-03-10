@@ -4,6 +4,7 @@ Flask-Login==0.3.2
 Flask-Mail==0.9.1
 Flask-Migrate==1.7.0
 Flask-Principal==0.4.0
+Flask-Restless==0.17.0
 Flask-SQLAlchemy==2.1
 Flask-Script==2.0.5
 Flask-Security==1.7.5
@@ -20,7 +21,11 @@ blinker==1.4
 dominate==2.1.17
 gunicorn==19.4.5
 itsdangerous==0.24
+mimerender==0.6.0
 ordereddict==1.1
 passlib==1.6.5
+python-dateutil==2.5.0
 python-editor==0.5
+python-mimeparse==1.5.1
+six==1.10.0
 visitor==0.1.2

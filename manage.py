@@ -10,6 +10,7 @@
 import os, sys
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.restless import APIManager
 from app import create_app
 from config import config as configs
 from command import Command
@@ -23,6 +24,12 @@ app = create_app(appconfig)
 
 manager = Manager(app)
 migrate = Migrate(app, db)
+
+db.create_all()
+apimanager = APIManager(app, flask_sqlalchemy_db=db)
+
+apimanager.create_api(User, methods=['GET', 'POST', 'DELETE'])
+
 
 def make_shell_context():
     return dict(app=app, db=db)
