@@ -28,7 +28,6 @@ migrate = Migrate(app, db)
 apimanager = APIManager(app, flask_sqlalchemy_db=db)
 apimanager.create_api(User, methods=['GET', 'POST', 'DELETE'])
 
-
 def make_shell_context():
     return dict(app=app, db=db)
 
