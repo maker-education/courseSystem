@@ -13,9 +13,15 @@ Nginx server
 
     nginx.conf
     --------------------------------
-    location / {
+    location /{
+        root   /root/virtual/edu.source/app/static/;
+        index  index.html index.htm index.php;
+    }
+
+    location /api {
         try_files @uri @pp;
     }
+
 
     location @pp {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
