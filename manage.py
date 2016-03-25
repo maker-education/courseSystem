@@ -11,7 +11,7 @@ import os, sys
 from flask import g, request, jsonify
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.restless import APIManager
+from flask.ext.restless import APIManager, ProcessingException
 from app import create_app
 from config import config as configs
 from command import Command
@@ -28,29 +28,15 @@ manager = Manager(app)
 migrate = Migrate(app, db)
 
 
+@httpauth.login_required
+def auth_func1(*args, **kwargs):
+    pass
+
 def auth_func(*args, **kwargs):
-    auth = request.authorization
-    if auth is None and 'Authorization' in request.headers:
-        try:
-            auth_type, token = request.headers['Authorization'].split( None, 1)
-            auth = Authorization(auth_type, {'token': token})
-        except ValueError:
-            pass
+    res = auth_func1()
+    if res and res.status_code != 200:
+        raise ProcessingException(description='Not authenticated!', code=401)
 
-    print auth
-    #if auth is not None and auth.type.lower() != self.scheme.lower():
-    #    auth = None
-
-    #if request.method != 'OPTIONS':  # pragma: no cover
-    #    if auth and auth.username:
-    #        password = self.get_password_callback(auth.username)
-    #    else:
-    #        password = None
-
-    #if not self.authenticate(auth, password):
-    #    raise ProcessingException(description='Not authenticated!', code=401)
-
-    return True
 
 @app.route('/api/token')
 @httpauth.login_required
@@ -60,7 +46,7 @@ def get_auth_token():
 
 apimanager = APIManager(app, flask_sqlalchemy_db=db)
 apimanager.create_api(User, methods=['GET', 'POST', 'DELETE'],
-        preprocessors=dict(GET_SINGLE=[auth_func],GET_MANY=[auth_func]))
+        preprocessors=dict(GET_SINGLE=[auth_func],GET_MANY=[auth_func], DELETE=[auth_func]))
 
 def make_shell_context():
     return dict(app=app, db=db)
