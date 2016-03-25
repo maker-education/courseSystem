@@ -11,6 +11,5 @@ from .users import User, Role
 from .levels import Level
 from .loginform import MyLoginForm
 from .post import Post
-
-
+from .auth import httpauth
 

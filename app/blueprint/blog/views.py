@@ -43,7 +43,6 @@ def post():
         db.session.add(post)
         db.session.commit()
         success = True
-
         return jsonify(success = success)
 
 def parse(d):

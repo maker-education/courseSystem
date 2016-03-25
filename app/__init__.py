@@ -28,11 +28,11 @@ def create_app(appconfig):
     # Setup Flask-Security
     security = Security(app, user_datastore, login_form=MyLoginForm)
 
-    from app.blueprint.main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    #from app.blueprint.main import main as main_blueprint
+    #app.register_blueprint(main_blueprint)
 
-    from app.blueprint.blog import blog as blog_blueprint
-    app.register_blueprint(blog_blueprint, url_prefix='/blog')
+    #from app.blueprint.blog import blog as blog_blueprint
+    #app.register_blueprint(blog_blueprint, url_prefix='/blog')
 
     app.jinja_env.filters['datetimeformat'] = datetimeformat
 
