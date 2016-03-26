@@ -76,9 +76,9 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             pageBodySolid: false, // solid body color state
             pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
         },
-        assetsPath: '../assets',
-        globalPath: '../assets/global',
-        layoutPath: '../assets/layouts/layout4',
+        assetsPath: 'assets',
+        globalPath: 'assets/global',
+        layoutPath: 'assets/layouts/layout4',
     };
 
     $rootScope.settings = settings;
@@ -163,9 +163,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         return $ocLazyLoad.load({
                             name: 'MetronicApp',
                             files: [
-                                '../assets/global/plugins/select2/js/select2.full.min.js',
-                                '../assets/global/plugins/jquery.serializejson.min.js',
-                                '../assets/pages/css/login-3.min.css',
+                                'assets/global/plugins/select2/js/select2.full.min.js',
+                                'assets/global/plugins/jquery.serializejson.min.js',
+                                'assets/pages/css/login-3.min.css',
                             ]
                         });
                     }]
@@ -187,12 +187,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            '../assets/global/plugins/morris/morris.css',                            
-                            '../assets/global/plugins/morris/morris.min.js',
-                            '../assets/global/plugins/morris/raphael-min.js',                            
-                            '../assets/global/plugins/jquery.sparkline.min.js',
+                            'assets/global/plugins/morris/morris.css',
+                            'assets/global/plugins/morris/morris.min.js',
+                            'assets/global/plugins/morris/raphael-min.js',
+                            'assets/global/plugins/jquery.sparkline.min.js',
 
-                            '../assets/pages/scripts/dashboard.min.js',
+                            'assets/pages/scripts/dashboard.min.js',
                             'js/controllers/DashboardController.js',
                         ] 
                     });
