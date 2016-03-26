@@ -4,9 +4,9 @@ Metronic AngularJS App Main Script
 
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
-    "ui.router", 
-    "ui.bootstrap", 
-    "oc.lazyLoad",  
+    "ui.router",
+    "ui.bootstrap",
+    "oc.lazyLoad",
     "ngSanitize"
 ]); 
 
@@ -148,8 +148,38 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard.html");  
-    
+
     $stateProvider
+
+    // Dashboard
+    .state('login', {
+        url: "/login",
+        views: {
+            'app_all': {
+                templateUrl: "views/login.html",
+                data: {pageTitle: 'Login'},
+                controller: "DashboardController",
+                resolve: {
+                    deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name: 'MetronicApp',
+                            insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                            files: [
+                                '../assets/global/plugins/morris/morris.css',
+                                '../assets/global/plugins/morris/morris.min.js',
+                                '../assets/global/plugins/morris/raphael-min.js',
+                                '../assets/global/plugins/jquery.sparkline.min.js',
+
+                                '../assets/pages/scripts/dashboard.min.js',
+                                'js/controllers/DashboardController.js',
+                            ] 
+                        });
+                    }]
+                }
+            }
+        }
+    })
+
 
         // Dashboard
         .state('dashboard', {
@@ -299,7 +329,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     }]);
                 }] 
             }
-        })        
+        })
 
         // Date & Time Pickers
         .state('pickers', {

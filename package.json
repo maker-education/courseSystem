@@ -1,0 +1,14 @@
+{
+    "name": "0x9a",
+    "description": "0x9a com",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "gulp-concat": "~2.2.0",
+        "gulp": "~3.6.2",
+        "less": "~1.7.0",
+        "gulp-less": "~1.2.3",
+        "gulp-rename": "~1.2.2",
+        "gulp-uglify": "^0.3.1"
+    }
+}

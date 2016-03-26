@@ -38,7 +38,7 @@ def auth_func(*args, **kwargs):
         raise ProcessingException(description='Not authenticated!', code=401)
 
 
-@app.route('/api/token')
+@app.route('/api/token', methods=['GET', 'POST'])
 @httpauth.login_required
 def get_auth_token():
     token = g.user.generate_auth_token(600)
