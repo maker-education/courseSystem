@@ -69,9 +69,9 @@ Metronic AngularJS App Main Script
 
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
-    "ui.router", 
-    "ui.bootstrap", 
-    "oc.lazyLoad",  
+    "ui.router",
+    "ui.bootstrap",
+    "oc.lazyLoad",
     "ngSanitize"
 ]); 
 
@@ -213,8 +213,32 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard.html");  
-    
+
     $stateProvider
+
+    // Dashboard
+    .state('login', {
+        url: "/login",
+        views: {
+            'app_all': {
+                templateUrl: "views/login.html",
+                data: {pageTitle: 'Login'},
+                resolve: {
+                    deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name: 'MetronicApp',
+                            files: [
+                                '../assets/global/plugins/select2/js/select2.full.min.js',
+                                '../assets/global/plugins/jquery.serializejson.min.js',
+                                '../assets/pages/css/login-3.min.css',
+                            ]
+                        });
+                    }]
+                }
+            }
+        }
+    })
+
 
         // Dashboard
         .state('dashboard', {
@@ -364,7 +388,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     }]);
                 }] 
             }
-        })        
+        })
 
         // Date & Time Pickers
         .state('pickers', {
@@ -570,6 +594,66 @@ MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settin
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 }]);
+
+appServices.factory('AuthenticationService', function() {
+    var auth = {
+        isAuthenticated: false,
+    }
+
+    return auth;
+});
+
+appServices.factory('TokenInterceptor', function ($q, $window, $location, AuthenticationService) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if ($window.sessionStorage.token) {
+                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+            }
+            return config;
+        },
+
+        requestError: function(rejection) {
+            return $q.reject(rejection);
+        },
+
+        /* Set Authentication.isAuthenticated to true if 200 received */
+        response: function (response) {
+            if (response != null && response.status == 200 && $window.sessionStorage.token && !AuthenticationService.isAuthenticated) {
+                AuthenticationService.isAuthenticated = true;
+            }
+            return response || $q.when(response);
+        },
+
+        /* Revoke client authentication if 401 is received */
+        responseError: function(rejection) {
+            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || AuthenticationService.isAuthenticated)) {
+                delete $window.sessionStorage.token;
+                AuthenticationService.isAuthenticated = false;
+                $location.path("/login");
+            }
+
+            return $q.reject(rejection);
+        }
+    };
+});
+
+appServices.factory('UserService', function ($http) {
+    return {
+        signIn: function(username, password) {
+            return $http.get(options.api.base_url + '/user/signin', {username: username, password: password});
+        },
+
+        logOut: function() {
+            return $http.get(options.api.base_url + '/user/logout');
+        },
+
+        /*
+        register: function(username, password, passwordConfirmation) {
+            return $http.post(options.api.base_url + '/user/register', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+        }*/
+    }
+});
 
 angular.module('MetronicApp').controller('DashboardController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   

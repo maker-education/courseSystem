@@ -158,21 +158,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             'app_all': {
                 templateUrl: "views/login.html",
                 data: {pageTitle: 'Login'},
-                controller: "DashboardController",
                 resolve: {
                     deps: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load({
                             name: 'MetronicApp',
-                            insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                             files: [
-                                '../assets/global/plugins/morris/morris.css',
-                                '../assets/global/plugins/morris/morris.min.js',
-                                '../assets/global/plugins/morris/raphael-min.js',
-                                '../assets/global/plugins/jquery.sparkline.min.js',
-
-                                '../assets/pages/scripts/dashboard.min.js',
-                                'js/controllers/DashboardController.js',
-                            ] 
+                                '../assets/global/plugins/select2/js/select2.full.min.js',
+                                '../assets/global/plugins/jquery.serializejson.min.js',
+                                '../assets/pages/css/login-3.min.css',
+                            ]
                         });
                     }]
                 }
