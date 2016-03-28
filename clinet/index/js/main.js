@@ -2,6 +2,11 @@
 Metronic AngularJS App Main Script
 ***/
 
+/* Options */
+var options = {};
+options.api = {};
+options.api.base_url = "http://139.129.35.188/api";
+
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
@@ -76,9 +81,9 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
             pageBodySolid: false, // solid body color state
             pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
         },
-        assetsPath: 'assets',
-        globalPath: 'assets/global',
-        layoutPath: 'assets/layouts/layout4',
+        assetsPath: '../assets',
+        globalPath: '../assets/global',
+        layoutPath: '../assets/layouts/layout4',
     };
 
     $rootScope.settings = settings;
@@ -147,7 +152,7 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/dashboard.html");  
+    $urlRouterProvider.otherwise("/login");
 
     $stateProvider
 
@@ -157,15 +162,17 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         views: {
             'app_all': {
                 templateUrl: "views/login.html",
-                data: {pageTitle: 'Login'},
+                data: {pageTitle: '登录'},
+                controller: "LoginController",
                 resolve: {
                     deps: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load({
-                            name: 'MetronicApp',
+                            name: '登录',
                             files: [
-                                'assets/global/plugins/select2/js/select2.full.min.js',
-                                'assets/global/plugins/jquery.serializejson.min.js',
-                                'assets/pages/css/login-3.min.css',
+                                '../assets/global/plugins/select2/js/select2.full.min.js',
+                                '../assets/global/plugins/jquery.serializejson.min.js',
+                                '../assets/pages/css/login-3.min.css',
+                                'js/controllers/LoginController.js',
                             ]
                         });
                     }]
@@ -179,7 +186,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         .state('dashboard', {
             url: "/dashboard.html",
             templateUrl: "views/dashboard.html",            
-            data: {pageTitle: 'Admin Dashboard Template'},
+            data: {pageTitle: '首页'},
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -187,12 +194,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            'assets/global/plugins/morris/morris.css',
-                            'assets/global/plugins/morris/morris.min.js',
-                            'assets/global/plugins/morris/raphael-min.js',
-                            'assets/global/plugins/jquery.sparkline.min.js',
+                            '../assets/global/plugins/morris/morris.css',
+                            '../assets/global/plugins/morris/morris.min.js',
+                            '../assets/global/plugins/morris/raphael-min.js',
+                            '../assets/global/plugins/jquery.sparkline.min.js',
 
-                            'assets/pages/scripts/dashboard.min.js',
+                            '../assets/pages/scripts/dashboard.min.js',
                             'js/controllers/DashboardController.js',
                         ] 
                     });
@@ -458,14 +465,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         files: [
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
                             '../assets/pages/css/profile.css',
-                            
+
                             '../assets/global/plugins/jquery.sparkline.min.js',
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
                             '../assets/pages/scripts/profile.min.js',
 
                             'js/controllers/UserProfileController.js'
-                        ]                    
+                        ]
                     });
                 }]
             }
@@ -489,7 +496,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         .state("profile.help", {
             url: "/help",
             templateUrl: "views/profile/help.html",
-            data: {pageTitle: 'User Help'}      
+            data: {pageTitle: 'User Help'}
         })
 
         // Todo
@@ -510,13 +517,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
 
                             '../assets/global/plugins/select2/js/select2.full.min.js',
-                            
+
                             '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
 
                             '../assets/apps/scripts/todo-2.min.js',
 
                             'js/controllers/TodoController.js'  
-                        ]                    
+                        ]
                     });
                 }]
             }
