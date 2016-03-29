@@ -30,7 +30,7 @@ def create_app(appconfig):
     security = Security(app, user_datastore, login_form=MyLoginForm)
 
     #from app.blueprint.main import main as main_blueprint
-    app.register_blueprint(bluep_menu, url_prefix='/api')
+    app.register_blueprint(bluep_sidebarMenu, url_prefix='/api')
 
     #from app.blueprint.blog import blog as blog_blueprint
     #app.register_blueprint(blog_blueprint, url_prefix='/blog')

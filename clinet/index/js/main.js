@@ -173,7 +173,7 @@ MetronicApp.controller('SidebarController', ['$scope', '$location', 'MainService
     });
 
     $scope.menus = [];
-    MainService.getData('/menu').success(function(data){
+    MainService.getData('/sidebarmenu').success(function(data){
         $scope.menus = data.data;
     }).error(handlError);
 }]);
