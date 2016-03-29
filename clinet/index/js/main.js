@@ -240,7 +240,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state('dashboard', {
         url: "/dashboard",
         templateUrl: "views/dashboard.html",            
-        data: {pageTitle: '首页'},
+        data: {pageTitle: '总览'},
         controller: "DashboardController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
