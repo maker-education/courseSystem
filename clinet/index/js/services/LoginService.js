@@ -3,8 +3,8 @@ angular.module('MetronicApp').factory('UserService', function ($http, Base64) {
         signIn: function(username, password) {
             var authdata = Base64.encode(username + ':' + password);
             var headers = {
-                Authorization: 'Basic ' + authdata,
-                Accept: 'application/vnd.api+json'
+                'Accept': 'application/vnd.api+json',
+                'Authorization':'Basic ' + authdata
             };
             return $http({
                 method: 'post',

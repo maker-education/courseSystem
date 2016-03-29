@@ -2,6 +2,11 @@
 Metronic AngularJS App Main Script
 ***/
 
+var handlError = function(status, data) {
+    console.log(status);
+    console.log(data);
+};
+
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
@@ -86,6 +91,59 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     return settings;
 }]);
 
+MetronicApp.factory('TokenInterceptor', function ($q, $window, $location) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if ($window.sessionStorage.token) {
+                config.headers.Authorization = 'Basic ' + $window.sessionStorage.token;
+            } else {
+                $location.path('/login');
+            }
+            return config;
+        },
+
+        requestError: function(rejection) {
+            return $q.reject(rejection);
+        },
+
+        /* Set Authentication.isAuthenticated to true if 200 received */
+        response: function (response) {
+            if (response.data && response.data.error) {
+                console.log(response.data.error);
+                $location.path('/login');
+            }
+            return response || $q.when(response);
+        },
+
+        /* Revoke client authentication if 401 is received */
+        responseError: function(rejection) {
+            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token )) {
+                delete $window.sessionStorage.token;
+                $location.path("/login");
+            }
+
+            return $q.reject(rejection);
+        }
+    };
+});
+
+MetronicApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('TokenInterceptor');
+});
+
+MetronicApp.factory('MainService', function ($http) {
+    return {
+        getData: function(url) {
+            return $http({
+                method: 'post',
+                url: options.api.base_url + url,
+            });
+        }
+    }
+})
+
+
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
@@ -108,10 +166,16 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
+MetronicApp.controller('SidebarController', ['$scope', '$location', 'MainService',
+ function($scope, $location, MainService) {
     $scope.$on('$includeContentLoaded', function() {
         Layout.initSidebar(); // init sidebar
     });
+
+    $scope.menus = [];
+    MainService.getData('/menu').success(function(data){
+        $scope.menus = data.data;
+    }).error(handlError);
 }]);
 
 /* Setup Layout Part - Sidebar */
@@ -147,7 +211,7 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/dashboard");
 
     $stateProvider
     // Login
@@ -518,8 +582,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
-
 }]);
+
+
 
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {

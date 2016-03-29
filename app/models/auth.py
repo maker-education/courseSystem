@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from flask import g
+from flask import g, jsonify
 from flask.ext.httpauth import HTTPBasicAuth
 from .users import User
 
@@ -24,4 +24,8 @@ def verify_password(username_or_token, password):
             return False
     g.user = user
     return True
+
+@httpauth.error_handler
+def auth_error():
+    return jsonify({"error": "Not authenticated!"}), 203
 

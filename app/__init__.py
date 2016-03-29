@@ -10,6 +10,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
 from app.models import db, user_datastore, MyLoginForm
+from app.blueprint import *
 import datetime
 
 def datetimeformat(value):
@@ -29,7 +30,7 @@ def create_app(appconfig):
     security = Security(app, user_datastore, login_form=MyLoginForm)
 
     #from app.blueprint.main import main as main_blueprint
-    #app.register_blueprint(main_blueprint)
+    app.register_blueprint(bluep_menu, url_prefix='/api')
 
     #from app.blueprint.blog import blog as blog_blueprint
     #app.register_blueprint(blog_blueprint, url_prefix='/blog')

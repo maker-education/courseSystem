@@ -100,7 +100,7 @@ var Layout = function() {
             if ($(this).parent('ul.page-sidebar-menu').size() === 1) {
                 $(this).find('> a').append('<span class="selected"></span>');
             }
-            
+
             if ($(this).children('ul.sub-menu').size() === 1) {
                 $(this).addClass('open');
             }

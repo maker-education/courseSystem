@@ -7,5 +7,4 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from .main import main
-from .blog import blog
+from .menu import bluep_menu

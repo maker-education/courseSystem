@@ -1,0 +1,39 @@
+[
+    {
+        "name": "总览",
+        "icon": "icon-home",
+        "link":"#/dashboard"
+    },
+    {
+        "name": "功能",
+        "icon": "icon-settings",
+        "link": "javascript:;",
+        "submenus": [
+            {
+                "name": "UI",
+                "icon": "icon-settings",
+                "link": "#/ui_bootstrap.html"
+            },
+            {
+                "name": "下传",
+                "icon": "icon-settings",
+                "link": "file_upload.html"
+            },
+            {
+                "name": "子菜单",
+                "submenus": [
+                    {
+                        "name": "上传",
+                        "icon": "icon-settings",
+                        "link": "file_upload.html"
+                    },
+                    {
+                        "name": "下传",
+                        "icon": "icon-settings",
+                        "link": "file_upload.html"
+                    }
+                ]
+            }
+        ]
+    }
+]

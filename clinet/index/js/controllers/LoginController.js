@@ -6,13 +6,16 @@ angular.module('MetronicApp').controller('LoginController', ['$rootScope', '$sco
     $scope.signIn = function signIn(username, password) {
         if (username != null && password != null) {
             UserService.signIn(username, password).success(function(data) {
-                $window.sessionStorage.token = data.token;
-                var token = Base64.encode(data.token + ':unused');
-                $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
-                $rootScope.settings.layout.login = false;
-                $location.path("/dashboard");
+                if (data.token) {
+                    var token = Base64.encode(data.token + ':unused');
+                    $window.sessionStorage.token = token;
+                    $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
+                    $rootScope.settings.layout.login = false;
+                    $location.path("/dashboard");
+                }else {
+                    alert("用户名或密码错误")
+                }
             }).error(function(status, data) {
-                alert("用户名或密码错误")
                 console.log(status);
                 console.log(data);
             });

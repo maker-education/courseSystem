@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<!-- 
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.5
-Version: 4.5.1
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
 <!--[if IE 8]> <html lang="en" class="ie8 no-js" data-ng-app="MetronicApp"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js" data-ng-app="MetronicApp"> <![endif]-->
 <!--[if !IE]><!-->
@@ -60,25 +49,25 @@ License: You must have a valid license purchased only from themeforest(the above
         ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed, 'login':
         settings.layout.login}">
         <!-- BEGIN PAGE SPINNER -->
-        <div ng-hide="settings.layout.login" ng-spinner-bar class="page-spinner-bar" >
+        <div ng-if="!settings.layout.login" ng-spinner-bar class="page-spinner-bar" >
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
         <!-- END PAGE SPINNER -->
         <!-- BEGIN HEADER -->
-        <div ng-hide="settings.layout.login" data-ng-include="'tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top"> </div>
+        <div ng-if="!settings.layout.login" data-ng-include="'tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top"> </div>
         <!-- END HEADER -->
         <div class="clearfix"> </div>
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
-            <div ng-hide="settings.layout.login" data-ng-include="'tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper"> </div>
+            <div ng-if="!settings.layout.login" data-ng-include="'tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper"> </div>
             <!-- END SIDEBAR -->
             <div class="page-content-wrapper">
                 <div ng-class="{'page-content': !settings.layout.login}">
                     <!-- BEGIN PAGE HEAD -->
-                    <div ng-hide="settings.layout.login" data-ng-include="'tpl/page-head.html'" data-ng-controller="PageHeadController" class="page-head"> </div>
+                    <div ng-if="!settings.layout.login" data-ng-include="'tpl/page-head.html'" data-ng-controller="PageHeadController" class="page-head"> </div>
                     <!-- END PAGE HEAD -->
                     <!-- BEGIN ACTUAL CONTENT -->
                     <div ui-view class="fade-in-up"> </div>
@@ -89,7 +78,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <a href="javascript:;" class="page-quick-sidebar-toggler">
                 <i class="icon-login"></i>
             </a>
-            <div data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
+            <div ng-if="!settings.layout.login" data-ng-include="'tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
             <!-- END QUICK SIDEBAR -->
         </div>
         <!-- END CONTAINER -->

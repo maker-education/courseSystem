@@ -41,8 +41,9 @@ def auth_func(*args, **kwargs):
 @app.route('/api/token', methods=['GET', 'POST'])
 @httpauth.login_required
 def get_auth_token():
-    token = g.user.generate_auth_token(600)
-    return jsonify({'token': token.decode('ascii'), 'duration': 600})
+    exp = 12*3600
+    token = g.user.generate_auth_token(exp)
+    return jsonify({'token': token.decode('ascii'), 'duration': exp})
 
 apimanager = APIManager(app, flask_sqlalchemy_db=db)
 apimanager.create_api(User, methods=['GET', 'POST', 'DELETE'],
@@ -67,5 +68,4 @@ def init():
 
 if __name__ == '__main__':
     manager.run()
-
 
