@@ -7,11 +7,20 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify
-bluep_sidebarMenu = Blueprint('menu', __name__)
 from app.models import httpauth
 import json
 
+bluepPrefix='/api/_system'
+
+bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
 @bluep_sidebarMenu.route('/sidebarmenu', methods=['GET', 'POST'])
+@httpauth.login_required
+def menu():
+    json_dict = eval(open('resource/sidebarMenu/teacher.json', 'r').read())
+    return jsonify({'data':json_dict})
+
+bluep_header = Blueprint('header', __name__)
+@bluep_header.route('/header', methods=['GET', 'POST'])
 @httpauth.login_required
 def menu():
     json_dict = eval(open('resource/sidebarMenu/teacher.json', 'r').read())

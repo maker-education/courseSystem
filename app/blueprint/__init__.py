@@ -7,4 +7,4 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from .menu import bluep_sidebarMenu
+from .menus import bluepPrefix, bluep_sidebarMenu, bluep_header

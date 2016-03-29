@@ -134,10 +134,10 @@ MetronicApp.config(function ($httpProvider) {
 
 MetronicApp.factory('MainService', function ($http) {
     return {
-        getData: function(url) {
+        getSystemData: function(url) {
             return $http({
                 method: 'post',
-                url: options.api.base_url + url,
+                url: options.api.base_url + options.api.system + url,
             });
         }
     }
@@ -159,23 +159,29 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        Layout.initHeader(); // init header
-    });
+MetronicApp.controller('HeaderController', ['$scope', 'MainService',
+    function($scope, MainService) {
+        $scope.$on('$includeContentLoaded', function() {
+            Layout.initHeader(); // init header
+        });
+
+        $scope.header = [];
+        MainService.getSystemData('/header').success(function(data){
+            $scope.header = data.data;
+        }).error(handlError);
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', '$location', 'MainService',
- function($scope, $location, MainService) {
-    $scope.$on('$includeContentLoaded', function() {
-        Layout.initSidebar(); // init sidebar
-    });
+MetronicApp.controller('SidebarController', ['$scope', 'MainService',
+    function($scope, MainService) {
+        $scope.$on('$includeContentLoaded', function() {
+            Layout.initSidebar(); // init sidebar
+        });
 
-    $scope.menus = [];
-    MainService.getData('/sidebarmenu').success(function(data){
-        $scope.menus = data.data;
-    }).error(handlError);
+        $scope.siderbarmenus= [];
+        MainService.getSystemData('/sidebarmenu').success(function(data){
+            $scope.siderbarmenus = data.data;
+        }).error(handlError);
 }]);
 
 /* Setup Layout Part - Sidebar */
