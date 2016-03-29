@@ -159,16 +159,23 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$scope', 'MainService',
-    function($scope, MainService) {
+MetronicApp.controller('HeaderController', ['$scope', '$location', '$window', 'MainService',
+    function($scope, $location, $window, MainService) {
         $scope.$on('$includeContentLoaded', function() {
             Layout.initHeader(); // init header
         });
 
+        $scope.logOut = function logOut() {
+            delete $window.sessionStorage.token;
+            $location.path('/login');
+        };
+
         $scope.header = [];
         MainService.getSystemData('/header').success(function(data){
-            $scope.header = data.data;
+            $scope.header = data;
         }).error(handlError);
+
+
 }]);
 
 /* Setup Layout Part - Sidebar */
