@@ -1,0 +1,17 @@
+node_sass 安装失败解决方法：
+
+打开 ../lib/extensions.js
+文件，大约108行左右，修改为如下样子即可
+
+function getBinaryUrl() {  var site = flags['--sass-binary-site'] ||
+process.env.SASS_BINARY_SITE  ||             process.env.npm_config_sass_binary_site ||
+(pkg.nodeSassConfig && pkg.nodeSassConfig.binarySite) ||
+'https://github.com/sass/node-sass/releases/download';    //return [site, 'v' + pkg.version,
+sass.binaryName].join('/');  return
+'https://github.com/sass/node-sass-binaries/blob/master/win32-x64-46_binding.node';}
+
+
+
+重新安装
+进入node-sass 项目根目录执行 install 命令：
+$ cd node_modules/node-sass$ npm install
