@@ -10,8 +10,6 @@ from flask import Blueprint, jsonify, g
 from app.models import httpauth
 import json
 
-bluepPrefix='/api/_system'
-
 bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
 @bluep_sidebarMenu.route('/sidebarmenu', methods=['GET', 'POST'])
 @httpauth.login_required

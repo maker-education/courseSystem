@@ -11,7 +11,7 @@
         "submenus": [
             {
                 "name": "知识点库",
-                "link": "#/ui_bootstrap.html"
+                "link": "#/topics"
             },
             {
                 "name": "课程",

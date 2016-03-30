@@ -66,9 +66,6 @@
             <!-- END SIDEBAR -->
             <div class="page-content-wrapper">
                 <div ng-class="{'page-content': !settings.layout.login}">
-                    <!-- BEGIN PAGE HEAD -->
-                    <div ng-if="!settings.layout.login" data-ng-include="'tpl/page-head.html'" data-ng-controller="PageHeadController" class="page-head"> </div>
-                    <!-- END PAGE HEAD -->
                     <!-- BEGIN ACTUAL CONTENT -->
                     <div ui-view class="fade-in-up"> </div>
                     <!-- END ACTUAL CONTENT -->

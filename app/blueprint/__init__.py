@@ -7,4 +7,9 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from .menus import bluepPrefix, bluep_sidebarMenu, bluep_header
+bluepPrefix='/api/_system'
+from .menus import *
+from .dashboard import *
+
+__all__ = ['bluepPrefix', 'bluepPrefix', 'bluep_sidebarMenu', 'bluep_header',
+        'bluep_dashboard']

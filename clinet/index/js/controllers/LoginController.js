@@ -2,6 +2,7 @@ angular.module('MetronicApp').controller('LoginController', ['$rootScope', '$sco
  '$http', 'UserService', 'Base64', function LoginController($rootScope, $scope, $location, $window, $http, UserService, Base64) {
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.login = true;
+    delete $window.sessionStorage.token;
 
     $scope.signIn = function signIn(username, password) {
         if (username != null && password != null) {

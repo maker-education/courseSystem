@@ -274,6 +274,31 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    // topics
+    .state('topics', {
+        url: "/topics",
+        templateUrl: "views/topics.html",
+        data: {pageTitle: '知识点'},
+        controller: "GeneralPageController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [                             
+                        '../assets/global/plugins/datatables/datatables.min.css', 
+                        '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                        '../assets/global/plugins/datatables/datatables.all.min.js',
+                        '../assets/pages/scripts/table-datatables-managed.min.js',
+                        'js/controllers/GeneralPageController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+
+
     // AngularJS plugins
     .state('fileupload', {
         url: "/file_upload.html",
