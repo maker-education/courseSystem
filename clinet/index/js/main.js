@@ -281,7 +281,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/morris/morris.min.js',
                         '../assets/global/plugins/morris/raphael-min.js',
                         '../assets/global/plugins/jquery.sparkline.min.js',
-
                         '../assets/pages/scripts/dashboard.min.js',
                         'js/controllers/DashboardController.js',
                     ] 
@@ -305,7 +304,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/datatables/datatables.min.css', 
                         '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                         '../assets/global/plugins/datatables/datatables.all.min.js',
-                        '../assets/pages/scripts/table-datatables-managed.js',
+                        '../assets/pages/scripts/table-datatables-managed.min.js',
                         'js/controllers/GeneralPageController.js'
                     ]
                 });

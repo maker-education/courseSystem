@@ -128,12 +128,16 @@ gulp.task('build', function () {
         .pipe(gulp.dest(build_dest));
     //js minify
     gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!./' + build_src + '/global/plugins/**/*'])
-        .pipe(minifyCss())
+        .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(build_dest));
     //plugins
     gulp.src([ build_src + '/global/plugins/**/*'])
         .pipe(gulp.dest( build_dest + '/global/plugins/'));
+    //img
+    gulp.src([ build_src + '/**/*.+(png|jpg)'])
+        .pipe(gulp.dest( build_dest ));
+
 });
 
 
