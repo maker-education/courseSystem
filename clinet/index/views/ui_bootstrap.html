@@ -358,7 +358,7 @@
                                 <div class="col-md-6">
                                     <p class="input-group">
                                         <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true"
-                                        close-text="Close" />
+                                            close-text="Close" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)">
                                                 <i class="glyphicon glyphicon-calendar"></i>
@@ -1156,11 +1156,11 @@
                             <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
                             <h4>Asynchronous results</h4> <pre>Model: {{asyncSelected | json}}</pre>
                             <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations"
-                            class="form-control">
+                                class="form-control">
                             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                             <h4>Custom templates for results</h4> <pre>Model: {{customSelected | json}}</pre>
                             <input type="text" ng-model="customSelected" placeholder="Custom template" typeahead="state as state.name for state in statesWithFlags | filter:{name:$viewValue}"
-                            typeahead-template-url="customTemplate.html" class="form-control"> </div>
+                                typeahead-template-url="customTemplate.html" class="form-control"> </div>
                     </div>
                     <div class="col-md-6">
                         <div class="scroller" style="height: 400px">

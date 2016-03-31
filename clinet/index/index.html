@@ -45,11 +45,10 @@
     <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
 
     <body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo
-            page-container-bg-solid page-sidebar-closed-hide-logo page-on-load"
-        ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed, 'login':
+            page-container-bg-solid page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed, 'login':
         settings.layout.login}">
         <!-- BEGIN PAGE SPINNER -->
-        <div ng-if="!settings.layout.login" ng-spinner-bar class="page-spinner-bar" >
+        <div ng-if="!settings.layout.login" ng-spinner-bar class="page-spinner-bar">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
