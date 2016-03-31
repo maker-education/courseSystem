@@ -27,5 +27,5 @@ def verify_password(username_or_token, password):
 
 @httpauth.error_handler
 def auth_error():
-    return jsonify({"error": "Not authenticated!"}), 203
+    return jsonify({"error": "Not authenticated!"}), 404
 

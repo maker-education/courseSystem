@@ -17,6 +17,7 @@ angular.module('MetronicApp').controller('LoginController', ['$rootScope', '$sco
                     alert("用户名或密码错误")
                 }
             }).error(function(status, data) {
+                alert("用户名或密码错误")
                 console.log(status);
                 console.log(data);
             });

@@ -35,13 +35,14 @@
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                 <li class="dropdown dropdown-user dropdown-dark">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <span class="username username-hide-on-mobile"> {{header.nick}}</span>
+                        <!-- username-hide-on-mobile -->
+                        <span class="username">{{header.nick}}</span>
                         <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                         <img alt="" class="img-circle" src="{{settings.layoutPath}}/img/avatar.png" /> </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li ng-repeat="menu in header.menus">
                             <a href="{{menu.link}}">
-                                <i class="{{menu.icon}}"></i> {{menu.name}}</a>
+                                <i class="{{menu.icon}}"></i>{{menu.name}}</a>
                         </li>
                         <li>
                             <a href="#" ng-click=logOut()>

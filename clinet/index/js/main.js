@@ -72,24 +72,38 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 *********************************************/
 
 /* Setup global settings */
-MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
-    // supported languages
-    var settings = {
-        layout: {
-            pageSidebarClosed: false, // sidebar menu state
-            pageContentWhite: true, // set page content layout
-            pageBodySolid: false, // solid body color state
-            pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
-        },
-        assetsPath: '../assets',
-        globalPath: '../assets/global',
-        layoutPath: '../assets/layouts/layout4',
-    };
+MetronicApp.factory('settings', ['$rootScope', '$window', '$location',
+    function($rootScope, $window, $location) {
+        // supported languages
+        var settings = {
+            layout: {
+                pageSidebarClosed: false, // sidebar menu state
+                pageContentWhite: true, // set page content layout
+                pageBodySolid: false, // solid body color state
+                pageAutoScrollOnLoad: 1000 // auto scroll to top on page load
+            },
+            assetsPath: '../assets',
+            globalPath: '../assets/global',
+            layoutPath: '../assets/layouts/layout4',
+        };
 
-    $rootScope.settings = settings;
+        $rootScope.settings = settings;
 
-    return settings;
-}]);
+        $.ajaxSetup({
+            global: true,
+            beforeSend:
+                function(request) {
+                    request.setRequestHeader("Authorization", 'Basic ' + $window.sessionStorage.token);
+                },
+            error:
+                function(xhr, status, e) {
+                    console.log(status);
+                    $location.path('/login');
+                }
+        });
+        return settings;
+    }
+]);
 
 MetronicApp.factory('TokenInterceptor', function ($q, $window, $location) {
     return {
@@ -118,10 +132,12 @@ MetronicApp.factory('TokenInterceptor', function ($q, $window, $location) {
 
         /* Revoke client authentication if 401 is received */
         responseError: function(rejection) {
-            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token )) {
-                delete $window.sessionStorage.token;
-                $location.path("/login");
-            }
+            if (rejection != null &&
+                (rejection.status === 401 || rejection.status === 404)
+               ) {
+                   delete $window.sessionStorage.token;
+                   $location.path("/login");
+               }
 
             return $q.reject(rejection);
         }
@@ -289,7 +305,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/datatables/datatables.min.css', 
                         '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                         '../assets/global/plugins/datatables/datatables.all.min.js',
-                        '../assets/pages/scripts/table-datatables-managed.min.js',
+                        '../assets/pages/scripts/table-datatables-managed.js',
                         'js/controllers/GeneralPageController.js'
                     ]
                 });

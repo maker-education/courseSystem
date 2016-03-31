@@ -11,6 +11,7 @@ from app.models import httpauth
 import json
 
 bluep_dashboard = Blueprint('dashboard', __name__)
+
 @bluep_dashboard.route('/dashboard', methods=['GET', 'POST'])
 @httpauth.login_required
 def dashboard():

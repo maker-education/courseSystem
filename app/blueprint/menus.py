@@ -11,6 +11,7 @@ from app.models import httpauth
 import json
 
 bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
+
 @bluep_sidebarMenu.route('/sidebarmenu', methods=['GET', 'POST'])
 @httpauth.login_required
 def menu():
@@ -18,6 +19,7 @@ def menu():
     return jsonify({'data':json_dict})
 
 bluep_header = Blueprint('header', __name__)
+
 @bluep_header.route('/header', methods=['GET', 'POST'])
 @httpauth.login_required
 def menu():

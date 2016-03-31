@@ -30,9 +30,10 @@ def create_app(appconfig):
     security = Security(app, user_datastore, login_form=MyLoginForm)
 
     #from app.blueprint.main import main as main_blueprint
-    app.register_blueprint(bluep_sidebarMenu, url_prefix=bluepPrefix)
-    app.register_blueprint(bluep_header, url_prefix=bluepPrefix)
-    app.register_blueprint(bluep_dashboard, url_prefix=bluepPrefix)
+    app.register_blueprint(bluep_sidebarMenu, url_prefix=bluepSystemPrefix)
+    app.register_blueprint(bluep_header, url_prefix=bluepSystemPrefix)
+    app.register_blueprint(bluep_dashboard, url_prefix=bluepSystemPrefix)
+    app.register_blueprint(bluep_topics, url_prefix=bluepTopicPrefix)
 
     #from app.blueprint.blog import blog as blog_blueprint
     #app.register_blueprint(blog_blueprint, url_prefix='/blog')
