@@ -116,13 +116,24 @@ gulp.task('prettify', function() {
             pipe(gulp.dest('./'));
 });
 
+var build_src = './assets_src';
+var build_dest = './assets';
+
 //*** CSS & JS minify task
 gulp.task('build', function () {
     // css minify 
-    gulp.src(['./assets/**/*.css', '!./assets/**/*.min.css', '!./assets/global/plugins/**/*']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
-
+    gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!./'+ build_src + '/global/plugins/**/*'])
+        .pipe(minifyCss())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(build_dest));
     //js minify
-    gulp.src(['./assets/**/*.js', '!./assets/**/*.min.js', '!./assets/global/plugins/**/*']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
+    gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!./' + build_src + '/global/plugins/**/*'])
+        .pipe(minifyCss())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(build_dest));
+    //plugins
+    gulp.src([ build_src + '/global/plugins/**/*'])
+        .pipe(gulp.dest( build_dest + '/global/plugins/'));
 });
 
 
