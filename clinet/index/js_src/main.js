@@ -257,8 +257,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/select2/js/select2.full.min.js',
                         '../assets/global/plugins/jquery.serializejson.min.js',
                         '../assets/pages/css/login-3.min.css',
-                        'js/controllers/LoginController.js',
-                        'js/services/LoginService.js',
+                        'js/controllers/LoginController.min.js',
+                        'js/services/LoginService.min.js',
                     ]
                 });
             }]
@@ -282,7 +282,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/morris/raphael-min.js',
                         '../assets/global/plugins/jquery.sparkline.min.js',
                         '../assets/pages/scripts/dashboard.min.js',
-                        'js/controllers/DashboardController.js',
+                        'js/controllers/DashboardController.min.js',
                     ] 
                 });
             }]
@@ -305,7 +305,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                         '../assets/global/plugins/datatables/datatables.all.min.js',
                         '../assets/pages/scripts/table-datatables-managed.min.js',
-                        'js/controllers/GeneralPageController.js'
+                        'js/controllers/GeneralPageController.min.js'
                     ]
                 });
             }]
@@ -330,7 +330,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }, {
                     name: 'MetronicApp',
                     files: [
-                        'js/controllers/GeneralPageController.js'
+                        'js/controllers/GeneralPageController.min.js'
                     ]
                 }]);
             }]

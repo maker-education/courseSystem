@@ -8,6 +8,9 @@ var minifyCss = require("gulp-minify-css");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var rtlcss = require("gulp-rtlcss");
+var del = require("del");
+var concat = require('gulp-concat');
+var ngAnnotate = require('gulp-ng-annotate');
 
 //*** SASS compiler task
 gulp.task('sass', function () {
@@ -119,15 +122,27 @@ gulp.task('prettify', function() {
 var build_src = './assets_src';
 var build_dest = './assets';
 
-//*** CSS & JS minify task
+var build_clinet_src = './index/js_src';
+var build_clinet_dest = './index/js';
+
+gulp.task('cbuild', function() {
+    gulp.src([ build_clinet_src + '/**/*.js'])
+        .pipe(ngAnnotate())
+        .pipe(uglify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest( build_clinet_dest));
+});
+
+//build
 gulp.task('build', function () {
+    del([build_dest, build_clinet_dest]);
     // css minify 
-    gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!./'+ build_src + '/global/plugins/**/*'])
+    gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!'+ build_src + '/global/plugins/**/*'])
         .pipe(minifyCss())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(build_dest));
     //js minify
-    gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!./' + build_src + '/global/plugins/**/*'])
+    gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!' + build_src + '/global/plugins/**/*'])
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(build_dest));
@@ -137,8 +152,37 @@ gulp.task('build', function () {
     //img
     gulp.src([ build_src + '/**/*.+(png|jpg)'])
         .pipe(gulp.dest( build_dest ));
-
+    //=====================================================
 });
 
+
+gulp.task('debug', function () {
+    del([build_dest, build_clinet_dest]);
+    // css minify 
+    gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!' + build_src + '/global/plugins/**/*'])
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(build_dest));
+    //js minify
+    gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!' + build_src + '/global/plugins/**/*'])
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(build_dest));
+    //plugins
+    gulp.src([ build_src + '/global/plugins/**/*'])
+        .pipe(gulp.dest( build_dest + '/global/plugins/'));
+    //img
+    gulp.src([ build_src + '/**/*.+(png|jpg)'])
+        .pipe(gulp.dest( build_dest ));
+
+    //=====================================================
+
+    gulp.src([ build_clinet_src + '/*.js'])
+        .pipe(concat('main.min.js'))
+        .pipe(gulp.dest( build_clinet_dest));
+
+    gulp.src([ build_clinet_src + '/**/*.js', '!' + build_clinet_src + '/*.js'])
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest( build_clinet_dest));
+
+});
 
 
