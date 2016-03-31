@@ -22,6 +22,7 @@
     "object-assign":"*",
     "vinyl-sourcemaps-apply":"*",
     "node-sass":"*",
-    "gulp-prettify":"*"
+    "gulp-prettify":"*",
+    "gulp-minify-html": "*"
   }
 }

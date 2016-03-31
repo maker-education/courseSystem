@@ -55,7 +55,6 @@ gulp.task('minify', function () {
     gulp.src(['./assets/pages/css/*.css','!./assets/pages/css/*.min.css']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));    
     gulp.src(['./assets/layouts/**/css/*.css','!./assets/layouts/**/css/*.min.css']).pipe(rename({suffix: '.min'})).pipe(minifyCss()).pipe(gulp.dest('./html'));
     gulp.src(['./assets/layouts/**/css/**/*.css','!./assets/layouts/**/css/**/*.min.css']).pipe(rename({suffix: '.min'})).pipe(minifyCss()).pipe(gulp.dest('./html'));
-
     gulp.src(['./assets/global/plugins/bootstrap/css/*.css','!./assets/global/plugins/bootstrap/css/*.min.css']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
 
     //js minify
@@ -116,3 +115,15 @@ gulp.task('prettify', function() {
         })).
             pipe(gulp.dest('./'));
 });
+
+//*** CSS & JS minify task
+gulp.task('build', function () {
+    // css minify 
+    gulp.src(['./assets/**/*.css', '!./assets/**/*.min.css', '!./assets/global/plugins/**/*']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
+
+    //js minify
+    gulp.src(['./assets/**/*.js', '!./assets/**/*.min.js', '!./assets/global/plugins/**/*']).pipe(minifyCss()).pipe(rename({suffix: '.min'})).pipe(gulp.dest('./html'));
+});
+
+
+
