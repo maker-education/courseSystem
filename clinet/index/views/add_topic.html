@@ -1,0 +1,38 @@
+<div ng-controller="AddTopicController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light form-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-puzzle font-purple"></i>
+                        <span class="caption-subject font-purple bold">编辑知识点</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form class="form-horizontal form-bordered">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">请用Markdown语法添加</label>
+                                <div class="col-md-10">
+                                    <input type="text" placeholder="知识名称" class="form-control c-square">
+                                    <textarea name="content" data-provide="markdown" rows="25"
+                                        id="markdown-textarea"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn dark">
+                                        <i class="fa fa-check"></i>保存</button>
+                                    <button type="button" class="btn default">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

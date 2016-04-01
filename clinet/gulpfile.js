@@ -50,6 +50,21 @@ gulp.task('sass:watch', function () {
     gulp.watch('./sass/**/*.scss', ['sass']);
 });
 
+
+gulp.task('plugins', function () {
+    // css minify 
+    gulp.src(['./assets/global/plugins/**/*.css','!./assets/global/plugins/bootstrap/css/*.min.css'])
+        .pipe(minifyCss()).pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./assets/global/plugins/'));
+
+    //js minify
+    gulp.src(['./assets/global/plugins/**/*.js','!./assets/global/plugins/bootstrap/css/*.min.js'])
+        .pipe(uglify()).pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./assets/global/plugins/'));
+});
+
+
+
 //*** CSS & JS minify task
 gulp.task('minify', function () {
     // css minify 
@@ -133,16 +148,22 @@ gulp.task('cbuild', function() {
         .pipe(gulp.dest( build_clinet_dest));
 });
 
+gulp.task('cdebug', function() {
+    gulp.src([ build_clinet_src + '/**/*.js'])
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest( build_clinet_dest));
+});
+
 //build
 gulp.task('build', function () {
     del([build_dest, build_clinet_dest]);
     // css minify 
-    gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!'+ build_src + '/global/plugins/**/*'])
+    gulp.src([ build_src + '/**/*.css', '!' + build_src + '/**/*.min.css', '!'+ build_src + '/global/plugins/**/*'])
         .pipe(minifyCss())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(build_dest));
     //js minify
-    gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!' + build_src + '/global/plugins/**/*'])
+    gulp.src( [build_src + '/**/*.js', '!' + build_src + '/**/*.min.js', '!' + build_src + '/global/plugins/**/*'])
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(build_dest));

@@ -166,6 +166,9 @@ MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope
         App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
+    $scope.goPath = function goPath(path) {
+        $location.path(path);
+    };
 }]);
 
 /***
@@ -289,6 +292,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('add_topic', {
+        url: "/add_topic",
+        templateUrl: "views/add_topic.html",            
+        data: {pageTitle: '添加知识点'},
+        controller: "AddTopicController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
+                        '../assets/global/plugins/bootstrap-markdown/lib/markdown.js',
+                        '../assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
+                        'js/controllers/AddTopicController.min.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+
     // topics
     .state('topics', {
         url: "/topics",
@@ -300,7 +325,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 return $ocLazyLoad.load({
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [                             
+                    files: [
                         '../assets/global/plugins/datatables/datatables.min.css', 
                         '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                         '../assets/global/plugins/datatables/datatables.all.min.js',

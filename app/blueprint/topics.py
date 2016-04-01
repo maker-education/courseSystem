@@ -14,7 +14,7 @@ bluep_topics = Blueprint('topics', __name__)
 
 @bluep_topics.route('/list', methods=['GET', 'POST'])
 @httpauth.login_required
-def menu():
+def list():
     a = {
             "recordsTotal": 57,
             "recordsFiltered": 57,
