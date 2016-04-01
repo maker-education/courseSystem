@@ -299,16 +299,23 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         controller: "AddTopicController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                    files: [
-                        '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                        '../assets/global/plugins/bootstrap-markdown/lib/markdown.js',
-                        '../assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
-                        'js/controllers/AddTopicController.min.js'
-                    ]
-                });
+                return $ocLazyLoad.load([
+                    {
+                        name: 'angularFileUpload',
+                        files: [
+                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+                        ]
+                    },
+                    {
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
+                            '../assets/global/plugins/bootstrap-markdown/lib/markdown.js',
+                            '../assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
+                            'js/controllers/AddTopicController.min.js'
+                        ]
+                    }]);
             }]
         }
     })

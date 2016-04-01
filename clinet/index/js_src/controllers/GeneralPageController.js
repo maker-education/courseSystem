@@ -10,4 +10,5 @@ angular.module('MetronicApp').controller('GeneralPageController', ['$rootScope',
             $rootScope.settings.layout.pageBodySolid = false;
             $rootScope.settings.layout.pageSidebarClosed = false;
         });
-}]);
+    }
+]);

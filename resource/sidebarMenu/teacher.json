@@ -13,13 +13,14 @@
                 "name": "知识点",
                 "submenus": [
                     {
-                        "name": "知识点库",
-                        "link": "#/topics",
-                    },
-                    {
                         "name": "添加知识点",
                         "link": "#/add_topic"
-                    }]
+                    },
+                    {
+                        "name": "知识点库",
+                        "link": "#/topics",
+                    }
+                ]
             },
             {
                 "name": "课程",
