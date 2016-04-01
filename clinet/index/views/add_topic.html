@@ -81,12 +81,14 @@
                                         </span>
                                     </td>
                                     <td nowrap>
-                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                        <button type="button" class="btn btn-success btn-xs"
+                                            ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                                             <span class="glyphicon glyphicon-upload"></span> 上传</button>
-                                        <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                        <button type="button" class="btn btn-warning btn-xs"
+                                            ng-click="item.cancel()" ng-disabled="!item.isUploading">
                                             <span class="glyphicon glyphicon-ban-circle"></span>
                                             取消</button>
-                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="removeItem(item)">
                                             <span class="glyphicon glyphicon-trash"></span> 删除</button>
                                     </td>
                                 </tr>

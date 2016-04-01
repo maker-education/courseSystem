@@ -9,9 +9,15 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             }
         );
 
+        var confirm_str = "确定要删除文件？";
+
         var uploader = $scope.uploader = new FileUploader(
             {
-                url: '../assets/global/plugins/angularjs/plugins/angular-file-upload/upload.php'
+                url: options.api.base_url + options.api.topics + "/upload",
+                headers: {
+                    Authorization : 'Basic ' + $window.sessionStorage.token
+                },
+                queueLimit: 100,
             }
         );
         // FILTERS
@@ -20,7 +26,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                 name: 'customFilter',
                 fn: function(item /*{File|FileLikeObject}*/ , options)
                 {
-                    return this.queue.length < 10;
+                    return this.queue.length < 20;
                 }
             }
         );
@@ -35,6 +41,9 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         uploader.onAfterAddingAll = function(addedFileItems) {
             console.info('onAfterAddingAll', addedFileItems);
+            var options = {isUploaded: true, isNotAddingAll:true};
+            uploader.addToQueue("a.jsld",options);
+            alert('All ');
         };
 
         uploader.onBeforeUploadItem = function(item) {
@@ -70,5 +79,19 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         };
 
         console.info('uploader', uploader);
+
+        $scope.removeItem = function removeItem(item) {
+            var result = confirm(confirm_str);
+            if(result){
+                item.remove();
+            }
+        }
+
+        $scope.removeAll = function removeAll(uploader) {
+            var result = confirm(confirm_str);
+            if(result){
+                uploader.clearQueue();
+            }
+        }
     }
 ]);

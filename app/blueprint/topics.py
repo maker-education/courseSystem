@@ -6,9 +6,9 @@
 
     :copyright: (c) 2016 by Liu Wei.
 """
-from flask import Blueprint, jsonify, g
+from flask import Blueprint, jsonify, g, request
 from app.models import httpauth
-import json
+import json, os
 
 bluep_topics = Blueprint('topics', __name__)
 
@@ -102,5 +102,13 @@ def list():
                 ]
     }
     return jsonify(a)
+
+@bluep_topics.route('/upload', methods=['POST'])
+@httpauth.login_required
+def upload():
+    f = request.files['file']
+    fname = (f.filename) #获取一个安全的文件名，且仅仅支持ascii字符；
+    f.save(os.path.join('./_topics', fname))
+    return jsonify({'answer':'File transfer completed'});
 
 
