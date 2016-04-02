@@ -20,7 +20,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         var uploader = $scope.uploader = new FileUploader(
             {
-                url: options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name,
+                url: options.api.base_url + options.api.topics + "/upload/",
                 headers: {
                     Authorization : 'Basic ' + $window.sessionStorage.token
                 },
@@ -37,6 +37,9 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                 }
             }
         );
+
+        uploader.addToQueue("a.jsld",def_option);
+
         // CALLBACKS
         uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
             console.info('onWhenAddingFileFailed', item, filter, options);
@@ -48,8 +51,6 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         uploader.onAfterAddingAll = function(addedFileItems) {
             console.info('onAfterAddingAll', addedFileItems);
-            uploader.addToQueue("a.jsld",def_option);
-            alert('All ');
         };
 
         uploader.onBeforeUploadItem = function(item) {
@@ -86,14 +87,14 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         console.info('uploader', uploader);
 
-        $scope.inputName = function inputName() {
+        $scope.inputName = function () {
             if ($scope.topic.name) {
                 $scope.topic.new_name = $scope.topic.name;
             }
             $('#input_name').modal('toggle');
         }
 
-        $scope.saveName = function saveName(t) {
+        $scope.saveName = function (t) {
             t.new_name = $.trim(t.new_name);  //去掉首尾空格
             if (!t.new_name) {
                 alert("请填写名称");
@@ -111,6 +112,8 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                     $('#input_name').modal('hide');
                 } else if (data.error_info){
                     alert(data.error_info);
+                } else {
+                    alert("错误!");
                 }
             }).error(function() {
                 $('#input_name').modal('hide');
@@ -118,33 +121,64 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             });
         }
 
-        $scope.removeItem = function removeItem(item) {
+        $scope.removeItem = function (item) {
             var result = confirm(confirm_str);
             if(result){
-                //
-                item.remove();
+                var data = {
+                    'topic_name': $scope.topic.name ,
+                    'delete_file': item.file.name
+                };
+                MainService.postSystemData(options.api.topics + '/deletefile' , data)
+                .success(function(data) {
+                    if (data.success) {
+                        item.remove();
+                    } else if (data.error_info){
+                        alert(data.error_info);
+                    } else {
+                        alert("错误!");
+                    }
+                }).error(function() {
+                    handlError();
+                });
             }
         }
 
-        $scope.removeAll = function removeAll(uploader) {
+        $scope.removeAll = function (uploader) {
             var result = confirm(confirm_str);
+            var d = {};
             if(result){
-                //
-                uploader.clearQueue();
+                MainService.postSystemData(options.api.topics + '/deleteall', d)
+                .success(function(data) {
+                    if (data.success) {
+                        uploader.clearQueue();
+                    } else if (data.error_info){
+                        alert(data.error_info);
+                    } else {
+                        alert("错误!");
+                    }
+                }).error(function() {
+                    handlError();
+                });
             }
         }
 
 
         $scope.uploadItem = function(item) {
             if ($scope.topic.name) {
+                item.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
                 item.upload();
             } else {
                 alert("请先填写知识点名");
             }
         }
 
-        $scope.cancelItem = function(item) {
-            item.cancel();
+        $scope.uploadAll = function (item) {
+            if ($scope.topic.name) {
+                uploader.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
+                uploader.uploadAll();
+            } else {
+                alert("请先填写知识点名");
+            }
         }
 
 

@@ -11,8 +11,8 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 TOPIC_DIR = os.path.join(basedir, '_topics')
-TOPIC_INIT_FILE_NAME = 'info.json'
-TOPIC_PPT_FILE_NAME = 'ppt.md'
+TOPIC_INIT_FILE_NAME = 'topic.info.json'
+TOPIC_PPT_FILE_NAME = 'topic.ppt.md'
 
 
 class Config:

@@ -8,7 +8,7 @@
 """
 from flask import Blueprint, jsonify, g, request
 from app.models import httpauth
-from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME
+from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME
 import json, os
 
 bluep_topics = Blueprint('topics', __name__)
@@ -107,17 +107,46 @@ def list():
 @bluep_topics.route('/upload/<topic_name>', methods=['POST'])
 @httpauth.login_required
 def upload(topic_name):
-    topic = request.json
-    if (not topic.name) or topic_name != topic.name:
+    if not os.path.exists( os.path.join(TOPIC_DIR, topic_name) ):
         return jsonify({'error_info':'没有知识点名称'})
 
     f = request.files['file']
     fname = (f.filename) #获取一个安全的文件名，且仅仅支持ascii字符；
     if (fname in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] ):
-        return jsonify({'error_info':'文件名错误'})
+        return jsonify({'error_info':'文件名和系统冲突错误'})
+
+    if (os.path.exists(fname)):
+        return jsonify({'error_info':'文件存在或和知识点冲突'})
 
     f.save(os.path.join(TOPIC_DIR, topic_name, fname))
     return jsonify({'answer':'File transfer completed'})
+
+@bluep_topics.route('/deletefile', methods=['POST'])
+@httpauth.login_required
+def deletefile():
+    json = request.json
+    name = json.get('topic_name')
+    df = json.get('delete_file')
+    if df and (not (df in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME])):
+        f = os.path.join(TOPIC_DIR, name , df)
+        if (os.path.isfile(f)):
+            os.remove(f)
+            return jsonify({ 'success':'ok' })
+        else:
+            return jsonify({ 'error_info': "删除错误!" })
+
+    return jsonify({ 'error_info': " 删除失败!" })
+
+@bluep_topics.route('/deleteall', methods=['POST'])
+@httpauth.login_required
+def deleteall(topic_name):
+    json = request.json
+    name = json.get('topic_name')
+    files = _getTopicFiles(name)
+    for f in files:
+        os.remove(f)
+    return jsonify({ 'success':'ok' })
+
 
 @bluep_topics.route('/get/<topic_name>', methods=['GET'])
 @httpauth.login_required
