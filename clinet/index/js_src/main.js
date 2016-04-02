@@ -155,21 +155,26 @@ MetronicApp.factory('MainService', function ($http) {
                 method: 'post',
                 url: options.api.base_url + options.api.system + url,
             });
+        },
+        postSystemData: function(url, post) {
+            return $http.post(options.api.base_url + url,  post );
         }
     }
 })
 
 
 /* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
-    $scope.$on('$viewContentLoaded', function() {
-        App.initComponents(); // init core components
-        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
-    });
-    $scope.goPath = function goPath(path) {
-        $location.path(path);
-    };
-}]);
+MetronicApp.controller('AppController', ['$scope', '$rootScope','$location',
+    function($scope, $rootScope, $location) {
+        $scope.$on('$viewContentLoaded', function() {
+            App.initComponents(); // init core components
+            //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+        });
+        $scope.goPath = function goPath(path) {
+            $location.path(path);
+        };
+    }
+]);
 
 /***
 Layout Partials.
@@ -313,6 +318,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
                             '../assets/global/plugins/bootstrap-markdown/lib/markdown.js',
                             '../assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
+                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
+                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
                             'js/controllers/AddTopicController.min.js'
                         ]
                     }]);
@@ -658,9 +665,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/select2/js/select2.full.min.js',
 
                         '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
                         '../assets/apps/scripts/todo-2.min.js',
-
                         'js/controllers/TodoController.js'  
                     ]
                 });

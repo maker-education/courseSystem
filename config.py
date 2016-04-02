@@ -8,7 +8,11 @@
 """
 
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+TOPIC_DIR = os.path.join(basedir, '_topics')
+TOPIC_INIT_FILE_NAME = 'info.json'
+TOPIC_PPT_FILE_NAME = 'ppt.md'
 
 
 class Config:
@@ -16,6 +20,7 @@ class Config:
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MAX_CONTENT_LENGTH = 50 * 1024 * 1024
 
     ''' Flask security '''
     SECURITY_PASSWORD_HASH = 'plaintext'

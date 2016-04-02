@@ -8,6 +8,7 @@
 """
 from flask import Blueprint, jsonify, g, request
 from app.models import httpauth
+from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME
 import json, os
 
 bluep_topics = Blueprint('topics', __name__)
@@ -103,12 +104,92 @@ def list():
     }
     return jsonify(a)
 
-@bluep_topics.route('/upload', methods=['POST'])
+@bluep_topics.route('/upload/<topic_name>', methods=['POST'])
 @httpauth.login_required
-def upload():
+def upload(topic_name):
+    topic = request.json
+    if (not topic.name) or topic_name != topic.name:
+        return jsonify({'error_info':'没有知识点名称'})
+
     f = request.files['file']
     fname = (f.filename) #获取一个安全的文件名，且仅仅支持ascii字符；
-    f.save(os.path.join('./_topics', fname))
-    return jsonify({'answer':'File transfer completed'});
+    if (fname in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] ):
+        return jsonify({'error_info':'文件名错误'})
+
+    f.save(os.path.join(TOPIC_DIR, topic_name, fname))
+    return jsonify({'answer':'File transfer completed'})
+
+@bluep_topics.route('/get/<topic_name>', methods=['GET'])
+@httpauth.login_required
+def get(topic_name):
+    files = _getTopicFiles(topic_name)
+    ppt_file = os.path.join(TOPIC_DIR, topic_name , TOPIC_PPT_FILE_NAME)
+    info_file = os.path.join(TOPIC_DIR, topic_name , TOPIC_INIT_FILE_NAME )
+    ppt = ''
+    info = {}
+    if (os.path.isfile(ppt_file)):
+        ppt = open(ppt_file).read()
+
+    if (os.path.isfile(info_file)):
+        try:
+            info = eval(open(info_file).read())
+        except:
+            info = {}
+
+    return jsonify({
+        'success':'ok',
+        'files': files,
+        'ppt':ppt,
+        'info': info
+    })
+
+
+@bluep_topics.route('/create/<path:topic_name>', methods=['POST'])
+@httpauth.login_required
+def create(topic_name):
+    topic = request.json
+    name = topic.get('name')
+    new_name = topic.get('new_name')
+    if (name and new_name and name != new_name):
+
+        if not os.path.exists( os.path.join(TOPIC_DIR, name) ):
+            return jsonify({
+                'error_info': "'" + name + "' 原知识点不存在!",
+                })
+
+        if os.path.exists( os.path.join(TOPIC_DIR, new_name) ):
+            return jsonify({
+                'error_info': "'" + topic_name + "' 知识点已经存在!",
+                })
+
+        try:
+            os.rename(os.path.join(TOPIC_DIR, name), os.path.join(TOPIC_DIR, new_name))
+        except:
+            return jsonify({'error_info': "'" + topic_name + "' 知识点更新失败!"})
+
+    else:
+        if os.path.exists( os.path.join(TOPIC_DIR, topic_name) ):
+            return jsonify({
+                'error_info': "'" + topic_name + "' 知识点已经存在!",
+                })
+
+        try:
+            os.makedirs(os.path.join(TOPIC_DIR, topic_name))
+        except:
+            return jsonify({'error_info': "'" + topic_name + "' 知识点创建失败!"})
+
+    files = _getTopicFiles(topic_name)
+    return jsonify({'success':'ok', 'files': files})
+
+def _getTopicFiles(tname):
+    files = []
+    root = os.path.join(TOPIC_DIR, tname)
+    for i in os.listdir(root):
+        if os.path.isfile(os.path.join(root,i)) and \
+                (not (i in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] )):
+            files.push(i)
+    return files
+
+
 
 
