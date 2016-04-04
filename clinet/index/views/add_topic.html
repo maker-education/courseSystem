@@ -15,11 +15,19 @@
                                 <label class="control-label col-md-2">请用Markdown语法添加
                                 </label>
                                 <div class="col-md-10">
+                                    <div class="help-block">
                                     <input type="text" placeholder="点击输入知识名称" class="form-control
                                     c-square" ng-click="inputName()" ng-model="topic.name"
                                     readonly="readonly">
+                                    </div>
+                                    <div class="help-block">
+                                    <input type="number" placeholder="预估时间/分钟" class="form-control
+                                    c-square" ng-model="topic.time" >
+                                    </div>
+                                    <div  class="help-block">
                                     <textarea name="content" data-provide="markdown" rows="25"
                                         id="markdown-textarea" ng-model="topic.md"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
