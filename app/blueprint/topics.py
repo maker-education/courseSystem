@@ -135,14 +135,14 @@ def deletefile():
 
     return jsonify({ 'error_info': " 删除失败!" })
 
-@bluep_topics.route('/deleteall', methods=['POST'])
+@bluep_topics.route('/deleteall/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
 def deleteall(topic_name):
-    json = request.json
-    name = json.get('topic_name')
-    files = _getTopicFiles(name)
+    files = _getTopicFiles(topic_name)
     for f in files:
-        os.remove(f)
+        df = os.path.join(TOPIC_DIR, topic_name, f)
+        if (os.path.isfile(f)):
+            os.remove(df)
     return jsonify({ 'success':'ok' })
 
 
@@ -226,7 +226,7 @@ def _getTopicFiles(tname):
         for i in os.listdir(root):
             if os.path.isfile(os.path.join(root,i)) and \
                     (not (i in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] )):
-                files.push(i)
+                files.append(i)
     return files
 
 

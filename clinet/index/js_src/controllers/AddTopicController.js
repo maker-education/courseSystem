@@ -122,6 +122,9 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         }
 
         $scope.removeItem = function (item) {
+            if (!$scope.topic.name) {
+                alert("请先输入知识点名称");
+            }
             var result = confirm(confirm_str);
             if(result){
                 var data = {
@@ -144,10 +147,13 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         }
 
         $scope.removeAll = function (uploader) {
+            if (!$scope.topic.name) {
+                alert("请先输入知识点名称");
+            }
             var result = confirm(confirm_str);
             var d = {};
             if(result){
-                MainService.postSystemData(options.api.topics + '/deleteall', d)
+                MainService.postSystemData(options.api.topics + '/deleteall/' + $scope.topic.name, d)
                 .success(function(data) {
                     if (data.success) {
                         uploader.clearQueue();
@@ -196,6 +202,14 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             })
             .error(handlError);
         };
+
+        $scope.saveppt = function(t) {
+            if (!t.name) {
+                alert("请先填写知识点名称");
+                return;
+            }
+
+        }
 
         //MainService.getSystemData('/').success(function(data){
         //    $scope.dashboard = data;
