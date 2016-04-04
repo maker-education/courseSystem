@@ -331,6 +331,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
                             '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
                             '../assets/global/plugins/filesaver/FileSaver.min.js',
+                            '../assets/global/plugins/utf8/utf8.min.js',
                             'js/controllers/AddTopicController.min.js'
                         ]
                     }]);

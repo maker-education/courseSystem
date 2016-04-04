@@ -210,6 +210,7 @@ def create(topic_name):
 
 
 @bluep_topics.route('/static/<path:topic>/<filename>', methods=['GET'])
+@httpauth.login_required
 def static(topic, filename):
     att = False
     if request.args.get('d'):

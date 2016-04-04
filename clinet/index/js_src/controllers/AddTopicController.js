@@ -2,7 +2,6 @@
 angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicController',
 ['$rootScope', '$scope', '$window', '$location', 'FileUploader', 'MainService', 'settings',
     function($rootScope, $scope, $window, $location, FileUploader, MainService, settings) {
-
         $scope.topic = {};
 
         var confirm_str = "确定要删除文件？";
@@ -166,14 +165,14 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         $scope.uploadItem = function(item) {
             if ($scope.topic.name) {
-                item.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
+                uploader.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
                 item.upload();
             } else {
                 alert("请先填写知识点名");
             }
         };
 
-        $scope.uploadAll = function (item) {
+        $scope.uploadAll = function (uploader) {
             if ($scope.topic.name) {
                 uploader.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
                 uploader.uploadAll();
@@ -185,22 +184,22 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         $scope.downloadfile = function (url) {
             MainService.httpgetSystemData(url)
             .success(function(data, status, hders) {
-                var regExp=new RegExp(/filename=(.*)/);
                 var f = hders('Content-Disposition');
                 var fs = [];
-                if (f) fs = f.match(regExp);
+                if (f) fs = f.match(/filename=(.*)/);
                 var filename = 'unknown';
-                if (fs.length > 1) filename = fs[1];
+                if (fs.length > 1) {
+                    filename = utf8.decode(fs[1]);
+                    filename = filename.replace(/[/\:*?"<>|]/g, "");
+                }
                 saveAs(data, filename, true);
             })
             .error(handlError);
         };
 
-
         //MainService.getSystemData('/').success(function(data){
         //    $scope.dashboard = data;
         //}).error(handlError);
         //
-
     }
 ]);
