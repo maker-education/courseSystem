@@ -158,7 +158,17 @@ MetronicApp.factory('MainService', function ($http) {
         },
         postSystemData: function(url, post) {
             return $http.post(options.api.base_url + url,  post );
+        },
+
+        httpgetSystemData: function(url) {
+            var turl = options.api.base_url + options.api.topics + '/static/' + url + '?d=1';
+            return $http({
+                method: 'GET',
+                url: turl,
+                responseType:'blob'
+            });
         }
+
     }
 })
 
@@ -195,10 +205,10 @@ MetronicApp.controller('HeaderController', ['$scope', '$location', '$window', 'M
         };
 
         $scope.header = [];
-        MainService.getSystemData('/header').success(function(data){
+        MainService.getSystemData('/header')
+        .success(function(data){
             $scope.header = data;
         }).error(handlError);
-
 
 }]);
 
@@ -320,6 +330,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             '../assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
                             '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
                             '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
+                            '../assets/global/plugins/filesaver/FileSaver.min.js',
                             'js/controllers/AddTopicController.min.js'
                         ]
                     }]);

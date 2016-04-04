@@ -64,11 +64,11 @@
                             <tbody>
                                 <tr ng-repeat="item in uploader.queue">
                                     <td>
-                                        <a ng-href="{{item.file.name}}" ng-if="item.isNotAddingAll ||
-                                            item.isSuccess">
+                                        <a ng-click="downloadfile(topic.name + '/' + item.file.name)"
+                                            ng-if="topic.name && (item.isNotAddingAll || item.isSuccess)">
                                             <strong > {{ item.file.name }} </strong>
                                         </a>
-                                        <strong ng-if="!(item.isNotAddingAll || item.isSuccess)">
+                                        <strong ng-if="!(topic.name && (item.isNotAddingAll || item.isSuccess))">
                                             {{ item.file.name }}
                                         </strong>
                                     </td>

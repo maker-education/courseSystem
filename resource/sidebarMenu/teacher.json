@@ -10,21 +10,43 @@
         "link": "javascript:;",
         "submenus": [
             {
-                "name": "知识点",
+                "name": "知识点库",
                 "submenus": [
                     {
                         "name": "添加知识点",
                         "link": "#/add_topic"
                     },
                     {
-                        "name": "知识点库",
+                        "name": "知识点列表",
                         "link": "#/topics",
                     }
                 ]
             },
             {
+                "name": "项目",
+                "submenus": [
+                    {
+                        "name": "创建项目",
+                        "link": "#"
+                    },
+                    {
+                        "name": "项目列表",
+                        "link": "#",
+                    }
+                ]
+            },
+            {
                 "name": "课程",
-                "link": "file_upload.html"
+                "submenus": [
+                    {
+                        "name": "创建课程",
+                        "link": "#"
+                    },
+                    {
+                        "name": "课程列表",
+                        "link": "#",
+                    }
+                ]
             }
         ]
     }

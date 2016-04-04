@@ -2,12 +2,8 @@
 angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicController',
 ['$rootScope', '$scope', '$window', '$location', 'FileUploader', 'MainService', 'settings',
     function($rootScope, $scope, $window, $location, FileUploader, MainService, settings) {
-        $("#markdown-textarea").markdown(
-            {
-                autofocus:false,
-                savable:false
-            }
-        );
+
+        $scope.topic = {};
 
         var confirm_str = "确定要删除文件？";
         var def_option = {
@@ -16,7 +12,12 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             isNotAddingAll:true
         };
 
-        $scope.topic = {};
+        $("#markdown-textarea").markdown(
+            {
+                autofocus:false,
+                savable:false
+            }
+        );
 
         var uploader = $scope.uploader = new FileUploader(
             {
@@ -160,7 +161,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                     handlError();
                 });
             }
-        }
+        };
 
 
         $scope.uploadItem = function(item) {
@@ -170,7 +171,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             } else {
                 alert("请先填写知识点名");
             }
-        }
+        };
 
         $scope.uploadAll = function (item) {
             if ($scope.topic.name) {
@@ -179,7 +180,21 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             } else {
                 alert("请先填写知识点名");
             }
-        }
+        };
+
+        $scope.downloadfile = function (url) {
+            MainService.httpgetSystemData(url)
+            .success(function(data, status, hders) {
+                var regExp=new RegExp(/filename=(.*)/);
+                var f = hders('Content-Disposition');
+                var fs = [];
+                if (f) fs = f.match(regExp);
+                var filename = 'unknown';
+                if (fs.length > 1) filename = fs[1];
+                saveAs(data, filename, true);
+            })
+            .error(handlError);
+        };
 
 
         //MainService.getSystemData('/').success(function(data){

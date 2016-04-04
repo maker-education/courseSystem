@@ -6,7 +6,7 @@
 
     :copyright: (c) 2016 by Liu Wei.
 """
-from flask import Blueprint, jsonify, g, request
+from flask import Blueprint, jsonify, g, request, send_from_directory
 from app.models import httpauth
 from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME
 import json, os
@@ -104,7 +104,7 @@ def list():
     }
     return jsonify(a)
 
-@bluep_topics.route('/upload/<topic_name>', methods=['POST'])
+@bluep_topics.route('/upload/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
 def upload(topic_name):
     if not os.path.exists( os.path.join(TOPIC_DIR, topic_name) ):
@@ -131,9 +131,7 @@ def deletefile():
         f = os.path.join(TOPIC_DIR, name , df)
         if (os.path.isfile(f)):
             os.remove(f)
-            return jsonify({ 'success':'ok' })
-        else:
-            return jsonify({ 'error_info': "删除错误!" })
+        return jsonify({ 'success':'ok' })
 
     return jsonify({ 'error_info': " 删除失败!" })
 
@@ -148,7 +146,7 @@ def deleteall(topic_name):
     return jsonify({ 'success':'ok' })
 
 
-@bluep_topics.route('/get/<topic_name>', methods=['GET'])
+@bluep_topics.route('/get/<path:topic_name>', methods=['GET'])
 @httpauth.login_required
 def get(topic_name):
     files = _getTopicFiles(topic_name)
@@ -210,13 +208,24 @@ def create(topic_name):
     files = _getTopicFiles(topic_name)
     return jsonify({'success':'ok', 'files': files})
 
+
+@bluep_topics.route('/static/<path:topic>/<filename>', methods=['GET'])
+def static(topic, filename):
+    att = False
+    if request.args.get('d'):
+        att = True
+    path = os.path.join(TOPIC_DIR, topic)
+    return send_from_directory(path, filename, as_attachment=att)
+
+
 def _getTopicFiles(tname):
     files = []
     root = os.path.join(TOPIC_DIR, tname)
-    for i in os.listdir(root):
-        if os.path.isfile(os.path.join(root,i)) and \
-                (not (i in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] )):
-            files.push(i)
+    if os.path.exists( root ):
+        for i in os.listdir(root):
+            if os.path.isfile(os.path.join(root,i)) and \
+                    (not (i in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] )):
+                files.push(i)
     return files
 
 
