@@ -204,11 +204,29 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         };
 
         $scope.saveppt = function(t) {
-            if (!t.name) {
-                alert("请先填写知识点名称");
+            if (!t.name || !t.time) {
+                alert("请先填写知识点名称和时间");
                 return;
             }
 
+            t.md = $('#markdown-textarea').val();
+
+            if (!t.md) {
+                alert("请先填写知识点内容");
+                return;
+            }
+
+            MainService.postSystemData( options.api.topics + '/savemd/' + t.name, t)
+            .success(function(data) {
+                if (data.success) {
+                    alert("保存成功!");
+                } else if (data.error_info){
+                    alert(data.error_info);
+                } else {
+                    alert("错误!");
+                }
+            })
+            .error(handlError);
         }
 
         //MainService.getSystemData('/').success(function(data){

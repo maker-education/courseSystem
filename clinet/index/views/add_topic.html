@@ -16,17 +16,18 @@
                                 </label>
                                 <div class="col-md-10">
                                     <div class="help-block">
-                                    <input type="text" placeholder="点击输入知识名称" class="form-control
-                                    c-square" ng-click="inputName()" ng-model="topic.name"
-                                    readonly="readonly">
+                                        <input type="text" placeholder="点击输入知识名称" class="form-control
+                                        c-square" ng-click="inputName()" ng-model="topic.name"
+                                        readonly="readonly">
                                     </div>
                                     <div class="help-block">
-                                    <input type="number" placeholder="预估时间/分钟" class="form-control
-                                    c-square" ng-model="topic.time" >
+                                        <input type="number" placeholder="预估时间/分钟" class="form-control
+                                        c-square" ng-model="topic.time" >
                                     </div>
                                     <div  class="help-block">
-                                    <textarea name="content" data-provide="markdown" rows="25"
-                                        id="markdown-textarea" ng-model="topic.md"></textarea>
+                                        <textarea data-provide="markdown" rows="25"
+                                            id="markdown-textarea" ng-model='topic.md'>
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -35,7 +36,7 @@
                             <div class="row">
                                 <div class="col-md-offset-2 col-md-10">
                                     <button type="submit" class="btn dark"
-                                        ng-click="saveppt()">
+                                        ng-click="saveppt(topic)">
                                         <i class="fa fa-check"></i>保存</button>
                                     <button type="button" class="btn default">取消</button>
                                 </div>
