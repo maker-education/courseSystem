@@ -6,7 +6,7 @@
 
     :copyright: (c) 2016 by Liu Wei.
 """
-from flask import Blueprint, jsonify, g, request, send_from_directory
+from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
 from app.models import httpauth
 from datetime import datetime
 from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME
@@ -253,8 +253,16 @@ def savemd(topic_name):
 
 
 @bluep_topics.route('/static/<path:topic>/<filename>', methods=['GET'])
-@httpauth.login_required
 def static(topic, filename):
+
+    if filename == 'index':
+        filepath = os.path.join( TOPIC_DIR, topic, TOPIC_PPT_FILE_NAME )
+        if (not os.path.isfile(filepath)):
+            return  "该知识点还未保存!"
+
+        c = dict(md = open(filepath).read(), t=topic)
+        return render_template('ppt_show.html', t=c)
+
     att = False
     if request.args.get('d'):
         att = True

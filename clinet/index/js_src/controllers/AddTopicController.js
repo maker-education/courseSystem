@@ -14,7 +14,32 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         $("#markdown-textarea").markdown(
             {
                 autofocus:false,
-                savable:false
+                savable:false,
+                hiddenButtons : 'cmdPreview',
+                additionalButtons: [
+                    [{
+                        name: "groupCustom",
+                        data: [{
+                            name: "cmdBeer",
+                            toggle: true, // this param only take effect if you load bootstrap.js
+                            title: "预览",
+                            hotkey: 'Ctrl+P',
+                            btnText: '预览',
+                            btnClass: 'btn btn-primary btn-sm',
+                            icon: { glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search',
+                                'fa-3': 'icon-search', octicons: 'octicon octicon-search' },
+                            callback: function(e){
+                                tn = $('#topic_name').val();
+                                if ( !tn ) {
+                                    alert("请先输入知识点名");
+                                    return;
+                                }
+                                window.open(options.api.base_url + options.api.topics +
+                                            '/static/' + tn + '/index');
+                            }
+                        }]
+                    }]
+                ]
             }
         );
 
