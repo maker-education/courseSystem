@@ -19,9 +19,12 @@ _PPT_NAME = 'md'
 _TOPIC_UPDATETIME_NAME = 'update_time'
 _TOPIC_CREATETIME_NAME = 'create_time'
 
-@bluep_topics.route('/list', methods=['GET', 'POST'])
+@bluep_topics.route('/list/<path:path>', methods=['GET', 'POST'])
 @httpauth.login_required
 def list():
+    '''
+    目前采用扁平方式，后期采用分层结构
+    '''
     a = {
             "recordsTotal": 57,
             "recordsFiltered": 57,
@@ -50,63 +53,7 @@ def list():
                     "start_date": "12th Jan 09",
                     "salary": "$86,000"
                     },
-                {
-                    "first_name": "Bradley",
-                    "last_name": "Greer",
-                    "position": "Software Engineer",
-                    "office": "London",
-                    "start_date": "13th Oct 12",
-                    "salary": "$132,000"
-                    },
-                {
-                    "first_name": "Brenden",
-                    "last_name": "Wagner",
-                    "position": "Software Engineer",
-                    "office": "San Francisco",
-                    "start_date": "7th Jun 11",
-                    "salary": "$206,850"
-                    },
-                {
-                    "first_name": "Brielle",
-                    "last_name": "Williamson",
-                    "position": "Integration Specialist",
-                    "office": "New York",
-                    "start_date": "2nd Dec 12",
-                    "salary": "$372,000"
-                    },
-                {
-                        "first_name": "Bruno",
-                        "last_name": "Nash",
-                        "position": "Software Engineer",
-                        "office": "London",
-                        "start_date": "3rd May 11",
-                        "salary": "$163,500"
-                        },
-                {
-                        "first_name": "Caesar",
-                        "last_name": "Vance",
-                        "position": "Pre-Sales Support",
-                        "office": "New York",
-                        "start_date": "12th Dec 11",
-                        "salary": "$106,450"
-                        },
-                {
-                        "first_name": "Cara",
-                        "last_name": "Stevens",
-                        "position": "Sales Assistant",
-                        "office": "New York",
-                        "start_date": "6th Dec 11",
-                        "salary": "$145,600"
-                        },
-                {
-                        "first_name": "Cedric",
-                        "last_name": "Kelly",
-                        "position": "Senior Javascript Developer",
-                        "office": "Edinburgh",
-                        "start_date": "29th Mar 12",
-                        "salary": "$433,060"
-                        }
-                ]
+               ]
     }
     return jsonify(a)
 

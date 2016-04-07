@@ -17,6 +17,7 @@ class Command:
         db.drop_all()
         db.create_all()
         role = Role(name = 'test')
+        group = Group(name = u'火星派')
         tu = User(name='test', password = 'ttt', nick=u'小明', active = True)
         tu2 = User(name='t', password = 'ttt', active = False)
         tu.roles.append(role)

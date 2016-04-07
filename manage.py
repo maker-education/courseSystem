@@ -16,7 +16,7 @@ from app import create_app
 from config import config as configs
 from command import Command
 from app.models import *
-from werkzeug.datastructures import Authorization
+#from werkzeug.datastructures import Authorization
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
