@@ -266,7 +266,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/login",
         templateUrl: "views/login.html",
         data: {pageTitle: '登录'},
-        controller: "LoginController",
+        //controller: "LoginController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
@@ -288,7 +288,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/dashboard",
         templateUrl: "views/dashboard.html",            
         data: {pageTitle: '总览'},
-        controller: "DashboardController",
+        //controller: "DashboardController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
@@ -311,7 +311,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/add_topic",
         templateUrl: "views/add_topic.html",            
         data: {pageTitle: '添加知识点'},
-        controller: "AddTopicController",
+        //controller: "AddTopicController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([

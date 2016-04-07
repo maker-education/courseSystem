@@ -63,8 +63,6 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             }
         );
 
-        uploader.addToQueue("a.jsld",def_option);
-
         // CALLBACKS
         uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
             console.info('onWhenAddingFileFailed', item, filter, options);
@@ -249,6 +247,30 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                     alert(data.error_info);
                 } else {
                     alert("错误!");
+                }
+            })
+            .error(handlError);
+        }
+
+
+        var search_tn = $location.search().tn;
+
+        if ( search_tn ) {
+            MainService.postSystemData( options.api.topics + '/get/' + search_tn, {})
+            .success(function (data) {
+                if (data.info && data.info.name) {
+                    $scope.topic.name = eval("'" + data.info.name + "'");
+                    if (data.info.time) {
+                        $scope.topic.time = data.info.time;
+                    }
+                    if (data.ppt) {
+                        $('#markdown-textarea').val(data.ppt);
+                    }
+                }
+                if (data.files) {
+                    for (var i=0; i < data.files.length; i++) {
+                        uploader.addToQueue(data.files[i],def_option);
+                    }
                 }
             })
             .error(handlError);

@@ -152,7 +152,7 @@ def deleteall(topic_name):
     return jsonify({ 'success':'ok' })
 
 
-@bluep_topics.route('/get/<path:topic_name>', methods=['GET'])
+@bluep_topics.route('/get/<path:topic_name>', methods=['GET', 'POST'])
 @httpauth.login_required
 def get(topic_name):
     files = _getTopicFiles(topic_name)
@@ -254,7 +254,6 @@ def savemd(topic_name):
 
 @bluep_topics.route('/static/<path:topic>/<filename>', methods=['GET'])
 def static(topic, filename):
-
     if filename == 'index':
         filepath = os.path.join( TOPIC_DIR, topic, TOPIC_PPT_FILE_NAME )
         if (not os.path.isfile(filepath)):
