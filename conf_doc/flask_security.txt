@@ -1,0 +1,4 @@
+forms.py:69: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+
+修改
+forms.py 55行修改为  class Required(ValidatorMixin, validators.DataRequired):

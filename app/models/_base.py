@@ -9,7 +9,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
-from flask.ext.security import SQLAlchemyUserDatastore
 from users import User, Role
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 

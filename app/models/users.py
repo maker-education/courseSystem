@@ -8,11 +8,8 @@
 """
 
 from ._base import db
-from flask.ext.security import Security, SQLAlchemyUserDatastore,\
-            UserMixin, RoleMixin, login_required
 from itsdangerous import (TimedJSONWebSignatureSerializer \
                                   as Serializer, BadSignature, SignatureExpired)
-from flask.ext.security import SQLAlchemyUserDatastore
 from datetime import datetime
 from config import Config
 
@@ -26,7 +23,7 @@ groups_users = db.Table('groups_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('group_id', db.Integer(), db.ForeignKey('group.id')))
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = "user"
 
     id =       db.Column(db.Integer, primary_key=True)
@@ -79,7 +76,7 @@ class User(db.Model, UserMixin):
         return user
 
 
-class Role(db.Model, RoleMixin):
+class Role(db.Model):
     __tablename__ = "role"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -89,7 +86,7 @@ class Role(db.Model, RoleMixin):
     def __repr__(self):
         return '<Role %r>' % self.name
 
-class Group(db.Model, RoleMixin):
+class Group(db.Model):
     __tablename__ = "group"
 
     id = db.Column(db.Integer, primary_key=True)

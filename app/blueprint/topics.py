@@ -7,9 +7,9 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
-from app.models import httpauth
+from app.models import httpauth, db, User
 from datetime import datetime
-from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME
+from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME, basedir
 import os, json
 
 bluep_topics = Blueprint('topics', __name__)
@@ -19,43 +19,82 @@ _PPT_NAME = 'md'
 _TOPIC_UPDATETIME_NAME = 'update_time'
 _TOPIC_CREATETIME_NAME = 'create_time'
 
+@bluep_topics.route('/list', methods=['GET', 'POST'])
+@httpauth.login_required
+def list_root():
+    #print request.form
+    return list('')
+
+
 @bluep_topics.route('/list/<path:path>', methods=['GET', 'POST'])
 @httpauth.login_required
-def list():
+def list_path(path):
+    return list(path)
+
+def list(path = ''):
     '''
     目前采用扁平方式，后期采用分层结构
     '''
-    a = {
-            "recordsTotal": 57,
-            "recordsFiltered": 57,
-            "data": [
-                {
-                    "first_name": "Airi",
-                    "last_name": "Satou",
-                    "position": "Accountant",
-                    "office": "Tokyo",
-                    "start_date": "28th Nov 08",
-                    "salary": "$162,700"
-                    },
-                {
-                    "first_name": "Angelica",
-                    "last_name": "Ramos",
-                    "position": "Chief Executive Officer (CEO)",
-                    "office": "London",
-                    "start_date": "9th Oct 09",
-                    "salary": "$1,200,000"
-                    },
-                {
-                    "first_name": "Ashton",
-                    "last_name": "Cox",
-                    "position": "Junior Technical Author",
-                    "office": "San Francisco",
-                    "start_date": "12th Jan 09",
-                    "salary": "$86,000"
-                    },
-               ]
-    }
-    return jsonify(a)
+    searh_path = os.path.join(TOPIC_DIR, path)
+    search = 'find ' + '-name "' + TOPIC_INIT_FILE_NAME + '"'
+
+    result = os.popen(search).readlines()
+    result.sort()
+    topics, num = auth_filter(result, g.user, 1, 3)
+
+    r = {
+            "recordsTotal": num,
+            "recordsFiltered": num,
+            "data": topics
+         }
+
+    return jsonify(r)
+
+def auth_filter(files, user, start = None, length = None):
+    id = 0
+    topics = []
+    for f in files :
+        f = os.path.join(basedir, f).strip('\n')
+        info = eval(open(f).read())
+        if not isAccess(info, user):
+            continue
+
+        if (not start )or (id >= start) and \
+                ((not length) or (id < start + length)) :
+            #再查询
+            query_one_user = db.session.query(User.nick).filter(User.id == info.get('author_id')).one_or_none()
+            if query_one_user:
+                info.update(autho_name=user.nick)
+            info.update(name=info.get('name').decode('raw_unicode_escape'))
+
+            topics.append(info)
+        id = id + 1
+
+    return topics, id
+
+def isAccess(info, user):
+    if not user:
+        return False
+
+    author_id = info.get('author_id')
+    if ( not author_id ) :
+        return False
+
+    info_group_id = None
+    u = db.session.query(User.own_group_id).filter(User.id == author_id).one_or_none()
+    if u :
+        info_group_id = u.own_group_id
+    else :
+        return False
+
+    if (info_group_id != user.own_group_id ):
+        for group in user.access_groups:
+            if (info_group_id == group.id):
+                return True
+        return False
+
+    return True
+
 
 @bluep_topics.route('/upload/<path:topic_name>', methods=['POST'])
 @httpauth.login_required

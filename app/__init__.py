@@ -8,8 +8,7 @@
 """
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.security import Security, SQLAlchemyUserDatastore
-from app.models import db, user_datastore, MyLoginForm
+from app.models import db
 from app.blueprint import *
 import datetime
 
@@ -27,7 +26,7 @@ def create_app(appconfig):
     db.app = app
 
     # Setup Flask-Security
-    security = Security(app, user_datastore, login_form=MyLoginForm)
+    #security = Security(app, user_datastore, login_form=MyLoginForm)
 
     #from app.blueprint.main import main as main_blueprint
     app.register_blueprint(bluep_sidebarMenu, url_prefix=bluepSystemPrefix)

@@ -266,7 +266,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/login",
         templateUrl: "views/login.html",
         data: {pageTitle: '登录'},
-        //controller: "LoginController",
+        controller: "LoginController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
