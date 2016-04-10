@@ -19,6 +19,7 @@ _PPT_NAME = 'md'
 _TOPIC_UPDATETIME_NAME = 'update_time'
 _TOPIC_CREATETIME_NAME = 'create_time'
 
+
 @bluep_topics.route('/list', methods=['GET', 'POST'])
 @httpauth.login_required
 def list_root():
@@ -36,11 +37,11 @@ def list(path = ''):
     目前采用扁平方式，后期采用分层结构
     '''
     searh_path = os.path.join(TOPIC_DIR, path)
-    search = 'find ' + '-name "' + TOPIC_INIT_FILE_NAME + '"'
+    search = 'find ' + searh_path  + ' -name "' + TOPIC_INIT_FILE_NAME + '"'
 
     result = os.popen(search).readlines()
     result.sort()
-    topics, num = auth_filter(result, g.user, 1, 3)
+    topics, num = auth_filter(result, g.user, request.form.get('start') , request.form.get('length'))
 
     r = {
             "recordsTotal": num,
@@ -50,24 +51,31 @@ def list(path = ''):
 
     return jsonify(r)
 
-def auth_filter(files, user, start = None, length = None):
+def auth_filter(files, user, start = 0, length = 50):
     id = 0
     topics = []
+
+    if (not start) : start = 0
+    else : start = int(start)
+
+    if (not length) or (length > 50): length = 50
+    else : length = int(length)
+
     for f in files :
         f = os.path.join(basedir, f).strip('\n')
         info = eval(open(f).read())
         if not isAccess(info, user):
             continue
 
-        if (not start )or (id >= start) and \
+        if (not start ) or (id >= start) and \
                 ((not length) or (id < start + length)) :
             #再查询
             query_one_user = db.session.query(User.nick).filter(User.id == info.get('author_id')).one_or_none()
             if query_one_user:
                 info.update(autho_name=user.nick)
             info.update(name=info.get('name').decode('raw_unicode_escape'))
-
             topics.append(info)
+
         id = id + 1
 
     return topics, id

@@ -311,7 +311,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/add_topic",
         templateUrl: "views/add_topic.html",            
         data: {pageTitle: '添加知识点'},
-        //controller: "AddTopicController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -345,7 +344,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/topics",
         templateUrl: "views/topics.html",
         data: {pageTitle: '知识点'},
-        controller: "GeneralPageController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
@@ -355,8 +353,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         '../assets/global/plugins/datatables/datatables.min.css', 
                         '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                         '../assets/global/plugins/datatables/datatables.all.min.js',
-                        '../assets/pages/scripts/table-datatables-managed.min.js',
-                        'js/controllers/GeneralPageController.min.js'
+                        'js/controllers/TopicController.min.js'
                     ]
                 });
             }]

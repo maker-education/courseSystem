@@ -25,9 +25,6 @@ def create_app(appconfig):
     db.init_app(app)
     db.app = app
 
-    # Setup Flask-Security
-    #security = Security(app, user_datastore, login_form=MyLoginForm)
-
     #from app.blueprint.main import main as main_blueprint
     app.register_blueprint(bluep_sidebarMenu, url_prefix=bluepSystemPrefix)
     app.register_blueprint(bluep_header, url_prefix=bluepSystemPrefix)

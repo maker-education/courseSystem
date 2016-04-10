@@ -141,6 +141,7 @@ var build_clinet_src = './index/js_src';
 var build_clinet_dest = './index/js';
 
 gulp.task('cbuild', function() {
+    del([build_dest]);
     gulp.src([ build_clinet_src + '/**/*.js'])
         .pipe(ngAnnotate())
         .pipe(uglify())
@@ -149,6 +150,7 @@ gulp.task('cbuild', function() {
 });
 
 gulp.task('cdebug', function() {
+    del([build_clinet_dest]);
     gulp.src([ build_clinet_src + '/**/*.js'])
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest( build_clinet_dest));
@@ -156,7 +158,7 @@ gulp.task('cdebug', function() {
 
 //build
 gulp.task('build', function () {
-    del([build_dest, build_clinet_dest]);
+    del([build_dest]);
     // css minify 
     gulp.src([ build_src + '/**/*.css', '!' + build_src + '/**/*.min.css', '!'+ build_src + '/global/plugins/**/*'])
         .pipe(minifyCss())
@@ -178,7 +180,7 @@ gulp.task('build', function () {
 
 
 gulp.task('debug', function () {
-    del([build_dest, build_clinet_dest]);
+    del([build_dest]);
     // css minify 
     gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!' + build_src + '/global/plugins/**/*'])
         .pipe(rename({suffix: '.min'}))
