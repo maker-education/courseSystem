@@ -61,5 +61,59 @@ MetronicApp.directive('dropdownMenuHover', function () {
     link: function (scope, elem) {
       elem.dropdownHover();
     }
-  };  
+  };
+});
+
+/* Handle datatables Plugin Integration */
+MetronicApp.directive('myTable', function() {
+    return function (scope, element, attrs) {
+        // apply DataTable options, use defaults if none specified by user
+        var options = {};
+        if (attrs.myTable.length > 0) {
+            options = scope.$eval(attrs.myTable);
+        } else {
+            options = {
+                "processing": true,
+                "serverSide": true,
+                "bSort": false,     //将来再支持排序
+                "bPaginate": true,
+                "lengthMenu": [
+                    [2, 25, 50,],
+                    [2, 25, 50,] // change per page values here
+                ],
+                // set the initial value
+                "pageLength": 5,
+                "columns": [
+                    { "data": "name" },
+                    { "data": "autho_name" },
+                    { "data": "time" },
+                    { "data": "create_time" },
+                    { "data": "update_time" },
+                ]
+                    ,
+                "columnDefs": [
+                    {
+                        "targets": [5],
+                        "data": "name",
+                        "render": function(data, type, full) {
+                            return "<a href='javascript:void(0);')'>预览</a>|" +
+                                   "<a href='javascript:void(0);')'>编辑</a>|" +
+                                   "<a href='javascript:void(0);')'>删除</a>";
+                        }
+                    }
+                ]
+            };
+        }
+
+        if (attrs.fnRowCallback) {
+            options["fnRowCallback"] = scope.$eval(attrs.fnRowCallback);
+        }
+
+        if (attrs.fnServerCallback) {
+            options["fnServerData"] = scope.$eval(attrs.fnServerCallback);
+        }
+
+        // apply the plugin
+        var dataTable = element.dataTable(options);
+    }
 });

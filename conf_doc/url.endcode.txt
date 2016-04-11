@@ -8,3 +8,17 @@ encodeURIComponent和decodeURIComponent 可以成对使用
 对应python的函数是urllib.quote 和 urllib.unquote，也可以成对使用
 
 在client端用encodeURIComponent编码，在服务器端可以用urllib.unquote解码
+
+
+
+代码laycode - v1.1
+关于这样的数据转换为中文问题，常用的以下方法。
+
+1. eval解析或new Function("'+ str +'")()
+
+str = eval("'" + str + "'"); // "我是unicode编码"
+1
+代码laycode - v1.1
+2. unescape 解析
+
+str = unescape(str.replace(/\u/g, "%u")); // "我是unicode编码"

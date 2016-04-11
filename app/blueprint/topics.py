@@ -63,7 +63,8 @@ def auth_filter(files, user, start = 0, length = 50):
 
     for f in files :
         f = os.path.join(basedir, f).strip('\n')
-        info = eval(open(f).read())
+        info = {"time": '未设'};
+        info.update(eval(open(f).read()))
         if not isAccess(info, user):
             continue
 
