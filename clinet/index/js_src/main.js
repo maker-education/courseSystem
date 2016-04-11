@@ -156,6 +156,7 @@ MetronicApp.factory('MainService', function ($http) {
                 url: options.api.base_url + options.api.system + url,
             });
         },
+
         postSystemData: function(url, post) {
             return $http.post(options.api.base_url + url,  post );
         },
@@ -168,7 +169,6 @@ MetronicApp.factory('MainService', function ($http) {
                 responseType:'blob'
             });
         }
-
     }
 })
 

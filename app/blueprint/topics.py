@@ -24,15 +24,15 @@ _TOPIC_CREATETIME_NAME = 'create_time'
 @httpauth.login_required
 def list_root():
     #print request.form
-    return list('')
+    return _list('')
 
 
 @bluep_topics.route('/list/<path:path>', methods=['GET', 'POST'])
 @httpauth.login_required
 def list_path(path):
-    return list(path)
+    return _list(path)
 
-def list(path = ''):
+def _list(path = ''):
     '''
     目前采用扁平方式，后期采用分层结构
     '''
@@ -41,7 +41,7 @@ def list(path = ''):
 
     result = os.popen(search).readlines()
     result.sort()
-    topics, num = auth_filter(result, g.user, request.form.get('start') , request.form.get('length'))
+    topics, num = _authFilter(result, g.user, request.form.get('start') , request.form.get('length'))
 
     r = {
             "recordsTotal": num,
@@ -51,7 +51,7 @@ def list(path = ''):
 
     return jsonify(r)
 
-def auth_filter(files, user, start = 0, length = 50):
+def _authFilter(files, user, start = 0, length = 50):
     id = 0
     topics = []
 
@@ -65,7 +65,7 @@ def auth_filter(files, user, start = 0, length = 50):
         f = os.path.join(basedir, f).strip('\n')
         info = {"time": '未设'};
         info.update(eval(open(f).read()))
-        if not isAccess(info, user):
+        if not _isAccess(info, user):
             continue
 
         if (not start ) or (id >= start) and \
@@ -81,13 +81,15 @@ def auth_filter(files, user, start = 0, length = 50):
 
     return topics, id
 
-def isAccess(info, user):
-    if not user:
-        return False
+def _isAccess(info, user, isAuthor = False):
+    if not user: return False
 
     author_id = info.get('author_id')
     if ( not author_id ) :
         return False
+
+    if (isAuthor):
+        return (user.id == author_id)
 
     info_group_id = None
     u = db.session.query(User.own_group_id).filter(User.id == author_id).one_or_none()
@@ -98,11 +100,28 @@ def isAccess(info, user):
 
     if (info_group_id != user.own_group_id ):
         for group in user.access_groups:
-            if (info_group_id == group.id):
-                return True
+            if (info_group_id == group.id): return True
         return False
 
     return True
+
+
+@bluep_topics.route('/deletetopic/<path:topic_name>', methods=['POST'])
+@httpauth.login_required
+def delTopic(topic_name):
+    f = os.path.join(TOPIC_DIR, topic_name, TOPIC_INIT_FILE_NAME);
+    info = eval(open(f).read())
+    if ( not request.json.get('code') or request.json.get('code') != info.get('create_time')):
+        print 'error time'
+
+    if _isAccess(info, g.user, True):
+        print 'ok'
+        pass
+    else:
+        print 'not'
+        pass
+
+    return jsonify({ 'success': "ok" })
 
 
 @bluep_topics.route('/upload/<path:topic_name>', methods=['POST'])
@@ -122,6 +141,7 @@ def upload(topic_name):
     f.save(os.path.join(TOPIC_DIR, topic_name, fname))
     return jsonify({'answer':'File transfer completed'})
 
+
 @bluep_topics.route('/deletefile', methods=['POST'])
 @httpauth.login_required
 def deletefile():
@@ -136,9 +156,10 @@ def deletefile():
 
     return jsonify({ 'error_info': " 删除失败!" })
 
+
 @bluep_topics.route('/deleteall/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
-def deleteall(topic_name):
+def deleteAll(topic_name):
     files = _getTopicFiles(topic_name)
     for f in files:
         df = os.path.join(TOPIC_DIR, topic_name, f)
@@ -263,6 +284,7 @@ def static(topic, filename):
     path = os.path.join(TOPIC_DIR, topic)
     return send_from_directory(path, filename, as_attachment=att)
 
+
 def _getTopicFiles(tname):
     files = []
     root = os.path.join(TOPIC_DIR, tname)
@@ -272,6 +294,7 @@ def _getTopicFiles(tname):
                     (not (i in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] )):
                 files.append(i)
     return files
+
 
 def _updateInfo(topic = None):
     if not g.user:
