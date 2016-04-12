@@ -16,6 +16,7 @@ bluep_topics = Blueprint('topics', __name__)
 
 _TIMEFORMAT = '%Y-%m-%d %H:%M:%S'
 _PPT_NAME = 'md'
+_TOPIC_AUTHORID_NAME = 'author_id'
 _TOPIC_UPDATETIME_NAME = 'update_time'
 _TOPIC_CREATETIME_NAME = 'create_time'
 
@@ -100,7 +101,7 @@ def _authFilter(files, user, start = 0, length = 50):
 def _isAccess(info, user, isAuthor = False):
     if not user: return False
 
-    author_id = info.get('author_id')
+    author_id = info.get(_TOPIC_AUTHORID_NAME)
     if ( not author_id ) :
         return False
 
@@ -315,7 +316,7 @@ def _updateInfo(topic = None):
         return False
 
     info = {
-        'author_id':g.user.id,
+        _TOPIC_AUTHORID_NAME :g.user.id,
         _TOPIC_CREATETIME_NAME:datetime.now().strftime(_TIMEFORMAT)
     }
 
@@ -326,6 +327,7 @@ def _updateInfo(topic = None):
         if (_PPT_NAME  in topic.keys()): del topic[_PPT_NAME]
         if ('new_name' in topic.keys()): del topic['new_name']
         if (_TOPIC_CREATETIME_NAME in topic.keys()): del topic[_TOPIC_CREATETIME_NAME]
+        if (_TOPIC_AUTHORID_NAME in topic.keys()): del topic[_TOPIC_AUTHORID_NAME] #防止修改权限
         topic[_TOPIC_UPDATETIME_NAME] = datetime.now().strftime(_TIMEFORMAT)
         init_file = os.path.join(TOPIC_DIR, topic_name, TOPIC_INIT_FILE_NAME)
 
