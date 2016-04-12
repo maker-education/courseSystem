@@ -32,22 +32,35 @@ def list_root():
 def list_path(path):
     return _list(path)
 
+def _list_find(l, name):
+    for i in l:
+        if (i.get('name')) and (i.get('name') == name): return i.get('value')
+    return None
+
+
 def _list(path = ''):
-    '''
-    目前采用扁平方式，后期采用分层结构
-    '''
+    filter = '*'
+    req_search = _list_find(request.json,'search')
+    if req_search and req_search.get('value'):
+        filter = '*' + req_search.get('value') + '*'
+
+    #目前采用扁平方式，后期采用分层结构
     searh_path = os.path.join(TOPIC_DIR, path)
-    search = 'find ' + searh_path  + ' -name "' + TOPIC_INIT_FILE_NAME + '"'
+
+    #search = 'find ' + searh_path  + ' -name "' + TOPIC_INIT_FILE_NAME + '"'
+    # 使用locate速度更快
+    search = 'locate ' + searh_path  + filter + '/' + TOPIC_INIT_FILE_NAME
 
     result = os.popen(search).readlines()
     result.sort()
-    topics, num = _authFilter(result, g.user, request.form.get('start') , request.form.get('length'))
+    topics, num = _authFilter(result, g.user, _list_find(request.json,'start'), \
+            _list_find(request.json,'length'))
 
     r = {
             "recordsTotal": num,
             "recordsFiltered": num,
             "data": topics
-         }
+            }
 
     return jsonify(r)
 
@@ -68,8 +81,7 @@ def _authFilter(files, user, start = 0, length = 50):
         if not _isAccess(info, user):
             continue
 
-        if (not start ) or (id >= start) and \
-                ((not length) or (id < start + length)) :
+        if ((not start ) or (id >= start)) and ((not length) or (id < start + length)) :
             #再查询
             query_one_user = db.session.query(User.nick).filter(User.id == info.get('author_id')).one_or_none()
             if query_one_user:
@@ -112,15 +124,12 @@ def delTopic(topic_name):
     f = os.path.join(TOPIC_DIR, topic_name, TOPIC_INIT_FILE_NAME);
     info = eval(open(f).read())
     if ( not request.json.get('code') or request.json.get('code') != info.get('create_time')):
-        print 'error time'
+        return jsonify({'error_info':'错误'})
 
-    if _isAccess(info, g.user, True):
-        print 'ok'
-        pass
-    else:
-        print 'not'
-        pass
+    if not _isAccess(info, g.user, True):
+        return jsonify({'error_info':'您没有权限'})
 
+    #
     return jsonify({ 'success': "ok" })
 
 
