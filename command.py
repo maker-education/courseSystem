@@ -21,7 +21,8 @@ class Command:
         g2 = Group(name = u'童趣大未来')
         tu = User(name='test', password = 'ttt', nick=u'小明', own_group = g1,
                 access_groups = [g1, g2],  active = True)
-        tu2 = User(name='t', password = 'ttt', active = False)
+        tu2 = User(name='t2', password = 'ttt', nick=u'小张', own_group = g2,
+                access_groups = [g1],  active = True)
         tu.roles.append(role)
         tu2.roles.append(role)
         db.session.commit()
