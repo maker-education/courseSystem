@@ -78,8 +78,8 @@ MetronicApp.directive('myTable', function() {
                 "bSort": false,     //将来再支持排序
                 "bPaginate": true,
                 "lengthMenu": [
-                    [5, 25, 50,],
-                    [5, 25, 50,] // change per page values here
+                    [2, 5, 50,],
+                    [2, 5, 50,] // change per page values here
                 ],
                 // set the initial value
                 "pageLength": 5,

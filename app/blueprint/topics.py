@@ -10,7 +10,7 @@ from flask import Blueprint, jsonify, g, request, send_from_directory, render_te
 from app.models import httpauth, db, User
 from datetime import datetime
 from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME, basedir
-import os, json
+import os, json, shutil
 
 bluep_topics = Blueprint('topics', __name__)
 
@@ -39,7 +39,8 @@ def _list_find(l, name):
 
 
 def _list(path = ''):
-    filter = '*'
+    #filter = '*'
+    filter = None
     req_search = _list_find(request.json,'search')
     if req_search and req_search.get('value'):
         filter = '*' + req_search.get('value') + '*'
@@ -47,9 +48,12 @@ def _list(path = ''):
     #目前采用扁平方式，后期采用分层结构
     searh_path = os.path.join(TOPIC_DIR, path)
 
-    #search = 'find ' + searh_path  + ' -name "' + TOPIC_INIT_FILE_NAME + '"'
-    # 使用locate速度更快
-    search = 'locate ' + searh_path  + filter + '/' + TOPIC_INIT_FILE_NAME
+    # 使用locate速度更快, 但需要updatedb
+    #search = 'locate ' + searh_path  + filter + '' + TOPIC_INIT_FILE_NAME
+    if filter:
+        search = 'find ' + searh_path  + ' -name "' + TOPIC_INIT_FILE_NAME + '" -path "' + filter + '"'
+    else:
+        search = 'find ' + searh_path  + ' -name "' + TOPIC_INIT_FILE_NAME + '"'
 
     result = os.popen(search).readlines()
     result.sort()
@@ -60,7 +64,7 @@ def _list(path = ''):
             "recordsTotal": num,
             "recordsFiltered": num,
             "data": topics
-            }
+        }
 
     return jsonify(r)
 
@@ -129,7 +133,8 @@ def delTopic(topic_name):
     if not _isAccess(info, g.user, True):
         return jsonify({'error_info':'您没有权限'})
 
-    #
+    #delete
+    shutil.rmtree(os.path.join(TOPIC_DIR, topic_name))
     return jsonify({ 'success': "ok" })
 
 
