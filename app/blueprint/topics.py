@@ -10,13 +10,14 @@ from flask import Blueprint, jsonify, g, request, send_from_directory, render_te
 from app.models import httpauth, db, User
 from datetime import datetime
 from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME, basedir
-import os, json, shutil
+import os, json, shutil, uuid
 
 bluep_topics = Blueprint('topics', __name__)
 
 _TIMEFORMAT = '%Y-%m-%d %H:%M:%S'
 _PPT_NAME = 'md'
 _TOPIC_AUTHORID_NAME = 'author_id'
+_TOPIC_UUID_NAME = 'uuid'
 _TOPIC_UPDATETIME_NAME = 'update_time'
 _TOPIC_CREATETIME_NAME = 'create_time'
 
@@ -317,7 +318,8 @@ def _updateInfo(topic = None):
 
     info = {
         _TOPIC_AUTHORID_NAME :g.user.id,
-        _TOPIC_CREATETIME_NAME:datetime.now().strftime(_TIMEFORMAT)
+        _TOPIC_CREATETIME_NAME :datetime.now().strftime(_TIMEFORMAT),
+        _TOPIC_UUID_NAME : uuid.uuid1().hex
     }
 
     topic_name = None
@@ -328,6 +330,7 @@ def _updateInfo(topic = None):
         if ('new_name' in topic.keys()): del topic['new_name']
         if (_TOPIC_CREATETIME_NAME in topic.keys()): del topic[_TOPIC_CREATETIME_NAME]
         if (_TOPIC_AUTHORID_NAME in topic.keys()): del topic[_TOPIC_AUTHORID_NAME] #防止修改权限
+        if (_TOPIC_UUID_NAME in topic.keys()): del topic[_TOPIC_UUID_NAME]
         topic[_TOPIC_UPDATETIME_NAME] = datetime.now().strftime(_TIMEFORMAT)
         init_file = os.path.join(TOPIC_DIR, topic_name, TOPIC_INIT_FILE_NAME)
 

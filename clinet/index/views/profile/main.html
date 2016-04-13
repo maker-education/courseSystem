@@ -7,12 +7,13 @@
             <div class="portlet light profile-sidebar-portlet">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <img src="{{settings.assetsPath}}/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div>
+                <img ng-src="{{user.img_src}}" class="img-responsive" alt=""> </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name"> 小明</div>
-                    <div class="profile-usertitle-job"> 学生 </div>
+                    <div class="profile-usertitle-name">{{ user.nick }}</div>
+                    <div class="profile-usertitle-job" ng-repeat="rname in user.role_names">
+                        {{rname}}</div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS -->

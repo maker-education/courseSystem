@@ -38,7 +38,7 @@
                         <!-- username-hide-on-mobile -->
                         <span class="username">{{header.nick}}</span>
                         <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-                        <img alt="" class="img-circle" src="{{settings.layoutPath}}/img/avatar.png" /> </a>
+                        <img alt="" class="img-circle" ng-src="{{header.img_src}}" /> </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li ng-repeat="menu in header.menus">
                             <a href="{{menu.link}}">

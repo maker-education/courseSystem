@@ -13,6 +13,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 TOPIC_DIR = os.path.join(basedir, '_topics')
 TOPIC_INIT_FILE_NAME = 'topic.info.json'
 TOPIC_PPT_FILE_NAME = 'topic.ppt.md'
+DEFAULT_PERSON_IMG_PATH = '/_avatar/_0.jpg'
 
 
 class Config:

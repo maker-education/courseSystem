@@ -16,7 +16,7 @@ class Command:
         """Run the init database."""
         db.drop_all()
         db.create_all()
-        role = Role(name = 'test')
+        role = Role(name = '老师')
         g1 = Group(name = u'火星派')
         g2 = Group(name = u'童趣大未来')
         tu = User(name='test', password = 'ttt', nick=u'小明', own_group = g1,

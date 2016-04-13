@@ -169,6 +169,14 @@ MetronicApp.factory('MainService', function ($http) {
                 url: turl,
                 responseType:'blob'
             });
+        },
+
+        httpgetSystemUser: function() {
+            var turl = options.api.base_url + options.api.userinfo;
+            return $http({
+                method: 'GET',
+                url: turl,
+            });
         }
     }
 })
@@ -622,7 +630,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state("profile", {
         url: "/profile",
         templateUrl: "views/profile/main.html",
-        data: {pageTitle: 'User Profile'},
+        data: {pageTitle: '用户设置'},
         controller: "UserProfileController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
