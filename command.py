@@ -21,13 +21,23 @@ class Command:
         g2 = Group(name = u'童趣大未来')
         tu = User(name='test', password = 'ttt', nick=u'小明', own_group = g1,
                 access_groups = [g1, g2],  active = True)
+
         tu2 = User(name='t2', password = 'ttt', nick=u'小张', own_group = g2,
                 access_groups = [g1],  active = True)
+
+        tu3 = User(name='t3', password = 'ttt', nick=u'小张', own_group = g2,
+                access_groups = [g1],  active = True)
+
+        tu4 = User(name='t4', password = 'ttt', nick=u'小明', own_group = g1,
+                access_groups = [g1, g2],  active = True)
+
         tu.roles.append(role)
         tu2.roles.append(role)
         db.session.commit()
         db.session.add(tu)
         db.session.add(tu2)
+        db.session.add(tu3)
+        db.session.add(tu4)
         db.session.commit()
 
         ''' 读取等级文件 添加到数据库 '''

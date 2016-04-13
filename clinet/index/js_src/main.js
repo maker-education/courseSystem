@@ -12,7 +12,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ui.router",
     "ui.bootstrap",
     "oc.lazyLoad",
-    "ngSanitize"
+    "ngSanitize",
+    "ngResource"
 ]); 
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -171,6 +172,17 @@ MetronicApp.factory('MainService', function ($http) {
         }
     }
 })
+
+MetronicApp.factory('User', function ($resource, $http) {
+    return  $resource('http://jsonstub.com/resource/:user_id', {}, {
+        show: { method: 'GET', params: { user_id: '@id' } },
+        update: { method: 'PUT', params: { user_id: '@id' } },
+        delete: { method: 'DELETE', params: { user_id: '@id' } },
+        query: { method: 'GET', isArray: true },
+        create: { method: 'POST' }
+    })
+})
+
 
 
 /* Setup App Main Controller */
@@ -619,14 +631,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
                         '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                        '../assets/pages/css/profile.css',
+                        '../assets/pages/css/profile.min.css',
 
                         '../assets/global/plugins/jquery.sparkline.min.js',
                         '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
                         '../assets/pages/scripts/profile.min.js',
-
-                        'js/controllers/UserProfileController.js'
+                        'js/controllers/UserProfileController.min.js'
                     ]
                 });
             }]
@@ -644,7 +655,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state("profile.account", {
         url: "/account",
         templateUrl: "views/profile/account.html",
-        data: {pageTitle: 'User Account'}
+        data: {pageTitle: '用户管理'}
     })
 
     // User Profile Help

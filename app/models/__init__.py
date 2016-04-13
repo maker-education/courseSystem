@@ -10,5 +10,5 @@ from ._base import db
 from .users import User, Role, Group
 from .levels import Level
 from .post import Post
-from .auth import httpauth
+from .auth import httpauth, opUserAuth, user_op_auth_fun_dict
 
