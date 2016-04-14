@@ -20,15 +20,15 @@
                         <form action="#">
                             <div class="form-group">
                                 <label class="control-label">当前密码</label>
-                                <input type="password" class="form-control" /> </div>
+                                <input type="password" class="form-control" ng-model='old_passwd' /> </div>
                             <div class="form-group">
                                 <label class="control-label">新密码</label>
-                                <input type="password" class="form-control" /> </div>
+                                <input type="password" class="form-control" ng-model='user.password' /> </div>
                             <div class="form-group">
                                 <label class="control-label">新密码确认</label>
-                                <input type="password" class="form-control" /> </div>
+                                <input type="password" class="form-control" ng-model='passwd' /> </div>
                             <div class="margin-top-10">
-                                <a href="#" class="btn green-haze">修改</a>
+                                <a ng-click="changePasswd(old_passwd, passwd, user)" href="#" class="btn green-haze">修改</a>
                             </div>
                         </form>
                     </div>

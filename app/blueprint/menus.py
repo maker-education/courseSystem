@@ -9,7 +9,7 @@
 from flask import Blueprint, jsonify, g
 from app.models import httpauth
 from config import DEFAULT_PERSON_IMG_PATH
-import json
+import json, os
 
 bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
 

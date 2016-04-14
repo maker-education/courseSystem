@@ -180,29 +180,10 @@ gulp.task('build', function () {
 
 
 gulp.task('debug', function () {
-    del([build_dest]);
-    // css minify 
-    gulp.src([ build_src + '/**/*.css', '!./assets/**/*.min.css', '!' + build_src + '/global/plugins/**/*'])
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(build_dest));
-    //js minify
-    gulp.src( [build_src + '/**/*.js', '!./assets/**/*.min.js', '!' + build_src + '/global/plugins/**/*'])
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(build_dest));
-    //plugins
-    gulp.src([ build_src + '/global/plugins/**/*'])
-        .pipe(gulp.dest( build_dest + '/global/plugins/'));
-    //img
-    gulp.src([ build_src + '/**/*.+(png|jpg)'])
-        .pipe(gulp.dest( build_dest ));
-
-    //=====================================================
-
-    gulp.src([ build_clinet_src + '/*.js'])
-        .pipe(concat('main.min.js'))
-        .pipe(gulp.dest( build_clinet_dest));
-
+    del([build_clinet_dest]);
     gulp.src([ build_clinet_src + '/**/*.js', '!' + build_clinet_src + '/*.js'])
+        .pipe(ngAnnotate())
+        .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest( build_clinet_dest));
 

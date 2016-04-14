@@ -181,13 +181,13 @@ MetronicApp.factory('MainService', function ($http) {
     }
 })
 
-MetronicApp.factory('User', function ($resource, $http) {
-    return  $resource('http://jsonstub.com/resource/:user_id', {}, {
-        show: { method: 'GET', params: { user_id: '@id' } },
-        update: { method: 'PUT', params: { user_id: '@id' } },
-        delete: { method: 'DELETE', params: { user_id: '@id' } },
+MetronicApp.factory('DBObject', function ($resource, $http) {
+    return  $resource( options.api.base_url + '/:object/:user_id', {}, {
+        show: { method: 'GET', params: { object: '@o', user_id: '@id',  } },
+        update: { method: 'PUT', params: { object: '@o', user_id: '@id',  } },
+        delete: { method: 'DELETE', params: { object: '@o', user_id: '@id', } },
         query: { method: 'GET', isArray: true },
-        create: { method: 'POST' }
+        create: { method: 'POST', params: { object: '@o', user_id: '@id', } }
     })
 })
 
@@ -631,7 +631,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         url: "/profile",
         templateUrl: "views/profile/main.html",
         data: {pageTitle: '用户设置'},
-        controller: "UserProfileController",
+        //controller: "UserProfileController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({

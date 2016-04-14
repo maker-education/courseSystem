@@ -36,7 +36,7 @@ def get_auth_token():
 
 
 apimanager = APIManager(app, flask_sqlalchemy_db=db)
-apimanager.create_api(User, methods = ['GET', 'POST', 'DELETE'],\
+apimanager.create_api(User, methods = ['GET', 'POST', 'DELETE', 'PUT'],\
         preprocessors = user_op_auth_fun_dict, exclude_columns=['password'])
 
 def make_shell_context():

@@ -14,11 +14,11 @@ import os
 
 bluep_cuser = Blueprint('cuser', __name__)
 
-@bluep_cuser.route('/', methods=['GET', 'POST'])
+@bluep_cuser.route('/', methods=['GET'])
 @httpauth.login_required
 def cuser():
-    #db.session.query(User.nick, User.name, User.id).filter(User.id == g.user.id).one_or_none()
     user = g.user
+    #_passdb.session.query(User.nick, User.name, User.id).filter(User.id == g.user.id).one_or_none()
     img_path = user.img_path if (user.img_path and os.path.isfile(user.img_path)) else DEFAULT_PERSON_IMG_PATH
     u = {
         "id" : user.id,
@@ -26,9 +26,19 @@ def cuser():
         "nick" : user.nick,
         "nick" : user.nick,
         "role_names" : role_names(user.roles),
-        "img_src" : img_path,
+        "img_path" : img_path,
         }
     return jsonify(u)
+
+
+@bluep_cuser.route('/cpd', methods=['POST'])
+@httpauth.login_required
+def changepd():
+    passwd = request.json.get('passwd')
+    if passwd and passwd == g.user.password :
+        return jsonify({ 'success':'ok' })
+    else :
+        return jsonify({ 'error_info':'密码错误' })
 
 
 def role_names(roles):
@@ -37,3 +47,4 @@ def role_names(roles):
         rol_names.append(r.name)
 
     return rol_names
+

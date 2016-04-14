@@ -9,5 +9,9 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
-from users import User, Role
+def db2dic(db) :
+    d = {}
+    for column in row.__table__.columns:
+        d[column.name] = str(getattr(row, column.name))
 
+    return d
