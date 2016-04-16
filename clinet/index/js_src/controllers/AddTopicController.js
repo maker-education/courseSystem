@@ -4,7 +4,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
     function($rootScope, $scope, $window, $location, FileUploader, MainService, settings) {
         $scope.topic = {};
 
-        var confirm_str = "确定要删除文件？";
+        var confirm_str = "确定要删除文件？输入'ok'";
         var def_option = {
             isUploaded : true,
             isSuccess : true,
@@ -147,9 +147,10 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         $scope.removeItem = function (item) {
             if (!$scope.topic.name) {
                 alert("请先输入知识点名称");
+                return;
             }
-            var result = confirm(confirm_str);
-            if(result){
+            var result = prompt(confirm_str);
+            if(result == 'ok'){
                 var data = {
                     'topic_name': $scope.topic.name ,
                     'delete_file': item.file.name
@@ -166,6 +167,8 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                 }).error(function() {
                     handlError();
                 });
+            } else {
+                alert("输入不正确");
             }
         }
 
@@ -173,9 +176,9 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
             if (!$scope.topic.name) {
                 alert("请先输入知识点名称");
             }
-            var result = confirm(confirm_str);
             var d = {};
-            if(result){
+            var result = prompt(confirm_str);
+            if(result == 'ok'){
                 MainService.postSystemData(options.api.topics + '/deleteall/' + $scope.topic.name, d)
                 .success(function(data) {
                     if (data.success) {
@@ -188,6 +191,8 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                 }).error(function() {
                     handlError();
                 });
+            } else {
+                alert("输入不正确");
             }
         };
 

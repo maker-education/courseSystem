@@ -1,15 +1,16 @@
-angular.module('MetronicApp').controller('UserProfileController',
+angular.module('MetronicApp' ).controller('UserProfileController',
 ['$rootScope', '$scope', '$http', '$timeout', 'MainService', 'DBObject', 'settings',
     function($rootScope, $scope, $http, $timeout, MainService, DBObject, settings) {
         /*$scope.$on('$viewContentLoaded', function() {
             App.initAjax(); // initialize core components
             //Layout.setSidebarMenuActiveLink('set', $('#sidebar_menu_link_profile')); // set profile link active in sidebar menu 
         });*/
-
         // set sidebar closed and body solid layout mode
         //$rootScope.settings.layout.pageBodySolid = true;
         //$rootScope.settings.layout.pageSidebarClosed = true;
 
+
+        // get current user info
         MainService.httpgetSystemUser()
         .success(function (data) {
             $scope.user = data;
@@ -44,5 +45,12 @@ angular.module('MetronicApp').controller('UserProfileController',
         };
 
 
+        $scope.changAvatar = function () {
+            $('#change_avatar').modal('toggle');
+            file_input_div.find('img[id!="preview"], .jcrop-holder').remove();
+            file_input_div.find('input[type="file"]').val("");
+        }
+
+        var file_input_div = $('[data-provides="fileinput"]');
     }
 ]); 

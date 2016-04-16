@@ -41,6 +41,14 @@ def changepd():
         return jsonify({ 'error_info':'密码错误' })
 
 
+@bluep_cuser.route('/avatar', methods=['POST'])
+@httpauth.login_required
+def changAvatar() :
+    print request.json
+    return "aaaa"
+
+
+
 def role_names(roles):
     rol_names = []
     for r in roles:

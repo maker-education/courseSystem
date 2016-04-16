@@ -119,9 +119,9 @@ New Profile Page
   font-weight: 600;
   color: #5b9bd1; }
 
-/* END PROFILE SIDEBAR */
-/* RESPONSIVE MODE */
-@media (max-width: 991px) {
+  /* END PROFILE SIDEBAR */
+  /* RESPONSIVE MODE */
+  @media (max-width: 991px) {
   /* 991px */
   /* 991px */
   .profile-sidebar {

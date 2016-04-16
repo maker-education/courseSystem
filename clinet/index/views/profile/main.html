@@ -7,7 +7,8 @@
             <div class="portlet light profile-sidebar-portlet">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                <img ng-src="{{user.img_path}}" class="img-responsive" alt=""> </div>
+                <img ng-src="{{user.img_path}}" class="img-responsive" alt=""
+                ng-click="changAvatar()"> </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
@@ -37,5 +38,36 @@
         <div ui-view class="profile-content fade-in-up"> </div>
         <!-- END PROFILE CONTENT -->
     </div>
+    <div class="modal" id="change_avatar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">编辑头像</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="fileinput fileinput-new" data-provides="fileinput" style="width=100%">
+                        <div class="fileinput-new thumbnail" style="width: 100%;">
+                            <input type="file" accept="image/*" capture="camera"
+                            aj-file-select="P.onFileSelect($files)" aj-change="P.getFile($files)"
+                            aj-model="P.file"/>建议300x300方形
+                            <img-cropped src="imageSrc" selected="selected(cords)"></img-cropped>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary"
+                        ng-click="saveAvatar()">保存</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <!-- END PAGE CONTENT-->
