@@ -30,7 +30,6 @@ class User(db.Model):
     name =     db.Column(db.String(64), unique=True, index=True)
     nick =     db.Column(db.String(64))
     password = db.Column(db.String(255))
-    img_path = db.Column(db.String(255))
     active =   db.Column(db.Boolean())
     create_time = db.Column(db.DateTime, default=datetime.now)
     roles =    db.relationship('Role', secondary=roles_users,

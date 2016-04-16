@@ -175,6 +175,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
         $scope.removeAll = function (uploader) {
             if (!$scope.topic.name) {
                 alert("请先输入知识点名称");
+                return;
             }
             var d = {};
             var result = prompt(confirm_str);

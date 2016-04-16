@@ -1,6 +1,6 @@
 angular.module('MetronicApp' ).controller('UserProfileController',
-['$rootScope', '$scope', '$http', '$timeout', 'MainService', 'DBObject', 'settings',
-    function($rootScope, $scope, $http, $timeout, MainService, DBObject, settings) {
+['$rootScope', '$scope', '$window', '$http', '$timeout', 'MainService', 'DBObject', 'FileUploader', 'fileReader', 'settings',
+    function($rootScope, $scope, $window, $http, $timeout, MainService, DBObject, FileUploader, fileReader, settings) {
         /*$scope.$on('$viewContentLoaded', function() {
             App.initAjax(); // initialize core components
             //Layout.setSidebarMenuActiveLink('set', $('#sidebar_menu_link_profile')); // set profile link active in sidebar menu 
@@ -44,13 +44,52 @@ angular.module('MetronicApp' ).controller('UserProfileController',
             .error(handlError);
         };
 
-
         $scope.changAvatar = function () {
             $('#change_avatar').modal('toggle');
-            file_input_div.find('img[id!="preview"], .jcrop-holder').remove();
             file_input_div.find('input[type="file"]').val("");
+            $scope.imageSrc = '';
+            $scope.uploader.clearQueue();
+            $scope.item = null;
         }
 
         var file_input_div = $('[data-provides="fileinput"]');
+
+        var uploader = $scope.uploader = new FileUploader(
+            {
+                url: options.api.base_url + options.api.userinfo + "/avatar",
+                headers: {
+                    Authorization : 'Basic ' + $window.sessionStorage.token
+                },
+                queueLimit: 3,
+            }
+        );
+
+        uploader.onAfterAddingFile = function(fileItem) {
+            console.info('onAfterAddingFile', fileItem);
+            while($scope.uploader.queue.length > 1) $scope.uploader.queue[0].remove();
+            $scope.item = $scope.uploader.queue[0];
+        };
+
+        var scope = this ;
+        console.log(fileReader);
+        $scope.file = {};
+        $scope.getFile = function () {
+            console.log('getFile() called.');
+            console.log($scope.ajModel);
+            console.log($scope.file);
+
+            $scope.progress = 0;
+            fileReader.readAsDataUrl($scope.file.file, $scope).then(function (result) {
+                console.log('readAsDataUrl: result.length === ', result.length);
+                console.log(result);
+                scope.imageSrc = result;
+                $scope.imageSrc = result;
+            });
+        };
+
+        $scope.saveAvatar = function(user, item) {
+            item.upload();
+            user.img_path = options.api.user_avapath + '/' + user.id + '.jpg';
+        }
     }
 ]); 

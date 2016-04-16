@@ -21,8 +21,8 @@ MetronicApp.directive('imgCropped', function($window) {
             scope.$watch('src', function (nv) {
                 clear();
 
-                console.log('[src]');
-                console.log(nv);
+                //console.log('[src]');
+                //console.log(nv);
                 if (!nv) { // newValue
                     return;
                 }
@@ -113,19 +113,9 @@ MetronicApp.directive("ajFileSelect", function () {
 
 MetronicApp.controller('ProfilePicCtrl', function ($window, $timeout, $scope, fileReader) {
     var scope = this ;
-
     console.log(fileReader);
 
     scope.file = {};
-    var replaceResults = function (img) {
-        if ((img.src || img instanceof HTMLCanvasElement)) {
-              scope.imageSrc = img.toDataURL();
-              $scope.imageSrc = img.toDataURL();
-              $timeout(function () {
-                scope.initJcrop();
-              });
-          }
-    };
 
     scope.getFile = function () {
       console.log('getFile() called.');
@@ -164,8 +154,8 @@ MetronicApp.controller('ProfilePicCtrl', function ($window, $timeout, $scope, fi
 
     // http://plnkr.co/edit/Iizykd7UORy3po1h5mfm?p=preview
     scope.cropOpts = {
-      ratioW: 1
-    , ratioH: 1
+      ratioW: 1 ,
+      ratioH: 1
     };
     $scope.selected = function (cords) {
         var scale ;
@@ -223,13 +213,5 @@ MetronicApp.controller('ProfilePicCtrl', function ($window, $timeout, $scope, fi
             marginLeft: '-' + Math.round(rx * cords.x) + 'px',
             marginTop: '-' + Math.round(ry * cords.y) + 'px'
         });
-    };
-
-    $scope.saveAvatar = function () {
-        //var img = 
-        var scaledImage = loadImage.scale(
-            img, // img or canvas element
-            {maxWidth: 600}
-        );
     };
 });

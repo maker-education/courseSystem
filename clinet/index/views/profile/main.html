@@ -1,5 +1,5 @@
 <!-- BEGIN PAGE CONTENT-->
-<div class="row" ng-controller="UserProfileController">
+<div class="row" ng-controller="UserProfileController" uploader="uploader">
     <div class="col-md-12">
         <!-- BEGIN PROFILE SIDEBAR -->
         <div class="profile-sidebar">
@@ -52,22 +52,65 @@
 
                     <div class="fileinput fileinput-new" data-provides="fileinput" style="width=100%">
                         <div class="fileinput-new thumbnail" style="width: 100%;">
-                            <input type="file" accept="image/*" capture="camera"
-                            aj-file-select="P.onFileSelect($files)" aj-change="P.getFile($files)"
-                            aj-model="P.file"/>建议300x300方形
+                            <input type="file" accept="image/*" capture="camera" nv-file-select=""
+                            uploader="uploader" aj-file-select="onFileSelect($files)"
+                            aj-change="getFile($files)" aj-model="file" />
+                            建议300x300方形
                             <img-cropped src="imageSrc" selected="selected(cords)"></img-cropped>
                         </div>
-
+                        <div class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 30%">
+                                            <a ng-click="downloadfile(topic.name + '/' + item.file.name)"
+                                                ng-if="topic.name && (item.isNotAddingAll || item.isSuccess)">
+                                                <strong > {{ item.file.name }} </strong>
+                                            </a>
+                                            <strong ng-if="!(topic.name && (item.isNotAddingAll || item.isSuccess))">
+                                                {{ item.file.name }}
+                                            </strong>
+                                        </td>
+                                        <td ng-show="uploader.isHTML5" style="width: 50%;">
+                                            <div class="progress progress-sm" style="margin-bottom: 0;">
+                                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                                    ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" style="width: 20%">
+                                            <span ng-show="item.isSuccess" class="text-success">
+                                                <i class="glyphicon glyphicon-ok"></i>
+                                            </span>
+                                            <span ng-show="item.isCancel" class="text-info">
+                                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                            </span>
+                                            <span ng-show="item.isError" class="text-danger">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary"
-                        ng-click="saveAvatar()">保存</button>
-                </div>
+                    <div class="modal-footer" nowrap >
+                        <button type="button" class="btn btn-success btn-xs"
+                            ng-click="saveAvatar(user, item)" ng-disabled="item.isReady
+                            || item.isUploading || item.isSuccess || item.isNotAddingAll ">
+                            <span class="glyphicon glyphicon-upload"></span>
+                            保存</button>
+                        <button type="button" class="btn btn-warning btn-xs"
+                            ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            取消</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            关闭</button>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- END PAGE CONTENT-->

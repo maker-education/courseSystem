@@ -469,7 +469,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]);
             }] 
         }
-    })     
+    })
 
     // Form Tools
     .state('formtools', {
@@ -632,24 +632,30 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         templateUrl: "views/profile/main.html",
         data: {pageTitle: '用户设置'},
         //controller: "UserProfileController",
-        controller: 'ProfilePicCtrl as P',
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',  
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        '../assets/pages/css/profile.min.css',
+                return $ocLazyLoad.load([
+                    {
+                        name: 'angularFileUpload',
+                        files: [
+                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+                        ]
+                    },
+                    {
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/pages/css/profile.min.css',
 
-                        '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
-                        '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
+                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
+                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
 
-                        '../assets/global/plugins/jquery.sparkline.min.js',
+                            '../assets/global/plugins/jquery.sparkline.min.js',
 
-                        'js/services/profile-pic.min.js',
-                        'js/controllers/UserProfileController.min.js'
-                    ]
-                });
+                            'js/services/profile-pic.min.js',
+                            'js/controllers/UserProfileController.min.js'
+                        ]
+                    }]);
             }]
         }
     })

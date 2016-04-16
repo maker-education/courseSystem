@@ -9,24 +9,30 @@
 
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
 from app.models import httpauth, db, User
-from config import DEFAULT_PERSON_IMG_PATH
-import os
+from config import DEFAULT_PERSON_IMG_FILE, DEFAULT_PERSON_AVATAR_PATH, DEFAULT_CLINET
+import os, subprocess
 
 bluep_cuser = Blueprint('cuser', __name__)
+
+def get_avatar():
+    path_file = DEFAULT_PERSON_AVATAR_PATH +  '/' + ('%d' % g.user.id) + ".jpg"
+    default_path = DEFAULT_CLINET + path_file
+    #_passdb.session.query(User.nick, User.name, User.id).filter(User.id == g.user.id).one_or_none()
+    img_path = path_file if (os.path.isfile(default_path)) else DEFAULT_PERSON_IMG_FILE
+    return img_path
+
 
 @bluep_cuser.route('/', methods=['GET'])
 @httpauth.login_required
 def cuser():
     user = g.user
-    #_passdb.session.query(User.nick, User.name, User.id).filter(User.id == g.user.id).one_or_none()
-    img_path = user.img_path if (user.img_path and os.path.isfile(user.img_path)) else DEFAULT_PERSON_IMG_PATH
     u = {
         "id" : user.id,
         "name" : user.name,
         "nick" : user.nick,
         "nick" : user.nick,
         "role_names" : role_names(user.roles),
-        "img_path" : img_path,
+        "img_path" : get_avatar(),
         }
     return jsonify(u)
 
@@ -44,8 +50,13 @@ def changepd():
 @bluep_cuser.route('/avatar', methods=['POST'])
 @httpauth.login_required
 def changAvatar() :
-    print request.json
-    return "aaaa"
+    f = request.files['file']
+    fn = ('%d' % g.user.id) + '.jpg'
+    path = os.path.join(DEFAULT_CLINET + DEFAULT_PERSON_AVATAR_PATH, fn)
+    f.save(path)
+    f.close()
+    subprocess.Popen('convert -resize "400x400^" '+ path + ' ' + path, shell=True)
+    return jsonify({'answer':'File transfer completed'})
 
 
 

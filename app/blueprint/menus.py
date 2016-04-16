@@ -8,7 +8,7 @@
 """
 from flask import Blueprint, jsonify, g
 from app.models import httpauth
-from config import DEFAULT_PERSON_IMG_PATH
+from .cuser import get_avatar
 import json, os
 
 bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
@@ -26,5 +26,6 @@ bluep_header = Blueprint('header', __name__)
 def menu():
     json_dict = eval(open('resource/header/topmenu.json', 'r').read())
     user = g.user
-    img_path = user.img_path if (user.img_path and os.path.isfile(user.img_path)) else DEFAULT_PERSON_IMG_PATH
+    img_path = get_avatar()
     return jsonify({'menus':json_dict, "nick": g.user.nick, "img_src" : img_path})
+
