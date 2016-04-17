@@ -1,4 +1,4 @@
-angular.module('MetronicApp' ).controller('UserProfileController',
+angular.module('MetronicApp').controller('UserProfileController',
 ['$rootScope', '$scope', '$window', '$http', '$timeout', 'MainService', 'DBObject', 'FileUploader', 'fileReader', 'settings',
     function($rootScope, $scope, $window, $http, $timeout, MainService, DBObject, FileUploader, fileReader, settings) {
         /*$scope.$on('$viewContentLoaded', function() {
@@ -70,26 +70,21 @@ angular.module('MetronicApp' ).controller('UserProfileController',
             $scope.item = $scope.uploader.queue[0];
         };
 
-        var scope = this ;
-        console.log(fileReader);
-        $scope.file = {};
-        $scope.getFile = function () {
+        $scope.getFileChangeImg = function (file) {
             console.log('getFile() called.');
-            console.log($scope.ajModel);
-            console.log($scope.file);
 
-            $scope.progress = 0;
-            fileReader.readAsDataUrl($scope.file.file, $scope).then(function (result) {
+            if (file) fileReader.readAsDataUrl(file, $scope).then(function (result) {
                 console.log('readAsDataUrl: result.length === ', result.length);
-                console.log(result);
-                scope.imageSrc = result;
                 $scope.imageSrc = result;
             });
         };
 
         $scope.saveAvatar = function(user, item) {
             item.upload();
-            user.img_path = options.api.user_avapath + '/' + user.id + '.jpg';
+            $window.location.reload();
         }
+
+        $scope.file = {};
+
     }
 ]); 

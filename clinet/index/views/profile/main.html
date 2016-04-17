@@ -7,14 +7,13 @@
             <div class="portlet light profile-sidebar-portlet">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                <img ng-src="{{user.img_path}}" class="img-responsive" alt=""
-                ng-click="changAvatar()"> </div>
+                    <img ng-src="{{user.img_path}}" class="img-responsive" alt="" ng-click="changAvatar()">
+                </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">{{ user.nick }}</div>
-                    <div class="profile-usertitle-job" ng-repeat="rname in user.role_names">
-                        {{rname}}</div>
+                    <div class="profile-usertitle-job" ng-repeat="rname in user.role_names"> {{rname}} </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS -->
@@ -53,10 +52,9 @@
                     <div class="fileinput fileinput-new" data-provides="fileinput" style="width=100%">
                         <div class="fileinput-new thumbnail" style="width: 100%;">
                             <input type="file" accept="image/*" capture="camera" nv-file-select=""
-                            uploader="uploader" aj-file-select="onFileSelect($files)"
-                            aj-change="getFile($files)" aj-model="file" />
+                            uploader="uploader" aj-file-select="" aj-change="getFileChangeImg(file.file)" aj-model="file" />
                             建议300x300方形
-                            <img-cropped src="imageSrc" selected="selected(cords)"></img-cropped>
+                            <img ng-src="{{imageSrc}}" ng-model="imageSrc"></img>
                         </div>
                         <div class="table-scrollable table-scrollable-borderless">
                             <table class="table table-hover table-light">
