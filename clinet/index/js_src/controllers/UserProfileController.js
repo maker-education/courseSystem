@@ -81,6 +81,7 @@ angular.module('MetronicApp').controller('UserProfileController',
 
         $scope.saveAvatar = function(user, item) {
             item.upload();
+            alert("保存成功");
             $window.location.reload();
         }
 
