@@ -7,9 +7,9 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
-from app.models import httpauth, db, User
+from app.models import httpauth, db, User, role_access_required
 from datetime import datetime
-from config import TOPIC_DIR, TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME, basedir
+from config import *
 import os, json, shutil, uuid
 
 bluep_topics = Blueprint('topics', __name__)
@@ -24,13 +24,15 @@ _TOPIC_CREATETIME_NAME = 'create_time'
 
 @bluep_topics.route('/list', methods=['GET', 'POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def list_root():
     #print request.form
-    return _list('')
+    return _list()
 
 
 @bluep_topics.route('/list/<path:path>', methods=['GET', 'POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def list_path(path):
     return _list(path)
 
@@ -126,6 +128,7 @@ def _isAccess(info, user, isAuthor = False):
 
 @bluep_topics.route('/deletetopic/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def delTopic(topic_name):
     f = os.path.join(TOPIC_DIR, topic_name, TOPIC_INIT_FILE_NAME);
     info = eval(open(f).read())
@@ -142,6 +145,7 @@ def delTopic(topic_name):
 
 @bluep_topics.route('/upload/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def upload(topic_name):
     if not os.path.exists( os.path.join(TOPIC_DIR, topic_name) ):
         return jsonify({'error_info':'没有知识点名称'})
@@ -160,6 +164,7 @@ def upload(topic_name):
 
 @bluep_topics.route('/deletefile', methods=['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def deletefile():
     request_json = request.json
     name = request_json.get('topic_name')
@@ -175,6 +180,7 @@ def deletefile():
 
 @bluep_topics.route('/deleteall/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def deleteAll(topic_name):
     files = _getTopicFiles(topic_name)
     for f in files:
@@ -186,6 +192,7 @@ def deleteAll(topic_name):
 
 @bluep_topics.route('/get/<path:topic_name>', methods=['GET', 'POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def get(topic_name):
     files = _getTopicFiles(topic_name)
     ppt_file = os.path.join(TOPIC_DIR, topic_name , TOPIC_PPT_FILE_NAME)
@@ -211,6 +218,7 @@ def get(topic_name):
 
 @bluep_topics.route('/create/<path:topic_name>', methods=['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def create(topic_name):
     topic = request.json
     name = topic.get('name')
@@ -265,6 +273,7 @@ def create(topic_name):
 
 @bluep_topics.route('/savemd/<path:topic_name>', methods = ['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_TEACHTER)
 def savemd(topic_name):
     topic = request.json
     name = topic.get('name')
@@ -345,3 +354,4 @@ def _updateInfo(topic = None):
         return  True
 
     return False
+

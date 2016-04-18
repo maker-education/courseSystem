@@ -36,6 +36,7 @@ def auth_error():
 def auth_func1(*args, **kwargs):
     pass
 
+
 def http_login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -57,6 +58,64 @@ def user_access_required(f):
         else:
             raise ProcessingException(description='Not authenticated!', code=401)
     return decorated
+
+
+def role_access_required(*requirements):
+    """ Return True if the user has all of the specified roles. Return False otherwise.
+    this function is forked from flask-user __init__.py has_roles
+
+        has_roles() accepts a list of requirements:
+            has_role(requirement1, requirement2, requirement3).
+
+        Each requirement is either a role_name, or a tuple_of_role_names.
+            role_name example:   'manager'
+            tuple_of_role_names: ('funny', 'witty', 'hilarious')
+        A role_name-requirement is accepted when the user has this role.
+        A tuple_of_role_names-requirement is accepted when the user has ONE of these roles.
+        has_roles() returns true if ALL of the requirements have been accepted.
+
+        For example:
+            has_roles('a', ('b', 'c'), d)
+        Translates to:
+            User has role 'a' AND (role 'b' OR role 'c') AND role 'd'"""
+
+    def _required(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            access = False
+            if _g and _g.user and _g.user.roles:
+                access = True
+                user_role_names = [role.name for role in _g.user.roles]
+                for requirement in requirements:
+                    if isinstance(requirement, (list, tuple)):
+                        # this is a tuple_of_role_names requirement
+                        tuple_of_role_names = requirement
+                        is_in_tuple = False
+                        for role_name in tuple_of_role_names:
+                            if role_name in user_role_names:
+                                # tuple_of_role_names requirement was met: break out of loop
+                                is_in_tuple = True
+                                break
+                        if not is_in_tuple:
+                            access = False
+                            break
+                    else:
+                        # this is a role_name requirement
+                        role_name = requirement
+                        # the user must have this role
+                        if not role_name in user_role_names:
+                            access = False
+                            break
+
+            if access:
+                return f(*args, **kwargs)
+            else:
+                raise ProcessingException(description='Not authenticated!', code=401)
+
+        return decorated
+    return _required
+
+
 
 @http_login_required
 @user_access_required

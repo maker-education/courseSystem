@@ -10,5 +10,6 @@ from ._base import db, db2dic
 from .users import User, Role, Group
 from .levels import Level
 from .post import Post
-from .auth import httpauth, user_op_auth_fun_dict, user_access_required
+from .auth import httpauth, user_op_auth_fun_dict,\
+        user_access_required, role_access_required
 

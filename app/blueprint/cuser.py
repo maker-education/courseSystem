@@ -32,6 +32,7 @@ def cuser():
         "nick" : user.nick,
         "nick" : user.nick,
         "role_names" : role_names(user.roles),
+        "group_name" : user.own_group.name,
         "img_path" : get_avatar(),
         }
     return jsonify(u)

@@ -17,6 +17,11 @@ DEFAULT_CLINET = basedir + '/clinet'
 DEFAULT_PERSON_AVATAR_PATH = '/_avatar'
 DEFAULT_PERSON_IMG_FILE = DEFAULT_PERSON_AVATAR_PATH + '/_0.jpg'
 
+#-------------
+ROLE_TEACHTER = u'老师'
+ROLE_STUDENT = u'学生'
+ROLE_PARENT = u'家长'
+ROLE_MANAGE = u'机构'
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'this is a bing change'

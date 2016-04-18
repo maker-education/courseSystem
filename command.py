@@ -8,6 +8,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from app.models import *
+from config import *
 
 class Command:
 
@@ -16,28 +17,28 @@ class Command:
         """Run the init database."""
         db.drop_all()
         db.create_all()
-        role = Role(name = '老师')
+
+        r_t = Role(name = ROLE_TEACHTER)
+        r_s = Role(name = ROLE_STUDENT)
+        r_p = Role(name = ROLE_PARENT)
+        r_m = Role(name = ROLE_MANAGE)
+
+        db.session.add(r_t)
+        db.session.add(r_s)
+        db.session.add(r_p)
+        db.session.add(r_m)
+        db.session.commit()
+
         g1 = Group(name = u'火星派')
         g2 = Group(name = u'童趣大未来')
-        tu = User(name='test', password = 'ttt', nick=u'小明', own_group = g1,
+
+        u1 = User(name='lw', password = 'dskl', nick=u'刘卫', own_group = g1,
                 access_groups = [g1, g2],  active = True)
 
-        tu2 = User(name='t2', password = 'ttt', nick=u'小张', own_group = g2,
-                access_groups = [g1],  active = True)
+        u1.roles.append(r_t);
+        u1.roles.append(r_m);
 
-        tu3 = User(name='t3', password = 'ttt', nick=u'小张', own_group = g2,
-                access_groups = [g1],  active = True)
-
-        tu4 = User(name='t4', password = 'ttt', nick=u'小明', own_group = g1,
-                access_groups = [g1, g2],  active = True)
-
-        tu.roles.append(role)
-        tu2.roles.append(role)
-        db.session.commit()
-        db.session.add(tu)
-        db.session.add(tu2)
-        db.session.add(tu3)
-        db.session.add(tu4)
+        db.session.add(u1)
         db.session.commit()
 
         ''' 读取等级文件 添加到数据库 '''
