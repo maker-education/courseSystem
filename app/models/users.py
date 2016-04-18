@@ -13,6 +13,9 @@ from itsdangerous import (TimedJSONWebSignatureSerializer \
 from datetime import datetime
 from config import Config
 
+DB_SEX_MALE = 'M'
+DB_SEX_FEMALE = 'F'
+
 # 用户-角色 关系
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
@@ -32,6 +35,10 @@ class User(db.Model):
     password = db.Column(db.String(255))
     active =   db.Column(db.Boolean())
     create_time = db.Column(db.DateTime, default=datetime.now)
+
+    sex      = db.Column(db.String(1))
+    birthday = db.Column(db.Date)
+
     roles =    db.relationship('Role', secondary=roles_users,
             backref=db.backref('users', lazy='dynamic', order_by=name))
 

@@ -5,7 +5,7 @@
         "link":"#/dashboard"
     },
     {
-        "name": "功能",
+        "name": "课程管理",
         "icon": "icon-folder",
         "link": "javascript:;",
         "submenus": [

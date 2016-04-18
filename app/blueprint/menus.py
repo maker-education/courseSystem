@@ -9,14 +9,25 @@
 from flask import Blueprint, jsonify, g
 from app.models import httpauth
 from .cuser import get_avatar
+from config import *
 import json, os
+
 
 bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
 
 @bluep_sidebarMenu.route('/sidebarmenu', methods=['GET', 'POST'])
 @httpauth.login_required
 def menu():
-    json_dict = eval(open('resource/sidebarMenu/teacher.json', 'r').read())
+    json_dict = []
+    if g and g.user:
+        if (ROLE_TEACHTER in [role.name for role in g.user.roles]):
+            #type :list
+            json_dict += eval(open('resource/sidebarMenu/teacher.json', 'r').read())
+
+        if (ROLE_MANAGE in [role.name for role in g.user.roles]):
+            json_dict += eval(open('resource/sidebarMenu/manager.json', 'r').read())
+
+
     return jsonify({'data':json_dict})
 
 bluep_header = Blueprint('header', __name__)

@@ -1,3 +1,7 @@
+use
+https://github.com/thesabbir/simple-line-icons
+
+
 SIMPLE LINE ICONS
 ======================================================================================
 

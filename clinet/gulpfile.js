@@ -190,3 +190,11 @@ gulp.task('debug', function () {
 });
 
 
+gulp.task('b1', function () {
+    // css minify 
+    gulp.src('simple-line-icons.css')
+        .pipe(minifyCss())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./'));
+});
+
