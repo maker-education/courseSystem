@@ -5,8 +5,8 @@
         "link": "javascript:;",
         "submenus": [
             {
-                "name": "用户添加",
-                "link": "#/add_users"
+                "name": "添加用户",
+                "link": "#/users"
             }
         ]
     }

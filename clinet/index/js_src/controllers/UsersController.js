@@ -15,19 +15,20 @@ angular.module('MetronicApp').controller('UsersController',
             "pageLength": 5,
             "search": { "smart": false },
             "columns": [
+                { "data": "nick" },
                 { "data": "name" },
-                { "data": "autho_name" },
-                { "data": "time" },
                 { "data": "create_time" },
-                { "data": "update_time" },
+                { "data": "sex" },
+                { "data": "roles" },
+                { "data": "birthday" },
             ] ,
             "columnDefs": [
                 {
-                    "targets": [5],
+                    "targets": [6],
                     "data": "name",
                     "render": function(data, type, full) {
                         return "<a href='javascript:void(0);')'>编辑</a>|" +
-                                "<a href='javascript:void(0);')'>禁用</a>";
+                               "<a href='javascript:void(0);')'>禁用</a>";
                     }
                 }
             ],
@@ -75,7 +76,7 @@ angular.module('MetronicApp').controller('UsersController',
         }
 
         $scope.serverCallback = function ( sSource, aoData, fnCallback ) {
-            MainService.postSystemData(options.api.topics + '/list', aoData)
+            MainService.postSystemData(options.api.user + '/all', aoData)
             .success(function(data) {
                 fnCallback(data);
             }).error(function() {
@@ -103,11 +104,6 @@ angular.module('MetronicApp').controller('UsersController',
                 $scope.delete_topic(this, topic_name, aData.create_time);
             });
 
-            /*$('td:eq(2)', nRow).bind('click', function() {
-                $scope.$apply(function() {
-                    $scope.someClickHandler(aData);
-                });
-            });*/
             return nRow;
         };
 

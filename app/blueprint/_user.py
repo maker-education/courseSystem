@@ -9,7 +9,7 @@
 from flask import Blueprint, jsonify, g, request
 from app.models import *
 from config import *
-from .util import list_get
+from .util import *
 import json, os, string
 
 
@@ -26,6 +26,8 @@ def _user():
     filer = (User.id == g.user.own_group_id)
     #filer = (User.own_group_id.in_(access_group_ids))
 
+    #???添加搜索
+
     users = db.session.query(User).filter( filer ).all()
     total = len(users)
 
@@ -34,9 +36,9 @@ def _user():
         d = {
             "name" : u.name,
             "nick" : u.nick,
-            "create_time" : u.create_time,
+            "create_time" : formateTime(u.create_time),
             "sex" : u.sex,
-            "birthday" : u.birthday,
+            "birthday" : formateTime(u.birthday),
             "roles": [r.name for r in u.roles],
             }
         datas.append(d)
