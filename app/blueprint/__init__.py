@@ -10,19 +10,23 @@
 bluepSystemPrefix='/api/_system'
 bluepTopicPrefix='/api/_topics'
 bluepCuserPrefix='/api/_cuser'
+bluepBasePrefix='/api/_user'
 
 from .menus import *
 from .dashboard import *
 from .topics import *
 from .cuser import *
+from ._user import *
 
 __all__ = [
             'bluepSystemPrefix',
             'bluepTopicPrefix',
             'bluepCuserPrefix',
+            'bluepBasePrefix',
             'bluep_dashboard',
             'bluep_sidebarMenu',
             'bluep_header',
             'bluep_topics',
             'bluep_cuser',
+            'bluep_users',
            ]

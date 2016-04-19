@@ -35,10 +35,14 @@ class Command:
         u1 = User(name='lw', password = 'dskl', nick=u'刘卫', own_group = g1,
                 access_groups = [g1, g2],  active = True)
 
+        u2 = User(name='test', password = '111', nick=u'测试', own_group = g2,
+                 active = True)
+
         u1.roles.append(r_t);
         u1.roles.append(r_m);
 
         db.session.add(u1)
+        db.session.add(u2)
         db.session.commit()
 
         ''' 读取等级文件 添加到数据库 '''

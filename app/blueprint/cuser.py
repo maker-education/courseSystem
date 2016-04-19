@@ -60,7 +60,6 @@ def changAvatar() :
     return jsonify({'answer':'File transfer completed'})
 
 
-
 def role_names(roles):
     rol_names = []
     for r in roles:

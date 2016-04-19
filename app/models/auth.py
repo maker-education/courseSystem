@@ -47,17 +47,54 @@ def http_login_required(f):
     return decorated
 
 
+def _isUserSelf(id):
+    if not id: return False
+    id = string.atol(id)
+    if id != None and id == _g.user.id:
+        return True
+    else:
+        return False
+
+
 def user_access_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        id = kwargs.get('instance_id')
-        if id :
-            id = string.atol(id)
-        if id != None and id == _g.user.id:
+        if _isUserSelf(kwargs.get('instance_id')):
             return f(*args, **kwargs)
         else:
             raise ProcessingException(description='Not authenticated!', code=401)
     return decorated
+
+
+def has_roles(user, roles):
+    ''' 注意嵌套用[], 用() 可能会被忽略'''
+    has = False
+    if user and user.roles:
+        has = True
+        user_role_names = [role.name for role in user.roles]
+        for r in roles:
+            if isinstance(r, (list, tuple)):
+                # this is a tuple_of_role_names *** OR LOGIC ***
+                tuple_of_role_names = r
+                is_in_tuple = False
+                for role_name in tuple_of_role_names:
+                    if role_name in user_role_names:
+                        # tuple_of_role_names requirement was met: break out of loop
+                        is_in_tuple = True
+                        break
+
+                if not is_in_tuple:
+                    has = False
+                    break
+            else:
+                # this is a role_name requirement *** AND LOGIC ***
+                role_name = r
+                # the user must have this role
+                if not role_name in user_role_names:
+                    has = False
+                    break
+
+    return has
 
 
 def role_access_required(*requirements):
@@ -82,40 +119,14 @@ def role_access_required(*requirements):
     def _required(f):
         @wraps(f)
         def decorated(*args, **kwargs):
-            access = False
-            if _g and _g.user and _g.user.roles:
-                access = True
-                user_role_names = [role.name for role in _g.user.roles]
-                for requirement in requirements:
-                    if isinstance(requirement, (list, tuple)):
-                        # this is a tuple_of_role_names requirement
-                        tuple_of_role_names = requirement
-                        is_in_tuple = False
-                        for role_name in tuple_of_role_names:
-                            if role_name in user_role_names:
-                                # tuple_of_role_names requirement was met: break out of loop
-                                is_in_tuple = True
-                                break
-                        if not is_in_tuple:
-                            access = False
-                            break
-                    else:
-                        # this is a role_name requirement
-                        role_name = requirement
-                        # the user must have this role
-                        if not role_name in user_role_names:
-                            access = False
-                            break
 
-            if access:
+            if _g and _g.user and has_roles(_g.user, requirements):
                 return f(*args, **kwargs)
             else:
                 raise ProcessingException(description='Not authenticated!', code=401)
 
         return decorated
     return _required
-
-
 
 @http_login_required
 @user_access_required

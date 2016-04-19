@@ -10,6 +10,7 @@ from flask import Blueprint, jsonify, g, request, send_from_directory, render_te
 from app.models import httpauth, db, User, role_access_required
 from datetime import datetime
 from config import *
+from .util import list_get
 import os, json, shutil, uuid
 
 bluep_topics = Blueprint('topics', __name__)
@@ -36,16 +37,11 @@ def list_root():
 def list_path(path):
     return _list(path)
 
-def _list_find(l, name):
-    for i in l:
-        if (i.get('name')) and (i.get('name') == name): return i.get('value')
-    return None
-
 
 def _list(path = ''):
     #filter = '*'
     filter = None
-    req_search = _list_find(request.json,'search')
+    req_search = list_get(request.json,'search')
     if req_search and req_search.get('value'):
         filter = '*' + req_search.get('value') + '*'
 
@@ -61,8 +57,8 @@ def _list(path = ''):
 
     result = os.popen(search).readlines()
     result.sort()
-    topics, num = _authFilter(result, g.user, _list_find(request.json,'start'), \
-            _list_find(request.json,'length'))
+    topics, num = _authFilter(result, g.user, list_get(request.json,'start'), \
+            list_get(request.json,'length'))
 
     r = {
             "recordsTotal": num,
@@ -84,7 +80,7 @@ def _authFilter(files, user, start = 0, length = 50):
 
     for f in files :
         f = os.path.join(basedir, f).strip('\n')
-        info = {"time": '未设'};
+        info = {"time": '-'};
         info.update(eval(open(f).read()))
         if not _isAccess(info, user):
             continue
@@ -94,6 +90,9 @@ def _authFilter(files, user, start = 0, length = 50):
             query_one_user = db.session.query(User.nick).filter(User.id == info.get('author_id')).one_or_none()
             if query_one_user:
                 info.update(autho_name=user.nick)
+            else:
+                info.update(autho_name='-')
+
             info.update(name=info.get('name').decode('raw_unicode_escape'))
             topics.append(info)
 

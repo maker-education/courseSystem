@@ -420,8 +420,76 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('users', {
+        url: "/users",
+        templateUrl: "views/users.html",
+        data: {pageTitle: '用户'},
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        '../assets/global/plugins/datatables/datatables.min.css', 
+                        '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                        '../assets/global/plugins/datatables/datatables.all.min.js',
+
+                        '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
+                        '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
+
+                        'js/controllers/UsersController.min.js'
+                    ]
+                });
+            }]
+        }
+    })
 
 
+    // User Profile
+    .state("profile", {
+        url: "/profile",
+        templateUrl: "views/profile/main.html",
+        data: {pageTitle: '个人中心'},
+        //controller: "UserProfileController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                    {
+                        name: 'angularFileUpload',
+                        files: [
+                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+                        ]
+                    },
+                    {
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/pages/css/profile.min.css',
+
+                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
+                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
+
+                            '../assets/global/plugins/jquery.sparkline.min.js',
+
+                            'js/services/profile-pic.min.js',
+                            'js/controllers/UserProfileController.min.js'
+                        ]
+                    }]);
+            }]
+        }
+    })
+
+    // User Profile Account
+    .state("profile.account", {
+        url: "/account",
+        templateUrl: "views/profile/account.html",
+        data: {pageTitle: '个人设置'}
+    })
+
+
+
+
+    /*
     // AngularJS plugins
     .state('fileupload', {
         url: "/file_upload.html",
@@ -666,52 +734,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-    // User Profile
-    .state("profile", {
-        url: "/profile",
-        templateUrl: "views/profile/main.html",
-        data: {pageTitle: '用户设置'},
-        //controller: "UserProfileController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                    {
-                        name: 'angularFileUpload',
-                        files: [
-                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-                        ]
-                    },
-                    {
-                        name: 'MetronicApp',  
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/pages/css/profile.min.css',
-
-                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js',
-                            '../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js',
-
-                            '../assets/global/plugins/jquery.sparkline.min.js',
-
-                            'js/services/profile-pic.min.js',
-                            'js/controllers/UserProfileController.min.js'
-                        ]
-                    }]);
-            }]
-        }
-    })
-
     // User Profile Dashboard
     .state("profile.dashboard", {
         url: "/dashboard",
         templateUrl: "views/profile/dashboard.html",
         data: {pageTitle: 'User Profile'}
-    })
-
-    // User Profile Account
-    .state("profile.account", {
-        url: "/account",
-        templateUrl: "views/profile/account.html",
-        data: {pageTitle: '用户管理'}
     })
 
     // User Profile Help
@@ -747,7 +774,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 });
             }]
         }
-    })
+    })*/
 }]);
 
 

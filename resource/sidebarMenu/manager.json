@@ -5,16 +5,8 @@
         "link": "javascript:;",
         "submenus": [
             {
-                "name": "老师管理",
-                "link": "#/add_teachers"
-            },
-            {
-                "name": "学生管理",
-                "link": "#/add_students"
-            },
-            {
-                "name": "家长",
-                "link": "#/add_parents"
+                "name": "用户添加",
+                "link": "#/add_users"
             }
         ]
     }

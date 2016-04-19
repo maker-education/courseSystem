@@ -1,7 +1,53 @@
 /* Setup general page controller */
-angular.module('MetronicApp').controller('TopicController', 
+angular.module('MetronicApp').controller('UsersController', 
 ['$rootScope', '$scope', '$window', '$location', 'MainService', 'settings',
     function($rootScope, $scope, $window, $location, MainService, settings) {
+        $scope.overrideOptions = {
+            "processing": true,
+            "serverSide": true,
+            "bSort": false,     //将来再支持排序
+            "bPaginate": true,
+            "lengthMenu": [
+                [5, 20, 50,],
+                [5, 20, 50,] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "search": { "smart": false },
+            "columns": [
+                { "data": "name" },
+                { "data": "autho_name" },
+                { "data": "time" },
+                { "data": "create_time" },
+                { "data": "update_time" },
+            ] ,
+            "columnDefs": [
+                {
+                    "targets": [5],
+                    "data": "name",
+                    "render": function(data, type, full) {
+                        return "<a href='javascript:void(0);')'>编辑</a>|" +
+                                "<a href='javascript:void(0);')'>禁用</a>";
+                    }
+                }
+            ],
+            "oLanguage" : { //主要用于设置各种提示文本
+                "sProcessing" : "正在处理...", //设置进度条显示文本
+                "sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
+                "sEmptyTable" : "没有找到记录",//没有记录时显示的文本
+                "sZeroRecords" : "没有找到记录",//没有记录时显示的文本
+                "sInfo" : "总共_TOTAL_个用户，当前显示_START_至_END_",
+                "sInfoEmpty" : "",//没记录时,关于记录数的显示文本
+                "sSearch" : "搜索:",//搜索框前的文本设置
+                "oPaginate" : {
+                    "sFirst" : "首页",
+                    "sLast" : "未页",
+                    "sNext" : "下页",
+                    "sPrevious" : "上页"
+                }
+            }
+        }
+
 
         $scope.delete_topic = function (t, tn, code) {
             var  topic_name = prompt("请输入知识点名称","知识点名");
@@ -65,52 +111,6 @@ angular.module('MetronicApp').controller('TopicController',
             return nRow;
         };
 
-        $scope.overrideOptions = {
-            "processing": true,
-            "serverSide": true,
-            "bSort": false,     //将来再支持排序
-            "bPaginate": true,
-            "lengthMenu": [
-                [5, 20, 50,],
-                [5, 20, 50,] // change per page values here
-            ],
-            // set the initial value
-            "pageLength": 5,
-            "search": { "smart": false },
-            "columns": [
-                { "data": "name" },
-                { "data": "autho_name" },
-                { "data": "time" },
-                { "data": "create_time" },
-                { "data": "update_time" },
-            ] ,
-            "columnDefs": [
-                {
-                    "targets": [5],
-                    "data": "name",
-                    "render": function(data, type, full) {
-                        return "<a href='javascript:void(0);')'>预览</a>|" +
-                            "<a href='javascript:void(0);')'>编辑</a>|" +
-                                "<a href='javascript:void(0);')'>删除</a>";
-                    }
-                }
-            ],
-            "oLanguage" : { //主要用于设置各种提示文本
-                "sProcessing" : "正在处理...", //设置进度条显示文本
-                "sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
-                "sEmptyTable" : "没有找到记录",//没有记录时显示的文本
-                "sZeroRecords" : "没有找到记录",//没有记录时显示的文本
-                "sInfo" : "总共_TOTAL_个知识点，当前显示_START_至_END_",
-                "sInfoEmpty" : "",//没记录时,关于记录数的显示文本
-                "sSearch" : "搜索:",//搜索框前的文本设置
-                "oPaginate" : {
-                    "sFirst" : "首页",
-                    "sLast" : "未页",
-                    "sNext" : "下页",
-                    "sPrevious" : "上页"
-                }
-            }
-        }
     }
 ]);
 
