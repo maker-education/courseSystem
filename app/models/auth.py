@@ -13,6 +13,7 @@ from flask.ext.restless import ProcessingException
 from functools import wraps
 import string
 from .users import User
+from config import *
 
 httpauth = HTTPBasicAuth()
 
@@ -37,6 +38,12 @@ def auth_func1(*args, **kwargs):
     pass
 
 
+def isAdmin():
+    if hasattr(_g, 'user') and hasattr(_g.user, 'own_group')\
+            and hasattr(_g.user.own_group, 'name'):
+        return (_g.user.own_group.name == GROUP_MANAGE)
+    return False
+
 def http_login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -50,7 +57,7 @@ def http_login_required(f):
 def _isUserSelf(id):
     if not id: return False
     id = string.atol(id)
-    if id != None and id == _g.user.id:
+    if id != None and hasattr(_g, 'user') and id == _g.user.id:
         return True
     else:
         return False
@@ -59,7 +66,7 @@ def _isUserSelf(id):
 def user_access_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if _isUserSelf(kwargs.get('instance_id')):
+        if _isUserSelf(kwargs.get('instance_id')) or isAdmin():
             return f(*args, **kwargs)
         else:
             raise ProcessingException(description='Not authenticated!', code=401)

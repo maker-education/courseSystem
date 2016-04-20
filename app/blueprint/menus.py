@@ -9,6 +9,7 @@
 from flask import Blueprint, jsonify, g
 from app.models import httpauth
 from .cuser import get_avatar
+from app.models import isAdmin
 from config import *
 import json, os
 
@@ -20,11 +21,11 @@ bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
 def menu():
     json_dict = []
     if g and g.user:
-        if (ROLE_TEACHTER in [role.name for role in g.user.roles]):
+        if (ROLE_TEACHTER in [role.name for role in g.user.roles]) or isAdmin():
             #type :list
             json_dict += eval(open('resource/sidebarMenu/teacher.json', 'r').read())
 
-        if (ROLE_MANAGE in [role.name for role in g.user.roles]):
+        if (ROLE_MANAGE in [role.name for role in g.user.roles]) or isAdmin():
             json_dict += eval(open('resource/sidebarMenu/manager.json', 'r').read())
 
 

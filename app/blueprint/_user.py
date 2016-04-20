@@ -7,6 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify, g, request
+from sqlalchemy import and_
 from app.models import *
 from config import *
 from .util import *
@@ -18,17 +19,20 @@ bluep_users = Blueprint('users', __name__)
 @bluep_users.route('/all', methods=['POST'])
 @httpauth.login_required
 def _user():
-    req_search = list_get(request.json,'search')
+    req_search = list_get(request.json,'search').get('value')
     start = list_get(request.json,'start')
     length = list_get(request.json,'length')
 
     access_group_ids = [ group.id for group in g.user.access_groups ]
-    filer = (User.id == g.user.own_group_id)
+    filer = True
+    if not isAdmin(): filer = (User.own_group_id == g.user.own_group_id)
     #filer = (User.own_group_id.in_(access_group_ids))
 
-    #???添加搜索
+    #添加搜索
+    filer2 = True
+    if req_search: filer2 = (User.nick.like('%'+ req_search + '%'))
 
-    users = db.session.query(User).filter( filer ).all()
+    users = db.session.query(User).filter(and_(filer, filer2)).order_by(User.nick).all()
     total = len(users)
 
     datas= []
@@ -51,3 +55,21 @@ def _user():
 
     return jsonify(r)
 
+
+
+@bluep_users.route('/add', methods=['POST'])
+def userAdd():
+    j = request.json
+    if not j.get('name'):
+        return jsonify({ 'error_info': "参数错误!" })
+
+    if j.get('roles'):
+        roles = [ db.session.query(Role).filter(Role.name == r).one_or_none() for r in j.get('roles')]
+        del j['roles']
+
+    u = User(roles=roles, active = True, password = DEFAULT_USER_PASSWORD, **j)
+
+    db.session.add(u)
+    db.session.commit()
+
+    return "lasjdfljasf"

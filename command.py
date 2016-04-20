@@ -14,6 +14,8 @@ class Command:
 
     @staticmethod
     def init(db):
+        print "Not Use!"
+        return
         """Run the init database."""
         db.drop_all()
         db.create_all()
@@ -29,20 +31,29 @@ class Command:
         db.session.add(r_m)
         db.session.commit()
 
+        g0 = Group(name = u'系统管')
         g1 = Group(name = u'火星派')
         g2 = Group(name = u'童趣大未来')
+
+        db.session.add(g0)
+        db.session.add(g1)
+        db.session.add(g2)
+        db.session.commit()
 
         u1 = User(name='lw', password = 'dskl', nick=u'刘卫', own_group = g1,
                 access_groups = [g1, g2],  active = True)
 
-        u2 = User(name='test', password = '111', nick=u'测试', own_group = g2,
-                 active = True)
+        u2 = User(name='Admin', password = 'admin!@#asd', nick=u'管理', active = True)
+
+        u3 = User(name='test', password = '111', nick=u'测试', own_group = g2, active = True)
 
         u1.roles.append(r_t);
         u1.roles.append(r_m);
 
+        db.session.add(g0)
         db.session.add(u1)
         db.session.add(u2)
+        db.session.add(u3)
         db.session.commit()
 
         ''' 读取等级文件 添加到数据库 '''
@@ -53,7 +64,6 @@ class Command:
             i = i + 1
             db.session.add(level)
         db.session.commit()
-
 
     @staticmethod
     def test():

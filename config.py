@@ -22,6 +22,15 @@ ROLE_TEACHTER = u'老师'
 ROLE_STUDENT = u'学生'
 ROLE_PARENT = u'家长'
 ROLE_MANAGE = u'机构'
+#-------------
+GROUP_MANAGE = u'系统组'
+
+DEFAULT_USER_PASSWORD='6123456'
+
+#ROLE_OBJECT_TEACHER = Role(name = ROLE_TEACHTER)
+#ROLE_OBJECT_STUDENT = Role(name = ROLE_STUDENT)
+#ROLE_OBJECT_PARENT = Role(name = ROLE_PARENT)
+#ROLE_OBJECT_MANAGE = Role(name = ROLE_MANAGE)
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'this is a bing change'
