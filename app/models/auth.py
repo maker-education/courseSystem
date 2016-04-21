@@ -54,7 +54,7 @@ def http_login_required(f):
     return decorated
 
 
-def _isUserSelf(id):
+def isUserSelf(id):
     if not id: return False
     id = string.atol(id)
     if id != None and hasattr(_g, 'user') and id == _g.user.id:
@@ -66,7 +66,7 @@ def _isUserSelf(id):
 def user_access_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if _isUserSelf(kwargs.get('instance_id')) or isAdmin():
+        if isUserSelf(kwargs.get('instance_id')) or isAdmin():
             return f(*args, **kwargs)
         else:
             raise ProcessingException(description='Not authenticated!', code=401)

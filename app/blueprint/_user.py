@@ -7,11 +7,12 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify, g, request
-from sqlalchemy import and_
+from sqlalchemy import and_, exc
 from app.models import *
 from config import *
 from .util import *
-import json, os, string
+from datetime import datetime
+import json, os, string, sys
 
 
 bluep_users = Blueprint('users', __name__)
@@ -58,6 +59,7 @@ def _user():
 
 
 @bluep_users.route('/add', methods=['POST'])
+@httpauth.login_required
 def userAdd():
     j = request.json
     if not j.get('name'):
@@ -67,9 +69,24 @@ def userAdd():
         roles = [ db.session.query(Role).filter(Role.name == r).one_or_none() for r in j.get('roles')]
         del j['roles']
 
-    u = User(roles=roles, active = True, password = DEFAULT_USER_PASSWORD, **j)
+    #u2 = db.session.query(User).filter(User.id == 4).one_or_none()
+    #db.session.delete(u2)
+    #db.session.commit()
+    if j.get('birthday') and j['birthday'].split('T')[0]:
+        j['birthday'] = datetime.strptime(j['birthday'].split('T')[0], '%Y-%m-%d')
+    elif j.get('birthday'):
+        del j['birthday']
 
+    u = User(own_group=g.user.own_group , roles=roles, active = True, password = DEFAULT_USER_PASSWORD, **j)
     db.session.add(u)
-    db.session.commit()
 
-    return "lasjdfljasf"
+    try:
+        db.session.commit()
+    except:
+        if '1062' in  (sys.exc_info()[1].args[0]):
+            return jsonify({ 'error_info': "用户名重复!" })
+
+        print sys.exc_info()
+        #return jsonify({ 'error_info': "!" })
+
+    return "错误"

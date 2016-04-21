@@ -22,4 +22,5 @@ __all__ = [
         'user_access_required',
         'role_access_required',
         'isAdmin',
+        'isUserSelf',
         ]

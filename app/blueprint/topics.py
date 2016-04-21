@@ -7,8 +7,8 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
-from app.models import httpauth, db, User, role_access_required
 from datetime import datetime
+from app.models import *
 from config import *
 from .util import *
 import os, json, shutil, uuid
@@ -164,6 +164,9 @@ def upload(topic_name):
 @httpauth.login_required
 @role_access_required(ROLE_TEACHTER)
 def deletefile():
+    if not isUserSelf(getinfo(topic_name).get(_TOPIC_AUTHORID_NAME)):
+        return jsonify({ 'error_info': "没有修改权限!" })
+
     request_json = request.json
     name = request_json.get('topic_name')
     df = request_json.get('delete_file')
@@ -180,6 +183,9 @@ def deletefile():
 @httpauth.login_required
 @role_access_required(ROLE_TEACHTER)
 def deleteAll(topic_name):
+    if not isUserSelf(getinfo(topic_name).get(_TOPIC_AUTHORID_NAME)):
+        return jsonify({ 'error_info': "没有修改权限!" })
+
     files = _getTopicFiles(topic_name)
     for f in files:
         df = os.path.join(TOPIC_DIR, topic_name, f)
@@ -188,23 +194,29 @@ def deleteAll(topic_name):
     return jsonify({ 'success':'ok' })
 
 
+def getinfo(topic_name):
+    info = {}
+    info_file = os.path.join(TOPIC_DIR, topic_name , TOPIC_INIT_FILE_NAME )
+    if (os.path.isfile(info_file)):
+        try:
+            info = eval(open(info_file).read())
+        except:
+            info = {}
+
+    return info
+
+
 @bluep_topics.route('/get/<path:topic_name>', methods=['GET', 'POST'])
 @httpauth.login_required
 @role_access_required(ROLE_TEACHTER)
 def get(topic_name):
     files = _getTopicFiles(topic_name)
     ppt_file = os.path.join(TOPIC_DIR, topic_name , TOPIC_PPT_FILE_NAME)
-    info_file = os.path.join(TOPIC_DIR, topic_name , TOPIC_INIT_FILE_NAME )
     ppt = ''
-    info = {}
     if (os.path.isfile(ppt_file)):
         ppt = open(ppt_file).read()
 
-    if (os.path.isfile(info_file)):
-        try:
-            info = eval(open(info_file).read())
-        except:
-            info = {}
+    info = getinfo(topic_name)
 
     return jsonify({
         'success':'ok',
@@ -273,6 +285,9 @@ def create(topic_name):
 @httpauth.login_required
 @role_access_required(ROLE_TEACHTER)
 def savemd(topic_name):
+    if not isUserSelf(getinfo(topic_name).get(_TOPIC_AUTHORID_NAME)):
+        return jsonify({ 'error_info': "没有修改权限!" })
+
     topic = request.json
     name = topic.get('name')
     usetime = topic.get('time')
