@@ -13,7 +13,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 TOPIC_DIR = os.path.join(basedir, '_topics')
 TOPIC_INIT_FILE_NAME = 'topic.info.json'
 TOPIC_PPT_FILE_NAME = 'topic.ppt.md'
-DEFAULT_CLINET = basedir + '/clinet'
+DEFAULT_CLINET = basedir + '/client'
 DEFAULT_PERSON_AVATAR_PATH = '/_avatar'
 DEFAULT_PERSON_IMG_FILE = DEFAULT_PERSON_AVATAR_PATH + '/_0.jpg'
 
