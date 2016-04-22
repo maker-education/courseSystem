@@ -88,7 +88,7 @@ def _authFilter(files, user, start = 0, length = 50):
             #再查询
             query_one_user = db.session.query(User.nick).filter(User.id == info.get('author_id')).one_or_none()
             if query_one_user:
-                info.update(autho_name=user.nick)
+                info.update(autho_name=query_one_user.nick)
             else:
                 info.update(autho_name='-')
 
@@ -235,6 +235,9 @@ def create(topic_name):
     new_name = topic.get('new_name')
 
     if (name and new_name and name != new_name):
+        if not isUserSelf(getinfo(topic_name).get(_TOPIC_AUTHORID_NAME)):
+            return jsonify({ 'error_info': "没有修改权限!" })
+
         ''' 更新知识点 '''
         if not os.path.exists( os.path.join(TOPIC_DIR, name) ):
             return jsonify({

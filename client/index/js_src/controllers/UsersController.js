@@ -85,8 +85,7 @@ angular.module('MetronicApp').controller('UsersController',
 
             //禁用
             $('td:eq(6) a:eq(1)', nRow).bind('click', function() {
-                var path = '#/add_topic?tn=' + topic_name;
-                $window.location.assign(path);
+                var al =1;
             });
 
             return nRow;

@@ -56,7 +56,8 @@ def http_login_required(f):
 
 def isUserSelf(id):
     if not id: return False
-    id = string.atol(id)
+    if isinstance(id, str):
+        id = string.atol(id)
     if id != None and hasattr(_g, 'user') and id == _g.user.id:
         return True
     else:
