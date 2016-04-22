@@ -235,7 +235,7 @@ def create(topic_name):
     new_name = topic.get('new_name')
 
     if (name and new_name and name != new_name):
-        if not isUserSelf(getinfo(topic_name).get(_TOPIC_AUTHORID_NAME)):
+        if not isUserSelf(getinfo(name).get(_TOPIC_AUTHORID_NAME)):
             return jsonify({ 'error_info': "没有修改权限!" })
 
         ''' 更新知识点 '''
