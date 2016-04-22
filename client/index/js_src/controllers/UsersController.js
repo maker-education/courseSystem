@@ -64,14 +64,26 @@ angular.module('MetronicApp').controller('UsersController',
 
 
         $scope.myCallback = function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-            var topic_name = aData.name;
-            //预览
-            $('td:eq(6) a:eq(0)', nRow).bind('click', function() {
-                var url = options.api.base_url + options.api.topics + '/static/' + topic_name + '/index';
-                window.open(url);
+            var user_name = $('td:eq(1)', nRow).html();
+            //编辑
+            $('td:eq(6) a:eq(0)', nRow).bind('click', function( nRow ) {
+                MainService.postSystemData(options.api.user + '/getone', { 'name': user_name } )
+                .success(function(data) {
+                    if (data.success) {
+                        $scope.user = data.data;
+                        $scope.name = user_name;
+                        $('#users_add').modal('toggle');
+                    } else if (data.error_info){
+                        alert(data.error_info);
+                    } else {
+                        alert("错误!");
+                    }
+                }).error(function() {
+                    handlError();
+                });
             });
 
-            //编辑
+            //禁用
             $('td:eq(6) a:eq(1)', nRow).bind('click', function() {
                 var path = '#/add_topic?tn=' + topic_name;
                 $window.location.assign(path);
@@ -82,6 +94,7 @@ angular.module('MetronicApp').controller('UsersController',
 
         $scope.addUser = function() {
             $scope.user = {};
+            $scope.name = null;
             $('#users_add').modal('toggle');
         };
 
@@ -153,11 +166,15 @@ angular.module('MetronicApp').controller('UsersController',
                 submitHandler: function (form) {
                     success.show();
                     error.hide();
+                    url = options.api.user + '/add'
+                    if ($scope.name) {
+                        url = options.api.user + '/edit/' + $scope.name
+                    }
 
-                    MainService.postSystemData(options.api.user + '/add', $scope.user)
+                    MainService.postSystemData( url, $scope.user )
                     .success(function(data) {
                         if (data.success) {
-                            alert("添加成功!");
+                            alert("操作成功!");
                             $("#user_add_table").DataTable().ajax.reload();//重新加载
                         } else if (data.error_info){
                             alert(data.error_info);

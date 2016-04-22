@@ -8,17 +8,17 @@
 """
 from flask import Blueprint, jsonify, g, request
 from sqlalchemy import and_, exc
+from datetime import datetime
+import json, os, string, sys
 from app.models import *
 from config import *
 from .util import *
-from datetime import datetime
-import json, os, string, sys
-
 
 bluep_users = Blueprint('users', __name__)
 
 @bluep_users.route('/all', methods=['POST'])
 @httpauth.login_required
+@role_access_required(ROLE_MANAGE)
 def _user():
     req_search = list_get(request.json,'search').get('value')
     start = list_get(request.json,'start')
@@ -57,28 +57,54 @@ def _user():
     return jsonify(r)
 
 
+def userFormatBirthday(j):
+    b = j.get('birthday')
+    if b and b.split('T')[0]:
+        j.update( birthday = datetime.strptime(b.split('T')[0], '%Y-%m-%d'))
 
+
+def userFormatRoles(j):
+    if j.get('roles'):
+        roles = [ db.session.query(Role).filter(Role.name == r).one_or_none() for r in j.get('roles')]
+        j.update(roles=roles)
+
+
+#兼具add
 @bluep_users.route('/add', methods=['POST'])
 @httpauth.login_required
-def userAdd():
+@role_access_required(ROLE_MANAGE)
+def _userAdd():
+    return userAdd()
+
+
+#和edit
+@bluep_users.route('/edit/<name>', methods=['POST'])
+@httpauth.login_required
+@role_access_required(ROLE_MANAGE)
+def _userEdit(name):
+    return userAdd(name)
+
+
+def userAdd( name = None ):
     j = request.json
     if not j.get('name'):
         return jsonify({ 'error_info': "参数错误!" })
 
-    if j.get('roles'):
-        roles = [ db.session.query(Role).filter(Role.name == r).one_or_none() for r in j.get('roles')]
+    userFormatRoles(j)
+    userFormatBirthday(j)
+
+    if name:
+        roles = j.get('roles')
         del j['roles']
+        db.session.query(User).filter(User.name==name).update(j)
+        u = db.session.query(User).filter(User.name==name).one_or_none()
+        if u:
+            u.roles = roles
 
-    #u2 = db.session.query(User).filter(User.id == 4).one_or_none()
-    #db.session.delete(u2)
-    #db.session.commit()
-    if j.get('birthday') and j['birthday'].split('T')[0]:
-        j['birthday'] = datetime.strptime(j['birthday'].split('T')[0], '%Y-%m-%d')
-    elif j.get('birthday'):
-        del j['birthday']
-
-    u = User(own_group=g.user.own_group , roles=roles, active = True, password = DEFAULT_USER_PASSWORD, **j)
-    db.session.add(u)
+    else:
+        j.update(own_group=g.user.own_group , active = True, password = DEFAULT_USER_PASSWORD)
+        u = User(**j)
+        db.session.add(u)
 
     try:
         db.session.commit()
@@ -89,4 +115,38 @@ def userAdd():
         print sys.exc_info()
         #return jsonify({ 'error_info': "!" })
 
-    return "错误"
+    return jsonify({'success':'ok'})
+
+
+@bluep_users.route('/getone', methods=['POST'])
+@httpauth.login_required
+@role_access_required(ROLE_MANAGE)
+def userget():
+    if not isinstance(request.json, dict):
+        return jsonify({'error_info':'参数错误'})
+
+    name = request.json.get('name')
+    if not name:
+        return jsonify({ 'error_info': "参数错误!" })
+
+    u = db.session.query(User).filter(User.name==name).one_or_none()
+
+    if not u : return jsonify({'error_info':'参数错误'})
+
+    d = {
+        "name" : u.name,
+        "nick" : u.nick,
+        "create_time" : formateTime(u.create_time),
+        "sex" : u.sex,
+        "birthday" : formateTime(u.birthday),
+        "roles": [r.name for r in u.roles],
+    }
+    return jsonify( {'success':'ok', 'data' : d})
+
+
+@bluep_users.route('/disable', methods=['POST'])
+@httpauth.login_required
+def userdisable():
+    #
+    pass
+
