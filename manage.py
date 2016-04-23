@@ -16,6 +16,7 @@ from app import create_app
 from config import config as configs
 from command import Command
 from app.models import *
+from datetime import datetime
 #from werkzeug.datastructures import Authorization
 
 reload(sys)
@@ -32,6 +33,8 @@ migrate = Migrate(app, db)
 def get_auth_token():
     exp = 12*3600
     token = g.user.generate_auth_token(exp)
+    db.session.query(User).filter(User.id == g.user.id).update({'last_login':datetime.now()})
+    db.session.commit()
     return jsonify({'token': token.decode('ascii'), 'duration': exp})
 
 

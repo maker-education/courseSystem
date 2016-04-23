@@ -35,6 +35,7 @@ class User(db.Model):
     password = db.Column(db.String(255))
     active =   db.Column(db.Boolean())
     create_time = db.Column(db.DateTime, default=datetime.now)
+    last_login = db.Column(db.DateTime)
 
     sex      = db.Column(db.String(1))
     birthday = db.Column(db.Date)
