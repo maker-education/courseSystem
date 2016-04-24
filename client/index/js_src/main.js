@@ -501,8 +501,31 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
-                        '../assets/global/plugins/ckeditor/ckeditor.js',
-                        '../assets/global/plugins/angularjs/angular-ckeditor.min.js',
+                        // Include Froala Editor styles
+                        '../assets/global/plugins/froala-editor/css/froala_editor.min.css',
+                        '../assets/global/plugins/froala-editor/css/froala_style.min.css',
+                        '../assets/global/plugins/froala-editor/css/plugins/all_plugins.min.css',
+
+                        '../assets/global/plugins/froala-editor/js/froala_editor.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/all_plugins.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/align.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/char_counter.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/code_beautifier.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/code_view.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/colors.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/emoticons.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/entities.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/file.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/font_family.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/font_size.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/fullscreen.min.js',
+
+                        //'../assets/global/plugins/froala-editor/js/plugins/image.min.js',
+                        //'../assets/global/plugins/froala-editor/js/plugins/image_manager.min.js',
+
+                        //'../assets/global/plugins/froala-editor/js/languages/zh_cn.js',
+                        '../assets/global/plugins/angularjs/plugins/angular-froala/src/angular-froala.js',
+
 
                         'js/controllers/PostArticleController.min.js'
                     ]

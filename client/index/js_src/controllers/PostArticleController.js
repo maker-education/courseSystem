@@ -1,36 +1,20 @@
 /* Setup general page controller */
-angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
+angular.module('MetronicApp', ['froala']).controller('PostArticleController',
 ['$rootScope', '$scope', '$window', '$location', 'MainService', 'settings',
     function($rootScope, $scope, $window, $location, MainService, settings) {
 
-        //Editor options.  
-        $scope.options = {
-            language: 'zh-cn',
-            allowedContent: true,
-            height: 400,
-            extraPlugins: 'uploadimage,image2',
-            entities: false,
-            filebrowserImageUploadUrl: "aaa",
-            toolbarGroups : [
-                { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
-                { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-                { name: 'editing',     groups: [ 'find', 'selection'] },
-                '/',
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-                { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-                { name: 'links' , groups: ['Link','Unlink'] },
-                { name: 'insert' },
-                '/',
-                { name: 'styles' },
-                { name: 'colors' },
-                { name: 'tools' },
-                { name: 'others' },
-            ]
-        };
+        $scope.froalaOptions = {
+            toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+            toolbarInline: false,
+            placeholderText: 'Enter Text Here',
+            language: 'zh_cn',
+            pluginsEnabled: ['image', 'link'],
+            imageUploadURL: 'lib/imgupload.php',//上传到本地服务器
+            imageUploadParams: {id: "edit"},
+            imageDeleteURL: 'lib/delete_image.php',//删除图片
+            imagesLoadURL: 'lib/load_images.php', //管理图片
+        }
 
-        // Called when the editor is completely ready.
-        $scope.onReady = function () {
-            // ...
-        };
+        //$('a[href="https://froala.com/wysiwyg-editor"]').parent.remove();
     }
 ]);
