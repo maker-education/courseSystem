@@ -24,7 +24,16 @@ angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
             entities: false,
             height: 500,
             tabSpaces: 2,
-
+            //imageUploadUrl : "actions/ckeditorUpload",
+            extraPlugins : 'uploadimage,image2',
+            filebrowserImageUploadUrl : '/uploader/upload.php',
+            menu_groups : 'clipboard,' +
+                          'form,' +
+                          'tablecell,tablecellproperties,tablerow,tablecolumn,table,' +
+                          'anchor,link,image,flash,' +
+                          'checkbox,radio,textfield,hiddenfield,imagebutton,button,select,textarea,div' ,
+            //filebrowserImageUploadUrl : "aaa",
+            image_previewText : "-",
             toolbarGroups : [
                 { name: 'tools' },
                 { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
