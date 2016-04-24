@@ -21,6 +21,8 @@ bluep_sidebarMenu = Blueprint('sidebarMenu', __name__)
 def menu():
     json_dict = []
     if g and g.user:
+        json_dict += eval(open('resource/sidebarMenu/general.json', 'r').read())
+
         if (ROLE_TEACHTER in [role.name for role in g.user.roles]) or isAdmin():
             #type :list
             json_dict += eval(open('resource/sidebarMenu/teacher.json', 'r').read())

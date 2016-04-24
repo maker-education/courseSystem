@@ -1,0 +1,40 @@
+<div ng-controller="PostArticleController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light form-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-puzzle font-purple"></i>
+                        <span class="caption-subject font-purple bold">添加</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form class="form-horizontal form-bordered">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">写下你的感悟吧</label>
+                                <div class="col-md-10">
+                                    <div >
+                                        <div ckeditor="options" ng-model="content" ready="onReady()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn dark"
+                                        ng-click="save(content)">
+                                        <i class="fa fa-check"></i>保存</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

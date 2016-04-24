@@ -490,6 +490,33 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     })
 
 
+    //发表文章
+    .state("postArticle", {
+        url: "/postArticle",
+        templateUrl: "views/postArticle.html",
+        data: {pageTitle: '发表'},
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        '../assets/global/plugins/ckeditor/ckeditor.js',
+                        '../assets/global/plugins/angularjs/angular-ckeditor.min.js',
+
+                        'js/controllers/PostArticleController.min.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    //动态
+    .state("News", {
+        url: "/news",
+        templateUrl: "views/news.html",
+        data: {pageTitle: '动态'}
+    })
 
 
     /*
