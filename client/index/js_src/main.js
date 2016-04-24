@@ -499,33 +499,40 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
                     name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    //insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
+
                         // Include Froala Editor styles
-                        '../assets/global/plugins/froala-editor/css/froala_editor.min.css',
-                        '../assets/global/plugins/froala-editor/css/froala_style.min.css',
-                        '../assets/global/plugins/froala-editor/css/plugins/all_plugins.min.css',
+                        /*'../assets/global/plugins/froala-editor/2.0.0rc3/css/froala_editor.min.css',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/css/froala_style.min.css',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/css/plugins/all_plugins.min.css',
 
-                        '../assets/global/plugins/froala-editor/js/froala_editor.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/all_plugins.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/align.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/char_counter.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/code_beautifier.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/code_view.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/colors.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/emoticons.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/entities.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/file.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/font_family.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/font_size.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/fullscreen.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/align.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/code_view.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/colors.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/emoticons.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/entities.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/file.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/font_family.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/font_size.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/fullscreen.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/image.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/inline_style.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/line_breaker.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/link.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/lists.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/paragraph_format.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/paragraph_style.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/quote.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/table.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/url.min.js',
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/video.min.js',
 
-                        //'../assets/global/plugins/froala-editor/js/plugins/image.min.js',
-                        //'../assets/global/plugins/froala-editor/js/plugins/image_manager.min.js',
-
-                        //'../assets/global/plugins/froala-editor/js/languages/zh_cn.js',
-                        '../assets/global/plugins/angularjs/plugins/angular-froala/src/angular-froala.js',
-
+                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/languages/zh_cn.js',
+                        '../assets/global/plugins/angularjs/plugins/angular-froala/2.0.0rc3/src/angular-froala.js',
+                        */
+                        '../assets/global/plugins/ckeditor/ckeditor.js',
+                        '../assets/global/plugins/angularjs/angular-ckeditor.min.js',
 
                         'js/controllers/PostArticleController.min.js'
                     ]

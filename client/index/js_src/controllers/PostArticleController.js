@@ -1,20 +1,47 @@
 /* Setup general page controller */
-angular.module('MetronicApp', ['froala']).controller('PostArticleController',
+angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
 ['$rootScope', '$scope', '$window', '$location', 'MainService', 'settings',
     function($rootScope, $scope, $window, $location, MainService, settings) {
 
+        /*
         $scope.froalaOptions = {
-            toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+            toolbarButtons : //["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontSize', '|',
+   'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '-',
+   'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
             toolbarInline: false,
-            placeholderText: 'Enter Text Here',
+            placeholderText: '写下你的感悟',
             language: 'zh_cn',
-            pluginsEnabled: ['image', 'link'],
             imageUploadURL: 'lib/imgupload.php',//上传到本地服务器
             imageUploadParams: {id: "edit"},
             imageDeleteURL: 'lib/delete_image.php',//删除图片
             imagesLoadURL: 'lib/load_images.php', //管理图片
-        }
+        }*/
 
-        //$('a[href="https://froala.com/wysiwyg-editor"]').parent.remove();
+        $scope.options = {
+            language: 'zh-cn',
+            allowedContent: true,
+            entities: false,
+            height: 500,
+            tabSpaces: 2,
+
+            toolbarGroups : [
+                { name: 'tools' },
+                { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+                { name: 'editing',     groups: [ 'find', 'selection' ] },
+                { name: 'forms' },
+                '/',
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+                { name: 'links' },
+                { name: 'insert' },
+                '/',
+                { name: 'styles' },
+                { name: 'colors' },
+                { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
+            ],
+        };
+
+
     }
 ]);
