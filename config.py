@@ -18,6 +18,9 @@ DEFAULT_PERSON_AVATAR_PATH = '/_avatar'
 DEFAULT_PERSON_IMG_FILE = DEFAULT_PERSON_AVATAR_PATH + '/_0.jpg'
 
 #-------------
+CONTENT_IMAGE_PATH = '/_content'
+
+#-------------
 ROLE_TEACHTER = u'老师'
 ROLE_STUDENT = u'学生'
 ROLE_PARENT = u'家长'
