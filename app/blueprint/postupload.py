@@ -13,17 +13,28 @@ from config import *
 import os, subprocess
 from datetime import datetime
 
-bluep_postupload = Blueprint('postupload', __name__)
+bluep_content = Blueprint('content', __name__)
+string_templet = '<script type="text/javascript">\r\twindow.parent.CKEDITOR.tools.\
+callFunction("%s", "%s", "%s");\r</script>'
 
-@bluep_postupload.route('/file', methods=['POST'])
+@bluep_content.route('/fileupload', methods=['POST'])
 @httpauth.login_required
 def postupload():
     file_path = os.path.join(basedir, CONTENT_IMAGE_PATH, '%d' % g.user.id, )
     file_path = os.path.join( file_path, datetime.now().strftime("%Y"), datetime.now().strftime("%m"))
+    funnum = request.args.get('CKEditorFuncNum')
+    if not funnum: return "error"
+    upload_file = request.files.get('upload')
+    if not upload_file: return string_templet % (funnum, '', '没有文件')
+
+    print file_path
+    print request.files.get('upload')
+    print string_templet % (funnum, '', '错误')
+    #({'answer':'File transfer completed'})
+    return string_templet % (funnum, '', '错误')
     if not os.path.exists( file_path ):
         pass
 
-    f = request.files['file']
     fname = (f.filename) #获取一个安全的文件名，且仅仅支持ascii字符；
     if (fname in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] ):
         return jsonify({'error_info':'文件名和系统冲突错误'})

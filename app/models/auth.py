@@ -7,18 +7,24 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 
-from flask import g as _g, jsonify
+from flask import g as _g, jsonify, request
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.restless import ProcessingException
 from functools import wraps
-import string
 from .users import User
 from config import *
+import string, base64
 
 httpauth = HTTPBasicAuth()
 
 @httpauth.verify_password
 def verify_password(username_or_token, password):
+    t = request.args.get('token')
+    if t:
+        try: t = base64.b64decode(t)
+        except: return False
+        username_or_token, password = t.split(':')
+
     # first try to authenticate by token
     user = User.verify_auth_token(username_or_token)
     if not user:

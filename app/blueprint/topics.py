@@ -146,7 +146,7 @@ def delTopic(topic_name):
 @role_access_required(ROLE_TEACHTER)
 def upload(topic_name):
     if not os.path.exists( os.path.join(TOPIC_DIR, topic_name) ):
-        return jsonify({'error_info':'没有知识点名称'})
+        return jsonify({'error_info':'没有课程名称'})
 
     f = request.files['file']
     fname = (f.filename) #获取一个安全的文件名，且仅仅支持ascii字符；
@@ -154,7 +154,7 @@ def upload(topic_name):
         return jsonify({'error_info':'文件名和系统冲突错误'})
 
     if (os.path.exists(fname)):
-        return jsonify({'error_info':'文件存在或和知识点冲突'})
+        return jsonify({'error_info':'文件存在或和课程冲突'})
 
     f.save(os.path.join(TOPIC_DIR, topic_name, fname))
     return jsonify({'answer':'File transfer completed'})
@@ -238,15 +238,15 @@ def create(topic_name):
         if not isUserSelf(getinfo(name).get(_TOPIC_AUTHORID_NAME)):
             return jsonify({ 'error_info': "没有修改权限!" })
 
-        ''' 更新知识点 '''
+        ''' 更新 '''
         if not os.path.exists( os.path.join(TOPIC_DIR, name) ):
             return jsonify({
-                'error_info': "'" + name + "' 原知识点不存在!",
+                'error_info': "'" + name + "' 原课程不存在!",
                 })
 
         if os.path.exists( os.path.join(TOPIC_DIR, new_name) ):
             return jsonify({
-                'error_info': "'" + new_name + "' 知识点已经存在!",
+                'error_info': "'" + new_name + "' 课程已经存在!",
                 })
 
         new_dir = os.path.join(TOPIC_DIR, new_name)
@@ -259,18 +259,18 @@ def create(topic_name):
         try:
             os.rename(os.path.join(TOPIC_DIR, name), new_dir)
         except:
-            return jsonify({'error_info': "'" + new_name + "' 知识点更新失败!"})
+            return jsonify({'error_info': "'" + new_name + "' 课程更新失败!"})
 
 
     elif new_name:
         if os.path.exists( os.path.join(TOPIC_DIR, new_name) ):
             return jsonify({
-                'error_info': "'" + new_name + "' 知识点已经存在!",
+                'error_info': "'" + new_name + "' 课程已经存在!",
                 })
         try:
             os.makedirs(os.path.join(TOPIC_DIR, new_name))
         except:
-            return jsonify({'error_info': "'" + new_name + "' 知识点创建失败!"})
+            return jsonify({'error_info': "'" + new_name + "' 课程创建失败!"})
 
     else :
         return jsonify({'error_info': '参数错误!'})
@@ -314,7 +314,7 @@ def static(topic, filename):
     if filename == 'index':
         filepath = os.path.join( TOPIC_DIR, topic, TOPIC_PPT_FILE_NAME )
         if (not os.path.isfile(filepath)):
-            return  "该知识点还未保存!"
+            return  "该课程还未保存!"
 
         c = dict(md = open(filepath).read(), t=topic)
         return render_template('ppt_show.html', t=c)

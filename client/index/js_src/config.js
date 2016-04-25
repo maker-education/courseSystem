@@ -7,5 +7,6 @@ options.api.topics = "/_topics";
 options.api.userinfo = "/_cuser";
 options.api.user_avapath = "/_avatar";
 options.api.user = "/_user";
+options.api.content = "/_content";
 
 

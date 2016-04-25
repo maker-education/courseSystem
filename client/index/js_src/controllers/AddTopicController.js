@@ -31,7 +31,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                             callback: function(e){
                                 tn = $('#topic_name').val();
                                 if ( !tn ) {
-                                    alert("请先输入知识点名");
+                                    alert("请先输入课程名");
                                     return;
                                 }
                                 window.open(options.api.base_url + options.api.topics +
@@ -146,7 +146,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         $scope.removeItem = function (item) {
             if (!$scope.topic.name) {
-                alert("请先输入知识点名称");
+                alert("请先输入课程名称");
                 return;
             }
             var result = prompt(confirm_str);
@@ -174,7 +174,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         $scope.removeAll = function (uploader) {
             if (!$scope.topic.name) {
-                alert("请先输入知识点名称");
+                alert("请先输入课程名称");
                 return;
             }
             var d = {};
@@ -203,7 +203,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                 uploader.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
                 item.upload();
             } else {
-                alert("请先填写知识点名");
+                alert("请先填写课程名");
             }
         };
 
@@ -212,7 +212,7 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
                 uploader.url = options.api.base_url + options.api.topics + "/upload/" + $scope.topic.name
                 uploader.uploadAll();
             } else {
-                alert("请先填写知识点名");
+                alert("请先填写课程名");
             }
         };
 
@@ -234,14 +234,14 @@ angular.module('MetronicApp',['angularFileUpload']).controller('AddTopicControll
 
         $scope.saveppt = function(t) {
             if (!t.name || !t.time) {
-                alert("请先填写知识点名称和时间");
+                alert("请先填写课程名称和时间");
                 return;
             }
 
             t.md = $('#markdown-textarea').val();
 
             if (!t.md) {
-                alert("请先填写知识点内容");
+                alert("请先填写课程内容");
                 return;
             }
 

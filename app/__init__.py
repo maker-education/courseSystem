@@ -32,6 +32,7 @@ def create_app(appconfig):
     app.register_blueprint(bluep_topics, url_prefix=bluepTopicPrefix)
     app.register_blueprint(bluep_cuser, url_prefix=bluepCuserPrefix)
     app.register_blueprint(bluep_users, url_prefix=bluepBasePrefix)
+    app.register_blueprint(bluep_content, url_prefix=bluepContentPrefix)
 
     #from app.blueprint.blog import blog as blog_blueprint
     #app.register_blueprint(blog_blueprint, url_prefix='/blog')

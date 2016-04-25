@@ -4,7 +4,7 @@ angular.module('MetronicApp').controller('TopicController',
     function($rootScope, $scope, $window, $location, MainService, settings) {
 
         $scope.delete_topic = function (t, tn, code) {
-            var  topic_name = prompt("请输入知识点名称","知识点名");
+            var  topic_name = prompt("请输入课程名称","课程名");
             if (!topic_name) {
                 return;
             } else if (topic_name != tn) {
@@ -100,7 +100,7 @@ angular.module('MetronicApp').controller('TopicController',
                 "sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
                 "sEmptyTable" : "没有找到记录",//没有记录时显示的文本
                 "sZeroRecords" : "没有找到记录",//没有记录时显示的文本
-                "sInfo" : "总共_TOTAL_个知识点，当前显示_START_至_END_",
+                "sInfo" : "总共_TOTAL_个课程，当前显示_START_至_END_",
                 "sInfoEmpty" : "",//没记录时,关于记录数的显示文本
                 "sSearch" : "搜索:",//搜索框前的文本设置
                 "oPaginate" : {

@@ -5,18 +5,20 @@
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-puzzle font-purple"></i>
-                        <span class="caption-subject font-purple bold">编辑知识点</span>
+                        <span class="caption-subject font-purple bold">编辑</span>
                     </div>
                 </div>
                 <div class="portlet-body form">
                     <form class="form-horizontal form-bordered">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="control-label col-md-2">请用Markdown语法添加
+                                <label class="control-label col-md-2">请用Markdown语法添加. <br>
+                                    --- 分页; <br>
+                                    ??? 添加教师备注
                                 </label>
                                 <div class="col-md-10">
                                     <div class="help-block">
-                                        <input type="text" placeholder="点击输入知识名称" class="form-control
+                                        <input type="text" placeholder="点击输入课程名称" class="form-control
                                         c-square" ng-click="inputName()" ng-model="topic.name"
                                         id="topic_name" readonly="readonly">
                                     </div>
@@ -145,10 +147,10 @@
                         <span aria-hidden="true">×</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">输入知识点名</h4>
+                    <h4 class="modal-title">输入课程名</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" placeholder="点击输入知识名称" class="form-control c-square"
+                    <input type="text" placeholder="点击输入课程名称" class="form-control c-square"
                     ng-model='topic.new_name'>
                 </div>
                 <div class="modal-footer">

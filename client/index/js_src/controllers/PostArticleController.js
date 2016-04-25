@@ -26,7 +26,8 @@ angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
             tabSpaces: 2,
             //imageUploadUrl : "actions/ckeditorUpload",
             extraPlugins : 'uploadimage,image2',
-            filebrowserImageUploadUrl : '/uploader/upload.php',
+            filebrowserImageUploadUrl : options.api.base_url + options.api.content + 
+                '/fileupload?token=' + $window.sessionStorage.token,
             menu_groups : 'clipboard,' +
                           'form,' +
                           'tablecell,tablecellproperties,tablerow,tablecolumn,table,' +
@@ -49,7 +50,6 @@ angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
                 { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
            ],
         };
-
 
     }
 ]);
