@@ -11,6 +11,7 @@ from flask import Blueprint, jsonify, g, request, send_from_directory, render_te
 from app.models import httpauth, db, User
 from config import DEFAULT_PERSON_IMG_FILE, DEFAULT_PERSON_AVATAR_PATH, DEFAULT_CLINET
 import os, subprocess
+from .util import *
 
 bluep_cuser = Blueprint('cuser', __name__)
 
@@ -56,7 +57,8 @@ def changAvatar() :
     path = os.path.join(DEFAULT_CLINET + DEFAULT_PERSON_AVATAR_PATH, fn)
     f.save(path)
     f.close()
-    subprocess.Popen('convert -resize "400x400^" '+ path + ' ' + path, shell=True)
+    timeout_command('convert -resize "400x400^" '+ path + ' ' + path, 10)
+    #subprocess.Popen('convert -resize "400x400^" '+ path + ' ' + path, shell=True)
     return jsonify({'answer':'File transfer completed'})
 
 

@@ -23,7 +23,8 @@ def verify_password(username_or_token, password):
     if t:
         try: t = base64.b64decode(t)
         except: return False
-        username_or_token, password = t.split(':')
+        if t.count(':') < 1: return False
+        username_or_token, password = t.split(':')[0:2]
 
     # first try to authenticate by token
     user = User.verify_auth_token(username_or_token)
@@ -33,6 +34,7 @@ def verify_password(username_or_token, password):
         if not user or not user.verify_password(password):
             return False
     _g.user = user
+    _g.token = base64.b64encode(username_or_token + ':' + password)
     return True
 
 @httpauth.error_handler

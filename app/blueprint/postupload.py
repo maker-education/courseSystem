@@ -9,9 +9,12 @@
 
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
 from app.models import httpauth, db, User
-from config import *
-import os, subprocess
 from datetime import datetime
+from .util import *
+from config import *
+import os, subprocess, uuid
+
+bluepContentPrefix='/api/_content'
 
 bluep_content = Blueprint('content', __name__)
 string_templet = '<script type="text/javascript">\r\twindow.parent.CKEDITOR.tools.\
@@ -20,28 +23,40 @@ callFunction("%s", "%s", "%s");\r</script>'
 @bluep_content.route('/fileupload', methods=['POST'])
 @httpauth.login_required
 def postupload():
-    file_path = os.path.join(basedir, CONTENT_IMAGE_PATH, '%d' % g.user.id, )
-    file_path = os.path.join( file_path, datetime.now().strftime("%Y"), datetime.now().strftime("%m"))
+    base_path = basedir + CONTENT_IMAGE_PATH
+    relat_path = '%d/%s/%s' % (g.user.id, datetime.now().strftime("%Y"),
+            datetime.now().strftime("%m"))
+    file_path = os.path.join(base_path, relat_path)
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+
     funnum = request.args.get('CKEditorFuncNum')
     if not funnum: return "error"
     upload_file = request.files.get('upload')
     if not upload_file: return string_templet % (funnum, '', '没有文件')
 
-    print file_path
-    print request.files.get('upload')
-    print string_templet % (funnum, '', '错误')
-    #({'answer':'File transfer completed'})
-    return string_templet % (funnum, '', '错误')
-    if not os.path.exists( file_path ):
-        pass
+    suffix = upload_file.filename.split('.')[-1]
+    if (not suffix) or (suffix not in ['jpg', 'jpeg', 'gif', 'png', 'bmp']):
+        return string_templet % (funnum, '', '文件类型无法识别')
 
-    fname = (f.filename) #获取一个安全的文件名，且仅仅支持ascii字符；
-    if (fname in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME] ):
-        return jsonify({'error_info':'文件名和系统冲突错误'})
+    filename = uuid.uuid1().hex + '.' + suffix
+    file_path_name = os.path.join(file_path, filename)
+    upload_file.save(file_path_name)
 
-    if (os.path.exists(fname)):
-        return jsonify({'error_info':'文件存在或和知识点冲突'})
+    out, err = timeout_command('convert -resize "800x1600>" '+ file_path_name + ' ' + file_path_name , 10)
+    if err: return string_templet % (funnum, '', '文件损坏')
 
-    f.save(os.path.join(TOPIC_DIR, topic_name, fname))
-    return jsonify({'answer':'File transfer completed'})
+    web_path = os.path.join(bluepContentPrefix, 'static', relat_path, filename)
+
+    return string_templet % (funnum, web_path + '?token=' + g.token, '')
+
+@bluep_content.route('/static/<path:file_path>/<filename>', methods=['GET'])
+@httpauth.login_required
+def static(file_path, filename):
+    att = False
+    if request.args.get('d'):
+        att = True
+    path = os.path.join(basedir + CONTENT_IMAGE_PATH, file_path)
+    return send_from_directory(path, filename, as_attachment=att)
+
 

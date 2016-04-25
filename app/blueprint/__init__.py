@@ -11,7 +11,6 @@ bluepSystemPrefix='/api/_system'
 bluepTopicPrefix='/api/_topics'
 bluepCuserPrefix='/api/_cuser'
 bluepBasePrefix='/api/_user'
-bluepContentPrefix='/api/_content'
 
 from .menus import *
 from .dashboard import *
