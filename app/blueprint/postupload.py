@@ -10,6 +10,7 @@
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
 from datetime import datetime
 import os, subprocess, uuid
+from sqlalchemy import and_
 from app.models import *
 from .util import *
 from config import *
@@ -78,10 +79,13 @@ def save(id= None):
         post = db.session.query(Post).filter(Post.id==id).one_or_none()
         if not post : return jsonify({ 'error_info': "文章不存在!" })
         if not isUserSelf(post.user_id) : return jsonify({ 'error_info': "没有权限!" })
-        db.session.query(Post).filter(Post.id==id).update(\
-           content=c.get('content'), title=c.get('title') , update_time=formateTime(datetime.now()))
+        j = { 'content' :       c.get('content'),
+            'title' :         c.get('title') ,
+            'update_time' :    formateTime(datetime.now()) }
+
+        db.session.query(Post).filter(Post.id==id).update(j)
     else:
-        post = Post(content=c.get('content'), title=c.get('title') ,\
+        post = Post(content=c.get('content'), title=c.get('title'), user_id=g.user.id, \
                  update_time=formateTime(datetime.now()))
         db.session.add(post)
 
@@ -91,7 +95,7 @@ def save(id= None):
         print sys.exc_info()
         return jsonify({ 'error_info': "数据库错误!" })
 
-    return jsonify({'success':'ok'})
+    return jsonify({'success':'ok', 'id': post.id })
 
 
 @bluep_content.route('/get/<id>', methods = ['POST'])
@@ -120,18 +124,22 @@ def list():
     length = length if length else 1
 
     filer = True
-    if req_search: filer = (Post.title.like('%'+ req_search + '%'))
+    if not isAdmin(): filer = (Post.user_id==g.user.id)
 
-    posts = db.session.query(Post).filter(filer).order_by(Post.update_time).all()
+    filer2 = True
+    if req_search: filer2 = (Post.title.like('%'+ req_search + '%'))
+
+    posts = db.session.query(Post).filter(and_(filer, filer2)).order_by(Post.update_time).all()
     total = len(posts)
 
     datas= []
     for p in posts[start: start + length] :
         d = {
+            "id" : p.id,
             "title" : p.title,
-            "content" : p.content,
             "create_time" : formateTime(p.create_time),
             "update_time" : formateTime(p.update_time),
+            "content" : drop_html(p.content, 50),
             }
         datas.append(d)
 
@@ -143,4 +151,20 @@ def list():
 
     return jsonify(r)
 
+
+@bluep_content.route('/delete/<id>', methods = ['POST'])
+@httpauth.login_required
+def delete(id):
+    if not id : return jsonify({'error_info':'错误'})
+
+    post = db.session.query(Post).filter(Post.id==id).order_by(Post.update_time).one_or_none()
+    if not isUserSelf(post.user_id) : return jsonify({ 'error_info': "没有权限!" })
+
+    if ( not request.json.get('code') or request.json.get('code') != formateTime(post.create_time)):
+        return jsonify({'error_info':'错误'})
+
+    db.session.delete(post)
+    db.session.commit()
+
+    return jsonify({'success':'ok'})
 

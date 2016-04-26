@@ -6,7 +6,7 @@
         "submenus": [
             {
                 "name": "动态",
-                "link": "#/news"
+                "link": "#"
             },
             {
                 "name": "发表文章",

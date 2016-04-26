@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from datetime import datetime
-import subprocess, time
+import subprocess, time, re
 
 
 _TIMEFORMAT = '%Y-%m-%d %H:%M:%S'
@@ -17,6 +17,7 @@ def list_get(l, name):
         for i in l:
             if (i.get('name')) and (i.get('name') == name): return i.get('value')
     return {}
+
 
 def formateTime(t):
     if isinstance(t, datetime):
@@ -50,4 +51,11 @@ def timeout_command(command, timeout):
     except OSError:
         pass
     return out
+
+
+def drop_html(s, n):
+    dr = re.compile(r'<[^>]+>',re.S)
+    dd = dr.sub('',s[0: n + 500])
+    return dd[0:n]
+
 

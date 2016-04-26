@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by Liu Wei.
 """
 from flask import Blueprint, jsonify, g, request
-from sqlalchemy import and_, exc
+from sqlalchemy import and_
 from datetime import datetime
 import json, os, string, sys
 from app.models import *
