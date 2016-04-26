@@ -24,6 +24,9 @@ def _user():
     start = list_get(request.json,'start')
     length = list_get(request.json,'length')
 
+    start = start if start else 0
+    length = length if length else 1
+
     access_group_ids = [ group.id for group in g.user.access_groups ]
     filer = True
     if not isAdmin(): filer = (User.own_group_id == g.user.own_group_id)
@@ -113,7 +116,7 @@ def userAdd( name = None ):
             return jsonify({ 'error_info': "用户名重复!" })
 
         print sys.exc_info()
-        #return jsonify({ 'error_info': "!" })
+        return jsonify({ 'error_info': "数据库错误!" })
 
     return jsonify({'success':'ok'})
 

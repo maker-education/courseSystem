@@ -57,11 +57,6 @@ angular.module('MetronicApp').controller('TopicController',
                 $scope.delete_topic(this, topic_name, aData.create_time);
             });
 
-            /*$('td:eq(2)', nRow).bind('click', function() {
-                $scope.$apply(function() {
-                    $scope.someClickHandler(aData);
-                });
-            });*/
             return nRow;
         };
 
@@ -91,7 +86,7 @@ angular.module('MetronicApp').controller('TopicController',
                     "render": function(data, type, full) {
                         return "<a href='javascript:void(0);')'>预览</a>|" +
                             "<a href='javascript:void(0);')'>编辑</a>|" +
-                                "<a href='javascript:void(0);')'>删除</a>";
+                            "<a href='javascript:void(0);')'>删除</a>";
                     }
                 }
             ],

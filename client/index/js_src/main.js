@@ -501,36 +501,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     //insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
-
-                        // Include Froala Editor styles
-                        /*'../assets/global/plugins/froala-editor/2.0.0rc3/css/froala_editor.min.css',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/css/froala_style.min.css',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/css/plugins/all_plugins.min.css',
-
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/align.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/code_view.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/colors.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/emoticons.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/entities.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/file.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/font_family.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/font_size.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/fullscreen.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/image.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/inline_style.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/line_breaker.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/link.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/lists.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/paragraph_format.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/paragraph_style.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/quote.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/table.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/url.min.js',
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/plugins/video.min.js',
-
-                        '../assets/global/plugins/froala-editor/2.0.0rc3/js/languages/zh_cn.js',
-                        '../assets/global/plugins/angularjs/plugins/angular-froala/2.0.0rc3/src/angular-froala.js',
-                        */
                         '../assets/global/plugins/ckeditor/ckeditor.js',
                         '../assets/global/plugins/angularjs/angular-ckeditor.min.js',
 
@@ -547,6 +517,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         templateUrl: "views/news.html",
         data: {pageTitle: '动态'}
     })
+
+    //列表
+    .state("postList", {
+        url: "/postList",
+        templateUrl: "views/postList.html",
+        data: {pageTitle: '我的文章'},
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    files: [
+                        '../assets/global/plugins/datatables/datatables.min.css', 
+                        '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                        '../assets/global/plugins/datatables/datatables.all.min.js',
+
+                        'js/controllers/PostListController.min.js'
+                    ]
+                });
+            }]
+        }
+    })
+
 
 
     /*

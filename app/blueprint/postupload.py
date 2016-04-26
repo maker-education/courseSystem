@@ -8,11 +8,11 @@
 """
 
 from flask import Blueprint, jsonify, g, request, send_from_directory, render_template
-from app.models import httpauth, db, User
 from datetime import datetime
+import os, subprocess, uuid
+from app.models import *
 from .util import *
 from config import *
-import os, subprocess, uuid
 
 bluepContentPrefix='/api/_content'
 
@@ -50,13 +50,97 @@ def postupload():
 
     return string_templet % (funnum, web_path + '?token=' + g.token, '')
 
+
 @bluep_content.route('/static/<path:file_path>/<filename>', methods=['GET'])
-@httpauth.login_required
+#@httpauth.login_required
 def static(file_path, filename):
     att = False
     if request.args.get('d'):
         att = True
     path = os.path.join(basedir + CONTENT_IMAGE_PATH, file_path)
     return send_from_directory(path, filename, as_attachment=att)
+
+
+@bluep_content.route('/save', methods = ['POST'])
+@httpauth.login_required
+def _save():
+    return save()
+
+@bluep_content.route('/save/<id>', methods = ['POST'])
+@httpauth.login_required
+def _edit(id):
+    return save(id)
+
+def save(id= None):
+    c = request.json
+
+    if id:
+        post = db.session.query(Post).filter(Post.id==id).one_or_none()
+        if not post : return jsonify({ 'error_info': "文章不存在!" })
+        if not isUserSelf(post.user_id) : return jsonify({ 'error_info': "没有权限!" })
+        db.session.query(Post).filter(Post.id==id).update(\
+           content=c.get('content'), title=c.get('title') , update_time=formateTime(datetime.now()))
+    else:
+        post = Post(content=c.get('content'), title=c.get('title') ,\
+                 update_time=formateTime(datetime.now()))
+        db.session.add(post)
+
+    try:
+        db.session.commit()
+    except:
+        print sys.exc_info()
+        return jsonify({ 'error_info': "数据库错误!" })
+
+    return jsonify({'success':'ok'})
+
+
+@bluep_content.route('/get/<id>', methods = ['POST'])
+@httpauth.login_required
+def get(id):
+    if not id : jsonify({ 'error_info': "参数错误!" })
+    post = db.session.query(Post).filter(Post.id==id).one_or_none()
+    if not post : return jsonify({ 'error_info': "文章不存在!" })
+    if not isUserSelf(post.user_id) : return jsonify({ 'error_info': "没有权限!" })
+
+    content = { 'content':post.content, 'title': post.title }
+    return jsonify({
+        'success':'ok',
+        'content': content,
+    })
+
+
+@bluep_content.route('/list', methods = ['POST'])
+@httpauth.login_required
+def list():
+    req_search = list_get(request.json,'search').get('value')
+    start = list_get(request.json,'start')
+    length = list_get(request.json,'length')
+
+    start = start if start else 0
+    length = length if length else 1
+
+    filer = True
+    if req_search: filer = (Post.title.like('%'+ req_search + '%'))
+
+    posts = db.session.query(Post).filter(filer).order_by(Post.update_time).all()
+    total = len(posts)
+
+    datas= []
+    for p in posts[start: start + length] :
+        d = {
+            "title" : p.title,
+            "content" : p.content,
+            "create_time" : formateTime(p.create_time),
+            "update_time" : formateTime(p.update_time),
+            }
+        datas.append(d)
+
+    r = {
+            "recordsTotal": total,
+            "recordsFiltered": total,
+            "data": datas
+        }
+
+    return jsonify(r)
 
 

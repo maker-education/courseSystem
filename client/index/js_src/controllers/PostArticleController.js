@@ -3,21 +3,6 @@ angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
 ['$rootScope', '$scope', '$window', '$location', 'MainService', 'settings',
     function($rootScope, $scope, $window, $location, MainService, settings) {
 
-        /*
-        $scope.froalaOptions = {
-            toolbarButtons : //["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
-['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontSize', '|',
-   'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', 'insertHR', '-',
-   'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll', 'html'],
-            toolbarInline: false,
-            placeholderText: '写下你的感悟',
-            language: 'zh_cn',
-            imageUploadURL: 'lib/imgupload.php',//上传到本地服务器
-            imageUploadParams: {id: "edit"},
-            imageDeleteURL: 'lib/delete_image.php',//删除图片
-            imagesLoadURL: 'lib/load_images.php', //管理图片
-        }*/
-
         $scope.options = {
             language: 'zh-cn',
             allowedContent: true,
@@ -50,6 +35,37 @@ angular.module('MetronicApp', ['ckeditor']).controller('PostArticleController',
                 { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
            ],
         };
+
+        $scope.content = {};
+
+        $scope.save = function(c) {
+            MainService.postSystemData(options.api.content + '/save', c)
+            .success(function(data) {
+                if (data.success) {
+                    alert('保存成功');
+                } else if (data.error_info){
+                    alert(data.error_info);
+                } else {
+                    alert("错误!");
+                }
+            }).error(handlError);
+        }
+
+        var post_id = $location.search().id;
+
+        if ( post_id ) {
+            MainService.postSystemData( options.api.content + '/get/' + post_id, {})
+            .success(function (data) {
+                if (data.content) {
+                    $scope.content = data.content;
+                } else if (data.error_info){
+                    alert(data.error_info);
+                } else {
+                    alert("错误!");
+                }
+            }) .error(handlError);
+        }
+
 
     }
 ]);

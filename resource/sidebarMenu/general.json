@@ -11,6 +11,10 @@
             {
                 "name": "发表文章",
                 "link": "#/postArticle"
+            },
+            {
+                "name": "我的文章",
+                "link": "#/postList"
             }
         ]
     }

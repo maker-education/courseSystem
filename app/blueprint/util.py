@@ -13,9 +13,10 @@ import subprocess, time
 _TIMEFORMAT = '%Y-%m-%d %H:%M:%S'
 
 def list_get(l, name):
-    for i in l:
-        if (i.get('name')) and (i.get('name') == name): return i.get('value')
-    return None
+    if isinstance(l, list):
+        for i in l:
+            if (i.get('name')) and (i.get('name') == name): return i.get('value')
+    return {}
 
 def formateTime(t):
     if isinstance(t, datetime):
