@@ -371,7 +371,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state('add_topic', {
         url: "/add_topic",
         templateUrl: "views/add_topic.html",            
-        data: {pageTitle: '添加知识点'},
+        data: {pageTitle: '添加课程'},
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load([
@@ -404,7 +404,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state('topics', {
         url: "/topics",
         templateUrl: "views/topics.html",
-        data: {pageTitle: '知识点'},
+        data: {pageTitle: '课程'},
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({

@@ -164,11 +164,12 @@ def upload(topic_name):
 @httpauth.login_required
 @role_access_required(ROLE_TEACHTER)
 def deletefile():
-    if not isUserSelf(getinfo(topic_name).get(_TOPIC_AUTHORID_NAME)):
-        return jsonify({ 'error_info': "没有修改权限!" })
-
     request_json = request.json
     name = request_json.get('topic_name')
+
+    if not isUserSelf(getinfo(name).get(_TOPIC_AUTHORID_NAME)):
+        return jsonify({ 'error_info': "没有修改权限!" })
+
     df = request_json.get('delete_file')
     if df and (not (df in [TOPIC_INIT_FILE_NAME, TOPIC_PPT_FILE_NAME])):
         f = os.path.join(TOPIC_DIR, name , df)
