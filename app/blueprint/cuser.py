@@ -15,8 +15,8 @@ from .util import *
 
 bluep_cuser = Blueprint('cuser', __name__)
 
-def get_avatar():
-    path_file = DEFAULT_PERSON_AVATAR_PATH +  '/' + ('%d' % g.user.id) + ".jpg"
+def get_avatar(id):
+    path_file = DEFAULT_PERSON_AVATAR_PATH +  '/' + ('%d' % id) + ".jpg"
     default_path = DEFAULT_CLINET + path_file
     #_passdb.session.query(User.nick, User.name, User.id).filter(User.id == g.user.id).one_or_none()
     img_path = path_file if (os.path.isfile(default_path)) else DEFAULT_PERSON_IMG_FILE
@@ -34,7 +34,7 @@ def cuser():
         "nick" : user.nick,
         "role_names" : role_names(user.roles),
         "group_name" : user.own_group.name,
-        "img_path" : get_avatar(),
+        "img_path" : get_avatar(g.user.id),
         }
     return jsonify(u)
 

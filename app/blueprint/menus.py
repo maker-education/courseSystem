@@ -40,6 +40,6 @@ bluep_header = Blueprint('header', __name__)
 def menu():
     json_dict = eval(open('resource/header/topmenu.json', 'r').read())
     user = g.user
-    img_path = get_avatar()
+    img_path = get_avatar(g.user.id)
     return jsonify({'menus':json_dict, "nick": g.user.nick, "img_src" : img_path})
 

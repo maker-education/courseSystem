@@ -32,4 +32,5 @@ __all__ = [
             'bluep_cuser',
             'bluep_users',
             'bluep_content',
+            'get_avatar',
            ]

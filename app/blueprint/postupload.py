@@ -12,6 +12,7 @@ from datetime import datetime
 import os, subprocess, uuid
 from sqlalchemy import and_
 from app.models import *
+from .cuser import get_avatar
 from .util import *
 from config import *
 
@@ -139,7 +140,7 @@ def list():
             "title" : p.title,
             "create_time" : formateTime(p.create_time),
             "update_time" : formateTime(p.update_time),
-            "content" : drop_html(p.content, 50),
+            "content" : drop_html(p.content, 20),
             }
         datas.append(d)
 
@@ -167,4 +168,41 @@ def delete(id):
     db.session.commit()
 
     return jsonify({'success':'ok'})
+
+
+@bluep_content.route('/news', methods = ['POST'])
+@httpauth.login_required
+def news():
+    j = request.json
+    start = j.get('start')
+    length = j.get('length')
+
+    start = start if start else 0
+    length = length if length else 1
+    length = length if length < 30 else 30
+
+    posts = db.session.query(Post).order_by(Post.update_time).all()[start:length]
+
+    datas= []
+    for p in posts :
+        user = db.session.query(User).filter(User.id==p.user_id).one_or_none()
+        d = {
+            "id" : p.id,
+            "title" : p.title,
+            "create_time" : formateTime(p.create_time),
+            "update_time" : formateTime(p.update_time),
+            "content" : p.content,
+            "user_src" : get_avatar(p.user_id),
+            "user_name" : user.nick,
+            }
+        datas.append(d)
+
+    r = {
+ #           "recordsTotal": total,
+ #           "recordsFiltered": total,
+            "data": datas
+        }
+
+    return jsonify(r)
+
 
