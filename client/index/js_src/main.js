@@ -232,6 +232,44 @@ MetronicApp.factory("fileReader", function ($q) {
     return { readAsDataUrl: readAsDataURL };
   });
 
+// Reddit constructor function to encapsulate HTTP and pagination logic
+MetronicApp.factory('Reddit', function($http) {
+    var Reddit = function() {
+        this.items = [];
+        this.busy = false;
+        this.after = '';
+    };
+
+    Reddit.prototype.nextPage = function() {
+        if (this.busy) return;
+        this.busy = true;
+
+        var url = options.api.base_url + options.api.content + '/news';
+        $http.post(url, {'start': this.after, 'length': 10})
+        .success(function(data) {
+            var items = data.data;
+            for (var i = 0; i < items.length; i++) {
+                this.items.push(items[i]);
+            }
+            this.after = this.items.length;
+            this.busy = false;
+        }.bind(this)).error(function() {
+            handlError();
+        });
+
+        /*$http.jsonp(url).success(function(data) {
+            var items = data.data.children;
+            for (var i = 0; i < items.length; i++) {
+                this.items.push(items[i].data);
+            }
+            this.after = "t3_" + this.items[this.items.length - 1].id;
+            this.busy = false;
+        }.bind(this));*/
+    };
+
+    return Reddit;
+});
+
 
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope','$location',
@@ -516,7 +554,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state("News", {
         url: "/news",
         templateUrl: "views/news.html",
-        data: {pageTitle: '动态'}
+        data: {pageTitle: '动态'},
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    //insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        '../assets/global/plugins/ngInfiniteScroll/ng-infinite-scroll.min.js',
+                        'js/controllers/NewsController.min.js'
+                    ]
+                });
+            }]
+        }
     })
 
     //列表
@@ -836,4 +886,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+}]);
+
+
+MetronicApp.filter('to_trusted', ['$sce', function ($sce) {
+    return function (text) {
+        return $sce.trustAsHtml(text);
+    };
 }]);

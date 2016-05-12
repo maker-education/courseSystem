@@ -49,7 +49,6 @@ def postupload():
     if err: return string_templet % (funnum, '', '文件损坏')
 
     web_path = os.path.join(bluepContentPrefix, 'static', relat_path, filename)
-
     return string_templet % (funnum, web_path + '?token=' + g.token, '')
 
 
@@ -181,7 +180,12 @@ def news():
     length = length if length else 1
     length = length if length < 30 else 30
 
-    posts = db.session.query(Post).order_by(Post.update_time).all()[start:length]
+    query = db.session.query(Post).order_by(Post.update_time.desc())
+    posts = query.all()[start:length]
+
+    fis = 0;
+    if ((start + length) > query.count() ):
+        fis = 1
 
     datas= []
     for p in posts :
@@ -200,7 +204,8 @@ def news():
     r = {
  #           "recordsTotal": total,
  #           "recordsFiltered": total,
-            "data": datas
+            "data": datas,
+            "finish":fis
         }
 
     return jsonify(r)
