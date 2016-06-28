@@ -590,6 +590,27 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    //列表
+    .state("Kebiao", {
+        url: "/kebiao",
+        templateUrl: "views/kebiao.html",
+        data: {pageTitle: '课程表'},
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    files: [
+                        '../assets/global/plugins/global/plugins/fullcalendar-2.8.0/fullcalendar.min.css', 
+                        '../assets/global/plugins/global/plugins/fullcalendar-2.8.0/fullcalendar.min.js', 
+                        '../assets/global/plugins/global/plugins/fullcalendar-2.8.0/fullcalendar.print.css', 
+
+                        'js/controllers/KebiaoController.min.js'
+                    ]
+                });
+            }]
+        }
+    })
+
 
 
     /*
